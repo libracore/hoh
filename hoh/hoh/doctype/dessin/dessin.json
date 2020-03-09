@@ -1,0 +1,232 @@
+{
+ "autoname": "field:dessintitel",
+ "creation": "2020-03-09 13:38:03.859681",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dessinnummer",
+  "dessintitel",
+  "image",
+  "column_head",
+  "bezeichnung",
+  "section_details",
+  "stickrapport",
+  "paillettenrapport",
+  "bohren",
+  "handumfaedeln",
+  "wechselfaerbig",
+  "maschumfaedeln",
+  "anzahl_rang",
+  "column_details_1",
+  "monofil",
+  "garnstaerke",
+  "garnverbrauch",
+  "stickereitext",
+  "gesamtmeter",
+  "stickhoehe",
+  "column_details_2",
+  "stickmaschine",
+  "lokal",
+  "puncherei",
+  "paillettenart",
+  "section_details_2",
+  "details"
+ ],
+ "fields": [
+  {
+   "fieldname": "dessinnummer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Dessinnummer",
+   "options": "Dessinnummer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dessintitel",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Dessintitel",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "stickrapport",
+   "fieldtype": "Link",
+   "label": "Stickrapport",
+   "options": "Rapport"
+  },
+  {
+   "fieldname": "paillettenrapport",
+   "fieldtype": "Link",
+   "label": "Paillettenrapport",
+   "options": "Rapport"
+  },
+  {
+   "default": "0",
+   "fieldname": "bohren",
+   "fieldtype": "Check",
+   "label": "Bohren"
+  },
+  {
+   "default": "0",
+   "fieldname": "handumfaedeln",
+   "fieldtype": "Check",
+   "label": "Handumf\u00e4deln"
+  },
+  {
+   "default": "0",
+   "fieldname": "wechselfaerbig",
+   "fieldtype": "Check",
+   "label": "Wechself\u00e4rbig"
+  },
+  {
+   "default": "0",
+   "fieldname": "maschumfaedeln",
+   "fieldtype": "Check",
+   "label": "Maschniell umf\u00e4deln"
+  },
+  {
+   "default": "0",
+   "fieldname": "anzahl_rang",
+   "fieldtype": "Int",
+   "label": "Anzahl Rang"
+  },
+  {
+   "fieldname": "column_details_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "monofil",
+   "fieldtype": "Check",
+   "label": "Monofil"
+  },
+  {
+   "fieldname": "garnstaerke",
+   "fieldtype": "Float",
+   "label": "Garnst\u00e4rke"
+  },
+  {
+   "fieldname": "garnverbrauch",
+   "fieldtype": "Float",
+   "label": "Garnverbrauch"
+  },
+  {
+   "fieldname": "stickereitext",
+   "fieldtype": "Data",
+   "label": "Stickereitext"
+  },
+  {
+   "fieldname": "gesamtmeter",
+   "fieldtype": "Float",
+   "label": "Gesamtmeter"
+  },
+  {
+   "fieldname": "column_details_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "stickmaschine",
+   "fieldtype": "Link",
+   "label": "Stickmaschine",
+   "options": "Stickmaschine"
+  },
+  {
+   "fieldname": "lokal",
+   "fieldtype": "Data",
+   "label": "Lokal"
+  },
+  {
+   "fieldname": "puncherei",
+   "fieldtype": "Data",
+   "label": "Puncherei"
+  },
+  {
+   "fieldname": "paillettenart",
+   "fieldtype": "Link",
+   "label": "Paillettenart",
+   "options": "Paillettenart"
+  },
+  {
+   "fieldname": "section_details_2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Table",
+   "label": "Details",
+   "options": "Dessin Details"
+  },
+  {
+   "fieldname": "column_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bezeichnung",
+   "fieldtype": "Data",
+   "label": "Bezeichnung",
+   "reqd": 1
+  },
+  {
+   "fieldname": "stickhoehe",
+   "fieldtype": "Float",
+   "label": "Stickh\u00f6he",
+   "read_only": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1
+  }
+ ],
+ "image_field": "image",
+ "modified": "2020-03-09 21:14:31.183270",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Dessin",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Item Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "bezeichnung",
+ "track_changes": 1
+}

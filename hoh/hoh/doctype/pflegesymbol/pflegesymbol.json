@@ -1,0 +1,61 @@
+{
+ "autoname": "field:titel",
+ "creation": "2020-03-09 20:36:15.086627",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "typ",
+  "titel",
+  "image"
+ ],
+ "fields": [
+  {
+   "default": "Waschen",
+   "fieldname": "typ",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Typ",
+   "options": "Waschen\nBleichen\nTrocknen\nB\u00fcgeln\nReinigung",
+   "reqd": 1
+  },
+  {
+   "fieldname": "titel",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Titel",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1
+  }
+ ],
+ "image_field": "image",
+ "modified": "2020-03-09 20:54:32.658258",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Pflegesymbol",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "titel",
+ "track_changes": 1
+}

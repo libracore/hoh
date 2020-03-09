@@ -1,0 +1,82 @@
+{
+ "autoname": "field:title",
+ "creation": "2020-03-09 13:33:23.980621",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "10yds",
+  "wagen_1",
+  "wagen_2"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "10yds",
+   "fieldtype": "Float",
+   "label": "10 yds: cm"
+  },
+  {
+   "fieldname": "wagen_1",
+   "fieldtype": "Int",
+   "label": "1. Wagen: nad"
+  },
+  {
+   "fieldname": "wagen_2",
+   "fieldtype": "Int",
+   "label": "2. Wagen: nad"
+  }
+ ],
+ "modified": "2020-03-09 13:33:47.662960",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Rapport",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Item Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "title",
+ "track_changes": 1
+}

@@ -9,6 +9,6 @@ def get_data():
 			"color": "#a21f15",
 			"icon": "octicon octicon-bookmark",
 			"type": "module",
-			"label": _("hoh")
+			"label": _("HOH")
 		}
 	]

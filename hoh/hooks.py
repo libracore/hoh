@@ -127,3 +127,7 @@ app_license = "AGPL"
 # 	"Task": "hoh.task.get_dashboard_data"
 # }
 
+# hook for migrate cleanup tasks
+after_migrate = [
+    'hoh.hoh.updater.cleanup_languages'
+]

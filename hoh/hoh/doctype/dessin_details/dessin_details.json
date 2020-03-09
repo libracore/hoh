@@ -1,0 +1,60 @@
+{
+ "creation": "2020-03-09 14:09:44.773218",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bezeichnung",
+  "anfang",
+  "rang",
+  "schluss",
+  "gesamt"
+ ],
+ "fields": [
+  {
+   "fieldname": "bezeichnung",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bezeichnung"
+  },
+  {
+   "default": "0",
+   "fieldname": "anfang",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Anfang"
+  },
+  {
+   "default": "0",
+   "fieldname": "rang",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Rang"
+  },
+  {
+   "default": "0",
+   "fieldname": "schluss",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Schluss"
+  },
+  {
+   "fieldname": "gesamt",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Gesamt",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-03-09 21:14:46.191816",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Dessin Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

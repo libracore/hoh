@@ -1,0 +1,38 @@
+{
+ "creation": "2020-03-09 20:43:41.005170",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pflegesymbol",
+  "typ"
+ ],
+ "fields": [
+  {
+   "fieldname": "pflegesymbol",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Pflegesymbol",
+   "options": "Pflegesymbol",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "pflegesymbol.typ",
+   "fieldname": "typ",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Typ"
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-03-09 20:46:49.580209",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Item Pflegesymbol",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

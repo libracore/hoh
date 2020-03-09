@@ -1,0 +1,38 @@
+{
+ "creation": "2020-03-09 20:28:52.093164",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "anteil",
+  "material"
+ ],
+ "fields": [
+  {
+   "fieldname": "anteil",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Anteil",
+   "reqd": 1
+  },
+  {
+   "fieldname": "material",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Material",
+   "options": "Material",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-03-09 20:28:52.093164",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Item Komposition",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
