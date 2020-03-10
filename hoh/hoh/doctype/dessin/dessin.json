@@ -10,6 +10,8 @@
   "image",
   "column_head",
   "bezeichnung",
+  "customer",
+  "customer_name",
   "section_details",
   "stickrapport",
   "paillettenrapport",
@@ -183,10 +185,23 @@
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "hidden": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer name",
+   "read_only": 1
   }
  ],
  "image_field": "image",
- "modified": "2020-03-09 21:14:31.183270",
+ "modified": "2020-03-10 17:55:12.238876",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
