@@ -1,0 +1,29 @@
+{
+ "creation": "2020-03-19 17:33:34.023440",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bemusterung"
+ ],
+ "fields": [
+  {
+   "fieldname": "bemusterung",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bemusterung",
+   "options": "Bemusterung",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-03-19 17:33:34.023440",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Musterkarte Muster",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

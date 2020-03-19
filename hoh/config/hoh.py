@@ -21,9 +21,27 @@ def get_data():
             "items": [
                    {
                        "type": "doctype",
+                       "name": "Skizze",
+                       "label": _("Skizze"),
+                       "description": _("Skizze")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Dessin",
                        "label": _("Dessin"),
                        "description": _("Dessin")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Bemusterung",
+                       "label": _("Bemusterung"),
+                       "description": _("Bemusterung")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Musterkarte",
+                       "label": _("Musterkarte"),
+                       "description": _("Musterkarte")
                    },
                    {
                        "type": "doctype",
@@ -138,6 +156,24 @@ def get_data():
                        "name": "Dessinnummer",
                        "label": _("Dessinnummer"),
                        "description": _("Dessinnummer")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Garnstaerke",
+                       "label": _("Garnstaerke"),
+                       "description": _("Garnstaerke")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Farbe",
+                       "label": _("Farbe"),
+                       "description": _("Farbe")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Bezeichnung",
+                       "label": _("Bezeichnung"),
+                       "description": _("Bezeichnung")
                    },
                    {
                        "type": "doctype",

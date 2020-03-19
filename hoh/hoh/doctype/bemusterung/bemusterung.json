@@ -1,0 +1,121 @@
+{
+ "autoname": "field:title",
+ "creation": "2020-03-19 16:48:31.460942",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "bezeichnung",
+  "column_main",
+  "dessin",
+  "farbe",
+  "section_bom",
+  "items",
+  "section_specs",
+  "gewicht",
+  "produktionszeit",
+  "breite",
+  "column_specs",
+  "rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "bezeichnung",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bezeichnung",
+   "options": "Bezeichnung",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_bom",
+   "fieldtype": "Section Break",
+   "label": "St\u00fcckliste"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "St\u00fcckliste",
+   "options": "Bemusterung Artikel"
+  },
+  {
+   "fieldname": "column_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dessin",
+   "fieldtype": "Link",
+   "label": "Dessin",
+   "options": "Dessin",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_specs",
+   "fieldtype": "Section Break",
+   "label": "Spezifikation"
+  },
+  {
+   "fieldname": "gewicht",
+   "fieldtype": "Float",
+   "label": "Gewicht"
+  },
+  {
+   "fieldname": "produktionszeit",
+   "fieldtype": "Float",
+   "label": "Produktionszeit"
+  },
+  {
+   "fieldname": "breite",
+   "fieldtype": "Float",
+   "label": "Breite"
+  },
+  {
+   "fieldname": "column_specs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Preis"
+  },
+  {
+   "fieldname": "farbe",
+   "fieldtype": "Link",
+   "label": "Farbe",
+   "options": "Farbe",
+   "reqd": 1
+  }
+ ],
+ "modified": "2020-03-19 17:40:31.438915",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Bemusterung",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "bezeichnung",
+ "track_changes": 1
+}

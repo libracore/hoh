@@ -7,31 +7,33 @@
  "field_order": [
   "dessinnummer",
   "dessintitel",
+  "skizze",
   "image",
   "column_head",
   "bezeichnung",
   "customer",
   "customer_name",
+  "completed",
   "section_details",
   "stickrapport",
   "paillettenrapport",
+  "rapportwechsel",
   "bohren",
   "handumfaedeln",
   "wechselfaerbig",
   "maschumfaedeln",
   "anzahl_rang",
   "column_details_1",
-  "monofil",
   "garnstaerke",
   "garnverbrauch",
-  "stickereitext",
   "gesamtmeter",
   "stickhoehe",
   "column_details_2",
   "stickmaschine",
   "lokal",
-  "puncherei",
   "paillettenart",
+  "section_stickereitext",
+  "stickereitext",
   "section_details_2",
   "details"
  ],
@@ -104,15 +106,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
-   "fieldname": "monofil",
-   "fieldtype": "Check",
-   "label": "Monofil"
-  },
-  {
    "fieldname": "garnstaerke",
-   "fieldtype": "Float",
-   "label": "Garnst\u00e4rke"
+   "fieldtype": "Link",
+   "label": "Garnst\u00e4rke",
+   "options": "Garnstaerke"
   },
   {
    "fieldname": "garnverbrauch",
@@ -121,7 +118,7 @@
   },
   {
    "fieldname": "stickereitext",
-   "fieldtype": "Data",
+   "fieldtype": "Text Editor",
    "label": "Stickereitext"
   },
   {
@@ -145,11 +142,6 @@
    "label": "Lokal"
   },
   {
-   "fieldname": "puncherei",
-   "fieldtype": "Data",
-   "label": "Puncherei"
-  },
-  {
    "fieldname": "paillettenart",
    "fieldtype": "Link",
    "label": "Paillettenart",
@@ -171,8 +163,9 @@
   },
   {
    "fieldname": "bezeichnung",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Bezeichnung",
+   "options": "Bezeichnung",
    "reqd": 1
   },
   {
@@ -198,10 +191,32 @@
    "fieldtype": "Data",
    "label": "Customer name",
    "read_only": 1
+  },
+  {
+   "fieldname": "skizze",
+   "fieldtype": "Link",
+   "label": "Skizze",
+   "options": "Skizze"
+  },
+  {
+   "default": "0",
+   "fieldname": "completed",
+   "fieldtype": "Check",
+   "label": "Fertiggestellt"
+  },
+  {
+   "fieldname": "rapportwechsel",
+   "fieldtype": "Data",
+   "label": "Rapportwechsel"
+  },
+  {
+   "fieldname": "section_stickereitext",
+   "fieldtype": "Section Break",
+   "label": "Stickereitext"
   }
  ],
  "image_field": "image",
- "modified": "2020-03-10 17:55:12.238876",
+ "modified": "2020-03-19 17:40:44.842756",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",

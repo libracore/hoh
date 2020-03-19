@@ -1,0 +1,71 @@
+{
+ "autoname": "field:nummer",
+ "creation": "2020-03-19 16:02:26.967743",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nummer",
+  "datum",
+  "image",
+  "section_beschreibung",
+  "beschreibung"
+ ],
+ "fields": [
+  {
+   "fieldname": "nummer",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nummer",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "datum",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Datum",
+   "reqd": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image"
+  },
+  {
+   "fieldname": "section_beschreibung",
+   "fieldtype": "Section Break",
+   "label": "Beschreibung"
+  },
+  {
+   "fieldname": "beschreibung",
+   "fieldtype": "Text Editor",
+   "label": "Beschreibung"
+  }
+ ],
+ "image_field": "image",
+ "modified": "2020-03-19 16:39:35.270633",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Skizze",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "nummer",
+ "track_changes": 1
+}

@@ -1,0 +1,85 @@
+{
+ "autoname": "field:title",
+ "creation": "2020-03-19 17:36:25.026608",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "dessin",
+  "section_muster",
+  "muster",
+  "section_details",
+  "currency",
+  "rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "dessin",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Dessin",
+   "options": "Dessin",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_muster",
+   "fieldtype": "Section Break",
+   "label": "Muster"
+  },
+  {
+   "fieldname": "muster",
+   "fieldtype": "Table",
+   "label": "Muster",
+   "options": "Musterkarte Muster"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "W\u00e4hrung",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Preis",
+   "options": "currency"
+  }
+ ],
+ "modified": "2020-03-19 17:36:25.026608",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Musterkarte",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "title",
+ "track_changes": 1
+}
