@@ -3,7 +3,7 @@ from frappe import _
 
 def get_data():
 	return {
-		'fieldname': 'dessin',
+		'fieldname': 'skizze',
 		'transactions': [
 			{
 				'label': _('Dessins'),

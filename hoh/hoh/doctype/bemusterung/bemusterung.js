@@ -3,7 +3,19 @@
 
 frappe.ui.form.on('Bemusterung', {
 	refresh: function(frm) {
+        if ((!frm.doc.__islocal) && (!frm.doc.item)) {
+            frm.add_custom_button(__("Artikel erstellen"), function() {
+                frappe.call({
+                    method: 'create_item',
+                    doc: frm.doc,
+                    callback: function(response) {
+                       frappe.show_alert( __("Erstellt: ") + response.message );
+                       cur_frm.reload_doc();
+                    }
+                });
 
+            });
+        }
 	},
     dessin: function(frm) {
         console.log("dessin...");

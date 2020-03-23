@@ -5,11 +5,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title",
-  "bezeichnung",
-  "column_main",
   "dessin",
   "farbe",
+  "dessinnummer",
+  "column_main",
+  "bezeichnung",
+  "title",
+  "item",
   "section_bom",
   "items",
   "section_specs",
@@ -17,7 +19,11 @@
   "produktionszeit",
   "breite",
   "column_specs",
-  "rate"
+  "rate",
+  "section_komposition",
+  "komposition",
+  "section_pflegesymbole",
+  "pflegesymbole"
  ],
  "fields": [
   {
@@ -93,9 +99,46 @@
    "label": "Farbe",
    "options": "Farbe",
    "reqd": 1
+  },
+  {
+   "fetch_from": "dessin.dessinnummer",
+   "fieldname": "dessinnummer",
+   "fieldtype": "Link",
+   "label": "Dessinnummer",
+   "options": "Dessinnummer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_komposition",
+   "fieldtype": "Section Break",
+   "label": "Komposition"
+  },
+  {
+   "fieldname": "komposition",
+   "fieldtype": "Table",
+   "label": "Komposition",
+   "options": "Item Komposition"
+  },
+  {
+   "fieldname": "section_pflegesymbole",
+   "fieldtype": "Section Break",
+   "label": "Pflegesymbole"
+  },
+  {
+   "fieldname": "pflegesymbole",
+   "fieldtype": "Table",
+   "label": "Pflegesymbole",
+   "options": "Pflegesymbol"
   }
  ],
- "modified": "2020-03-19 17:40:31.438915",
+ "modified": "2020-03-23 16:35:59.373449",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
