@@ -63,6 +63,12 @@ def get_data():
             "items": [
                    {
                        "type": "doctype",
+                       "name": "Angebot",
+                       "label": _("Angebot"),
+                       "description": _("Angebot")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Sales Order",
                        "label": _("Sales Order"),
                        "description": _("Sales Order")

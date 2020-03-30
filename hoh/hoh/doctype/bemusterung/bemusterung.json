@@ -135,10 +135,10 @@
    "fieldname": "pflegesymbole",
    "fieldtype": "Table",
    "label": "Pflegesymbole",
-   "options": "Pflegesymbol"
+   "options": "Item Pflegesymbol"
   }
  ],
- "modified": "2020-03-23 16:35:59.373449",
+ "modified": "2020-03-30 21:49:09.575393",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

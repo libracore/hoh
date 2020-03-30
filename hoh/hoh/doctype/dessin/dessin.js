@@ -8,6 +8,7 @@ frappe.ui.form.on('Dessin', {
         }
 	},
     before_save: function(frm) {
+        var gesamt_meter = 0; // schnurmeter + pailletenmeter + stickmeter
         for (var i = 0; i < frm.doc.details.length; i++) {
             var sum = frm.doc.details[i].anfang
                     + (frm.doc.details[i].rang * frm.doc.anzahl_rang)
@@ -17,9 +18,14 @@ frappe.ui.form.on('Dessin', {
             if (frm.doc.details[i].bezeichnung === "Stickhöhe") {
                 cur_frm.set_value('stickhoehe', sum);
             } else if (frm.doc.details[i].bezeichnung === "Paillettenmeter") {
-                cur_frm.set_value('gesamtmeter', sum);
+                gesamt_meter += sum;
+            } else if (frm.doc.details[i].bezeichnung === "Schnurmeter") {
+                gesamt_meter += sum;
+            } else if (frm.doc.details[i].bezeichnung === "Stickmeter") {
+                gesamt_meter += sum;
             }
         }
+        cur_frm.set_value('gesamtmeter', gesamt_meter);
     },
     dessinnummer: function(frm) {
         if (frm.doc.dessinnummer) {

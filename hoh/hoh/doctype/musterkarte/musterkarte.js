@@ -11,6 +11,11 @@ frappe.ui.form.on('Musterkarte', {
                     }
                 }
             };
+        
+        if ((frm.doc.__islocal) && (!frm.doc.muster) && (frm.doc.dessin)) {
+            // initialise all variants
+            get_variants(frm);
+        }
 	},
     dessin: function(frm) {
         if ((!frm.doc.title) && (frm.doc.dessin)) {
@@ -18,3 +23,25 @@ frappe.ui.form.on('Musterkarte', {
         }
     }
 });
+
+function get_variants(frm) {
+    frappe.call({
+        method: 'frappe.client.get_list',
+        args: {
+        doctype: 'Bemusterung',
+        filters: [
+            ['dessin', '=', frm.doc.dessin]
+        ],
+            fields: ['name'],
+        },
+        callback: function(response) {
+            if (response.message) {
+                for (var i = 0; i < response.message.length; i++) {
+                    var child = cur_frm.add_child('muster');
+                    frappe.model.set_value(child.doctype, child.name, 'bemusterung', response.message[i].name);
+                }
+                cur_frm.refresh_field('muster');
+            }
+        }
+    });
+}

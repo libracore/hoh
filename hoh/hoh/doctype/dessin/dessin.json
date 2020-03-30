@@ -26,6 +26,7 @@
   "column_details_1",
   "garnstaerke",
   "garnverbrauch",
+  "kordelverbrauch",
   "gesamtmeter",
   "stickhoehe",
   "column_details_2",
@@ -112,6 +113,7 @@
    "options": "Garnstaerke"
   },
   {
+   "description": "in Metern",
    "fieldname": "garnverbrauch",
    "fieldtype": "Float",
    "label": "Garnverbrauch"
@@ -213,10 +215,16 @@
    "fieldname": "section_stickereitext",
    "fieldtype": "Section Break",
    "label": "Stickereitext"
+  },
+  {
+   "description": "in Metern",
+   "fieldname": "kordelverbrauch",
+   "fieldtype": "Float",
+   "label": "Kordelverbrauch"
   }
  ],
  "image_field": "image",
- "modified": "2020-03-19 17:40:44.842756",
+ "modified": "2020-03-30 21:39:09.383373",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
