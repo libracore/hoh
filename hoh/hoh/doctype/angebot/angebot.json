@@ -21,6 +21,7 @@
   "delivery_type",
   "column_conditions",
   "delivery_note",
+  "payment_terms_template",
   "section_muster",
   "muster",
   "section_details",
@@ -169,10 +170,16 @@
    "fieldname": "remarks",
    "fieldtype": "Text Editor",
    "label": "Notizen"
+  },
+  {
+   "fieldname": "payment_terms_template",
+   "fieldtype": "Link",
+   "label": "Payment Terms Template",
+   "options": "Payment Terms Template"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-03-30 22:32:34.662905",
+ "modified": "2020-04-01 17:33:51.955736",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot",
@@ -188,6 +195,20 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
