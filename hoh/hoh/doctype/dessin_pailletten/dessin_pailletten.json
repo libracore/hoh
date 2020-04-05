@@ -1,0 +1,30 @@
+{
+ "creation": "2020-04-05 20:40:05.826634",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "paillettenart"
+ ],
+ "fields": [
+  {
+   "fieldname": "paillettenart",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Paillettenart",
+   "options": "Paillettenart",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-04-05 20:40:05.826634",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Dessin Pailletten",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

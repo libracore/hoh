@@ -6,8 +6,12 @@
  "field_order": [
   "bemusterung",
   "qty",
+  "base_rate",
   "rate",
-  "amount"
+  "amount",
+  "section_details",
+  "customs_tariff__number",
+  "country_of_origin"
  ],
  "fields": [
   {
@@ -40,10 +44,34 @@
    "label": "Amount",
    "options": "currency",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "bemusterung.customs_tariff__number",
+   "fieldname": "customs_tariff__number",
+   "fieldtype": "Link",
+   "label": "Customs Tariff Number",
+   "options": "Customs Tariff Number"
+  },
+  {
+   "fetch_from": "bemusterung.country_of_origin",
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "fetch_from": "bemusterung.rate",
+   "fieldname": "base_rate",
+   "fieldtype": "Currency",
+   "label": "Base Rate"
   }
  ],
  "istable": 1,
- "modified": "2020-03-30 22:24:58.641524",
+ "modified": "2020-04-05 20:54:27.822089",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot Muster",

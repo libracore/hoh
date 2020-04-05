@@ -210,6 +210,18 @@ def get_data():
                        "name": "Rapport",
                        "label": _("Rapport"),
                        "description": _("Rapport")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Lieferkondition",
+                       "label": _("Lieferkondition"),
+                       "description": _("Lieferkondition")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Lieferart",
+                       "label": _("Lieferart"),
+                       "description": _("Lieferart")
                    }
             ]
         }

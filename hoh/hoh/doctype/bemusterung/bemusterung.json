@@ -17,9 +17,13 @@
   "section_specs",
   "gewicht",
   "produktionszeit",
-  "breite",
+  "stoffbreite",
+  "fertigbreite",
+  "minimalmenge",
   "column_specs",
   "rate",
+  "customs_tariff_number",
+  "country_of_origin",
   "section_komposition",
   "komposition",
   "section_pflegesymbole",
@@ -80,11 +84,6 @@
    "label": "Produktionszeit"
   },
   {
-   "fieldname": "breite",
-   "fieldtype": "Float",
-   "label": "Breite"
-  },
-  {
    "fieldname": "column_specs",
    "fieldtype": "Column Break"
   },
@@ -136,9 +135,36 @@
    "fieldtype": "Table",
    "label": "Pflegesymbole",
    "options": "Item Pflegesymbol"
+  },
+  {
+   "fieldname": "customs_tariff_number",
+   "fieldtype": "Link",
+   "label": "Customs Tariff Number",
+   "options": "Customs Tariff Number"
+  },
+  {
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "fieldname": "minimalmenge",
+   "fieldtype": "Data",
+   "label": "Minimalmenge"
+  },
+  {
+   "fieldname": "stoffbreite",
+   "fieldtype": "Float",
+   "label": "Stoffbreite"
+  },
+  {
+   "fieldname": "fertigbreite",
+   "fieldtype": "Float",
+   "label": "Fertigbreite"
   }
  ],
- "modified": "2020-04-01 17:34:21.397621",
+ "modified": "2020-04-05 20:35:53.304480",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

@@ -8,6 +8,7 @@
   "dessinnummer",
   "dessintitel",
   "skizze",
+  "dwg_nummer",
   "image",
   "column_head",
   "bezeichnung",
@@ -20,19 +21,24 @@
   "rapportwechsel",
   "bohren",
   "handumfaedeln",
+  "handumfaedeln_details",
   "wechselfaerbig",
+  "pailletten",
   "maschumfaedeln",
+  "maschinell_umfaedeln_details",
   "anzahl_rang",
   "column_details_1",
   "garnstaerke",
   "garnverbrauch",
   "kordelverbrauch",
+  "folienverbrauch",
   "gesamtmeter",
   "stickhoehe",
   "column_details_2",
   "stickmaschine",
   "lokal",
   "paillettenart",
+  "cut",
   "section_stickereitext",
   "stickereitext",
   "section_details_2",
@@ -94,7 +100,7 @@
    "default": "0",
    "fieldname": "maschumfaedeln",
    "fieldtype": "Check",
-   "label": "Maschniell umf\u00e4deln"
+   "label": "Maschinell umf\u00e4deln"
   },
   {
    "default": "0",
@@ -221,10 +227,45 @@
    "fieldname": "kordelverbrauch",
    "fieldtype": "Float",
    "label": "Kordelverbrauch"
+  },
+  {
+   "depends_on": "eval:doc.wechselfaerbig==1",
+   "fieldname": "pailletten",
+   "fieldtype": "Table",
+   "label": "Pailletten",
+   "options": "Dessin Pailletten"
+  },
+  {
+   "fieldname": "dwg_nummer",
+   "fieldtype": "Data",
+   "label": "DWG-Nummer"
+  },
+  {
+   "fieldname": "cut",
+   "fieldtype": "Int",
+   "label": "Cut"
+  },
+  {
+   "description": "in Metern",
+   "fieldname": "folienverbrauch",
+   "fieldtype": "Float",
+   "label": "Folienverbrauch"
+  },
+  {
+   "depends_on": "eval:doc.handumfaedeln==1",
+   "fieldname": "handumfaedeln_details",
+   "fieldtype": "Data",
+   "label": "Handumf\u00e4deln Details"
+  },
+  {
+   "depends_on": "eval_doc.maschumfaedeln==1",
+   "fieldname": "maschinell_umfaedeln_details",
+   "fieldtype": "Data",
+   "label": "Maschinell umf\u00e4deln Details"
   }
  ],
  "image_field": "image",
- "modified": "2020-03-30 21:39:09.383373",
+ "modified": "2020-04-05 20:52:08.949334",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
