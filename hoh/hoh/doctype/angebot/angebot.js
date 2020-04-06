@@ -26,6 +26,13 @@ frappe.ui.form.on('Angebot', {
 	},
     customer_name: function(frm) {
         cur_frm.set_value('title', frm.doc.customer_name);
+    },
+    currency: function(frm) {
+        if (frm.doc.currency == "EUR") {
+            cur_frm.set_value('exchange_rate', 1);
+        } else {
+            get_exchange_rate(frm);
+        }
     }
 });
 
@@ -34,7 +41,13 @@ frappe.ui.form.on('Angebot Muster', {
         update_row_amount(frm, cdt, cdn)
 	},
     rate: function(frm, cdt, cdn) {
+        var base_rate = frappe.model.get_value(cdt, cdn, 'rate') / frm.doc.exchange_rate;
+        frappe.model.set_value(cdt, cdn, "base_rate", base_rate);
         update_row_amount(frm, cdt, cdn)
+    },
+    base_rate: function(frm, cdt, cdn) {
+        var rate = frappe.model.get_value(cdt, cdn, 'base_rate') * frm.doc.exchange_rate
+        frappe.model.set_value(cdt, cdn, "rate", rate);
     }
 });
 
@@ -47,8 +60,41 @@ function update_row_amount(frm, cdt, cdn) {
     // overall total
     var net_total = 0;
     for (var i = 0; i < frm.doc.muster.length; i++) {
-        net_total += frm.doc.muster[i].amount;
+        net_total += (frm.doc.muster[i].base_rate + frm.doc.muster[i].qty);
     }
-    cur_frm.set_value('net_total', net_total);
+    cur_frm.set_value('base_net_total', net_total);
+    cur_frm.refresh_field('base_net_total');
+    cur_frm.set_value('net_total', (net_total * frm.doc.exchange_rate));
     cur_frm.refresh_field('net_total');
+}
+
+function update_currency_values(frm) {
+    var exchange_rate = frm.doc.exchange_rate;
+    for (var i = 0; i < frm.doc.muster.length; i++) {
+        frappe.model.set_value(cur_frm.doc.items[i].doctype, cur_frm.doc.muster[i].name, 
+            "rate", frm.doc.muster[i].net_rate * exchange_rate);
+        frappe.model.set_value(cur_frm.doc.items[i].doctype, cur_frm.doc.muster[i].name, 
+            "amount", frm.doc.muster[i].net_rate * exchange_rate * frm.doc.muster[i].qty);
+    }
+    cur_frm.refresh_field('items');
+    cur_frm.set_value('net_total', frm.doc.base_net_total * exchange_rate);
+    cur_frm.refresh_field('base_net_total');
+}
+
+function get_exchange_rate(frm) {
+    frappe.call({
+    method: 'erpnextaustria.erpnextaustria.utils.get_eur_exchange_rate',
+    args: {
+        'currency': frm.doc.currency
+    },
+    callback: function(r) {
+        if (r.message) {
+            var exchange_rate = r.message;
+            cur_frm.set_value('exchange_rate', exchange_rate);
+            console.log("Exchange rate " + frm.doc.currency + ": " + exchange_rate);
+        } else {
+            cur_frm.set_value('exchange_rate', 1);
+        }
+    }
+});
 }
