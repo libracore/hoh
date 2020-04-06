@@ -38,7 +38,6 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
-   "in_list_view": 1,
    "label": "Naming series",
    "options": "OF-.#####",
    "reqd": 1
@@ -46,6 +45,8 @@
   {
    "fieldname": "customer",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer",
    "options": "Customer",
    "reqd": 1
@@ -54,6 +55,8 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer name",
    "read_only": 1
   },
@@ -127,6 +130,7 @@
   {
    "fieldname": "angebotsdatum",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Angebotsdatum"
   },
   {
@@ -193,7 +197,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-04-05 20:26:47.205002",
+ "modified": "2020-04-06 14:47:05.285191",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot",
