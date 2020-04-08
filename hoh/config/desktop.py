@@ -7,7 +7,7 @@ def get_data():
 		{
 			"module_name": "hoh",
 			"color": "#a21f15",
-			"icon": "octicon octicon-bookmark",
+			"icon": "icon hoh-blue",
 			"type": "module",
 			"label": _("HOH")
 		}
