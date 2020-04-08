@@ -27,10 +27,28 @@ class Bemusterung(Document):
             'item_code': self.name,
             'item_group': 'Stickereien',
             'is_stock_item': 1,
+            'stock_uom': 'm',
             'dessin': self.dessin,
             'komposition': self.komposition,
-            'pflegesymbole': self.pflegesymbole
+            'pflegesymbole': self.pflegesymbole,
+            'stoffbreite_von': self.stoffbreite_von,
+            'stoffbreite_bis': self.stoffbreite_bis,
+            'fertigbreite_von': self.fertigbreite_von,
+            'fertigbreite_bis': self.fertigbreite_bis,
+            'country_of_origin':self.country_of_origin,
+            'customs_tariff_number': self.customs_tariff_number,
+            't_min_menge': self.minimalmenge,
+            'standard_rate': self.rate
         })
+        for k in self.komposition:
+            row = new_item.append('komposition', {
+                'anteil': k.anteil,
+                'material': k.material
+            })
+        for p in self.pflegesymbole:
+            row = new_item.append('pflegesymbole', {
+                'pflegesymbol': p.pflegesymbol
+            })
         item = new_item.insert()
         # create new BOM
         new_bom = frappe.get_doc({

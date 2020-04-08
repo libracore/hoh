@@ -21,7 +21,7 @@
   "stoffbreite_von",
   "stoffbreite_bis",
   "fertigbreite_von",
-  "fretigbreite_bis",
+  "fertigbreite_bis",
   "minimalmenge",
   "column_specs",
   "rate",
@@ -38,6 +38,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Title",
+   "no_copy": 1,
    "reqd": 1,
    "unique": 1
   },
@@ -114,6 +115,7 @@
    "fieldname": "item",
    "fieldtype": "Link",
    "label": "Item",
+   "no_copy": 1,
    "options": "Item",
    "read_only": 1
   },
@@ -178,13 +180,13 @@
   },
   {
    "description": "in Metern",
-   "fieldname": "fretigbreite_bis",
+   "fieldname": "fertigbreite_bis",
    "fieldtype": "Float",
    "label": "Fertigbreite bis",
    "precision": "2"
   }
  ],
- "modified": "2020-04-08 12:12:09.537026",
+ "modified": "2020-04-08 16:48:45.198842",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

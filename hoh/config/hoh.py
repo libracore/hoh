@@ -88,9 +88,41 @@ def get_data():
             ]
         },
         {
+            "label": _("Fertigung"),
+            "icon": "fa fa-money",
+            "items": [
+                   {
+                       "type": "doctype",
+                       "name": "Work Order",
+                       "label": _("Work Order"),
+                       "description": _("Work Order")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Stock Entry",
+                       "label": _("Stock Entry"),
+                       "description": _("Stock Entry")
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Stickplan",
+                       "label": _("Stickplan"),
+                       "description": _("Stickplan"),
+                       "is_query_report": True
+                   }
+            ]
+        },
+        {
             "label": _("Einkauf"),
             "icon": "fa fa-money",
             "items": [
+                   {
+                       "type": "doctype",
+                       "name": "Supplier",
+                       "label": _("Supplier"),
+                       "description": _("Supplier")
+                   },
                    {
                        "type": "doctype",
                        "name": "Purchase Order",
@@ -108,6 +140,14 @@ def get_data():
                        "name": "Purchase Invoice",
                        "label": _("Purchase Invoice"),
                        "description": _("Purchase Invoice")
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Stock Projected Qty",
+                       "label": _("Stock Projected Qty"),
+                       "description": _("Stock Projected Qty"),
+                       "is_query_report": True
                    }
             ]
         },
