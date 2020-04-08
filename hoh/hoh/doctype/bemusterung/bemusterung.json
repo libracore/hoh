@@ -17,8 +17,10 @@
   "section_specs",
   "gewicht",
   "produktionszeit",
-  "stoffbreite",
-  "fertigbreite",
+  "stoffbreite_von",
+  "stoffbreite_bis",
+  "fertigbreite_von",
+  "fretigbreite_bis",
   "minimalmenge",
   "column_specs",
   "rate",
@@ -154,17 +156,34 @@
    "label": "Minimalmenge"
   },
   {
-   "fieldname": "stoffbreite",
+   "description": "in Metern",
+   "fieldname": "stoffbreite_von",
    "fieldtype": "Float",
-   "label": "Stoffbreite"
+   "label": "Stoffbreite von"
   },
   {
-   "fieldname": "fertigbreite",
+   "description": "in Metern",
+   "fieldname": "stoffbreite_bis",
    "fieldtype": "Float",
-   "label": "Fertigbreite"
+   "label": "Stoffbreite bis",
+   "precision": "2"
+  },
+  {
+   "description": "in Metern",
+   "fieldname": "fertigbreite_von",
+   "fieldtype": "Float",
+   "label": "Fertigbreite von",
+   "precision": "2"
+  },
+  {
+   "description": "in Metern",
+   "fieldname": "fretigbreite_bis",
+   "fieldtype": "Float",
+   "label": "Fertigbreite bis",
+   "precision": "2"
   }
  ],
- "modified": "2020-04-05 20:35:53.304480",
+ "modified": "2020-04-08 12:10:41.455376",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

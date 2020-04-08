@@ -45,8 +45,32 @@ frappe.ui.form.on('Bemusterung', {
     }
 });
 
+frappe.ui.form.on('Bemusterung Artikel', {
+    item_group: function(frm, cdt, cdn) {
+        // if the item is a fabric, fetch width
+        if (frappe.model.get_value(cdt, cdn, 'item_group') === "Stoffe") {
+            frappe.call({
+                'method': 'frappe.client.get',
+                'args': {
+                    'doctype': 'Item',
+                    'name': frappe.model.get_value(cdt, cdn, 'item_code')
+                },
+                'callback': function(response) {
+                    var item = response.message;
+
+                    if (item) {
+                        cur_frm.set_value('stoffbreite_von', item.stoffbreite_von);
+                        cur_frm.set_value('stoffbreite_bis', item.stoffbreite_bis);
+                    } 
+                }
+            });
+        }
+    }
+});
+
 function update_title(frm) {
     if ((frm.doc.dessin) && (frm.doc.farbe) && (!frm.doc.title)) {
         cur_frm.set_value('title', frm.doc.dessin + " " + frm.doc.farbe);
     }
 }
+

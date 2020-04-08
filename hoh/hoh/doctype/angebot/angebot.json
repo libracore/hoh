@@ -185,6 +185,7 @@
    "label": "Notizen"
   },
   {
+   "fetch_from": "customer.payment_terms",
    "fieldname": "payment_terms_template",
    "fieldtype": "Link",
    "label": "Payment Terms Template",
@@ -201,6 +202,7 @@
    "fieldname": "exchange_rate",
    "fieldtype": "Float",
    "label": "Exchange rate",
+   "precision": "5",
    "read_only": 1
   },
   {
@@ -211,7 +213,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-04-06 19:48:17.738912",
+ "modified": "2020-04-08 11:32:27.757989",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot",

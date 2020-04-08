@@ -122,7 +122,8 @@
    "description": "in Metern",
    "fieldname": "garnverbrauch",
    "fieldtype": "Float",
-   "label": "Garnverbrauch"
+   "label": "Garnverbrauch",
+   "precision": "3"
   },
   {
    "fieldname": "stickereitext",
@@ -132,7 +133,9 @@
   {
    "fieldname": "gesamtmeter",
    "fieldtype": "Float",
-   "label": "Gesamtmeter"
+   "label": "Gesamtmeter",
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_details_2",
@@ -180,6 +183,7 @@
    "fieldname": "stickhoehe",
    "fieldtype": "Float",
    "label": "Stickh\u00f6he",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -226,7 +230,8 @@
    "description": "in Metern",
    "fieldname": "kordelverbrauch",
    "fieldtype": "Float",
-   "label": "Kordelverbrauch"
+   "label": "Kordelverbrauch",
+   "precision": "3"
   },
   {
    "depends_on": "eval:doc.wechselfaerbig==1",
@@ -249,7 +254,8 @@
    "description": "in Metern",
    "fieldname": "folienverbrauch",
    "fieldtype": "Float",
-   "label": "Folienverbrauch"
+   "label": "Folienverbrauch",
+   "precision": "3"
   },
   {
    "depends_on": "eval:doc.handumfaedeln==1",
@@ -265,7 +271,7 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-04-05 20:52:08.949334",
+ "modified": "2020-04-08 11:33:47.715520",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
