@@ -25,6 +25,10 @@ frappe.ui.form.on('Dessin', {
                 gesamt_meter += sum;
             } else if (frm.doc.details[i].bezeichnung === "Kordelmeter") {
                 gesamt_meter += sum;
+            } else if (frm.doc.details[i].bezeichnung === "Lasermeter") {
+                gesamt_meter += sum;
+            } else if (frm.doc.details[i].bezeichnung === "Bluecutmeter") {
+                gesamt_meter += sum;
             }
         }
         cur_frm.set_value('gesamtmeter', gesamt_meter);
