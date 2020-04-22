@@ -42,6 +42,16 @@ frappe.ui.form.on('Bemusterung', {
     },
     farbe: function(frm) {
         update_title(frm);
+    },
+    calculate_composition: function(frm) {
+        frappe.call({
+            method: 'calculate_composition',
+            doc: frm.doc,
+            callback: function(response) {
+               frappe.show_alert( __("Done!") );
+               refresh_field(['komposition']);
+            }
+        });
     }
 });
 

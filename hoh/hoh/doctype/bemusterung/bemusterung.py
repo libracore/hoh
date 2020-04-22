@@ -73,3 +73,36 @@ class Bemusterung(Document):
         frappe.db.commit()
         # return item code
         return item.name
+    
+    def calculate_composition(self):
+        composition = {}
+        total_multiplier = 0
+        # fetch all items
+        for i in self.items:
+            item = frappe.get_doc("Item", i.item_code)
+            if item.komposition:
+                multiplier = i.qty
+                total_multiplier += multiplier
+                # aggregate contents
+                for c in item.komposition:
+                    if c.material in composition:
+                        composition[c.material] = composition[c.material] + c.anteil * multiplier
+                    else:
+                        composition[c.material] = c.anteil * multiplier
+        # normalise contents
+        for key, value in composition.items():
+            composition[key] = round(value / total_multiplier)
+        # assure that sum is 100%
+        sum_p = 0
+        for key, value in composition.items():
+            sum_p += value
+        # subtract highest
+        composition[max(composition, key=lambda key: composition[key])] = composition[max(composition, key=lambda key: composition[key])] - (sum_p - 100)
+        # update composition
+        self.komposition = []
+        for key, value in composition.items():
+            row = self.append('komposition', {
+                'anteil': value,
+                'material': key
+            })
+        return

@@ -27,7 +27,9 @@
   "rate",
   "customs_tariff_number",
   "country_of_origin",
+  "stickmaschine",
   "section_komposition",
+  "calculate_composition",
   "komposition",
   "section_pflegesymbole",
   "pflegesymbole"
@@ -184,9 +186,22 @@
    "fieldtype": "Float",
    "label": "Fertigbreite bis",
    "precision": "2"
+  },
+  {
+   "fetch_from": "dessin.stickmaschine",
+   "fieldname": "stickmaschine",
+   "fieldtype": "Link",
+   "label": "Stickmaschine",
+   "options": "Stickmaschine",
+   "read_only": 1
+  },
+  {
+   "fieldname": "calculate_composition",
+   "fieldtype": "Button",
+   "label": "Komposition berechnen"
   }
  ],
- "modified": "2020-04-08 16:48:45.198842",
+ "modified": "2020-04-22 21:42:36.442727",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
