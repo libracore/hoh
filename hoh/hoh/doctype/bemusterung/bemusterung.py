@@ -56,7 +56,8 @@ class Bemusterung(Document):
             'item': item.item_code,
             'quantity': 1,
             'is_active': 1,
-            'is_default': 1
+            'is_default': 1,
+            'allow_same_item_multiple_times': 1
         })
         for i in self.items:
             row = new_bom.append('items', {

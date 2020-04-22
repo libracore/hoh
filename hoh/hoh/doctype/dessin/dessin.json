@@ -119,7 +119,7 @@
    "options": "Garnstaerke"
   },
   {
-   "description": "in Metern",
+   "description": "in Gram",
    "fieldname": "garnverbrauch",
    "fieldtype": "Float",
    "label": "Garnverbrauch",
@@ -271,7 +271,7 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-04-08 11:33:47.715520",
+ "modified": "2020-04-22 16:39:53.888252",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
@@ -312,6 +312,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "bezeichnung",
+ "title_field": "dessintitel",
  "track_changes": 1
 }
