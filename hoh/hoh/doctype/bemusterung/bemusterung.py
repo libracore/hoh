@@ -38,7 +38,10 @@ class Bemusterung(Document):
             'country_of_origin':self.country_of_origin,
             'customs_tariff_number': self.customs_tariff_number,
             't_min_menge': self.minimalmenge,
-            'standard_rate': self.rate
+            'standard_rate': self.rate,
+            'weight_uom': 'kg',
+            'weight_per_unit': self.gewicht,
+            'stickmaschine': self.stickmaschine
         })
         for k in self.komposition:
             row = new_item.append('komposition', {

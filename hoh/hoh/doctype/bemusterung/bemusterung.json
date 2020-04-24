@@ -80,9 +80,11 @@
    "label": "Spezifikation"
   },
   {
+   "description": "in kg",
    "fieldname": "gewicht",
    "fieldtype": "Float",
-   "label": "Gewicht"
+   "label": "Gewicht",
+   "precision": "3"
   },
   {
    "fieldname": "produktionszeit",
@@ -201,7 +203,7 @@
    "label": "Komposition berechnen"
   }
  ],
- "modified": "2020-04-22 21:42:36.442727",
+ "modified": "2020-04-24 20:25:45.033803",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
