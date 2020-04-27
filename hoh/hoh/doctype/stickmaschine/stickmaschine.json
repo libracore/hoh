@@ -6,7 +6,9 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
-  "ktm_per_h"
+  "ktm_per_h",
+  "section_maintenance",
+  "next_maintenance_date"
  ],
  "fields": [
   {
@@ -21,9 +23,19 @@
    "fieldname": "ktm_per_h",
    "fieldtype": "Int",
    "label": "Kartenmeter pro Stunde"
+  },
+  {
+   "fieldname": "section_maintenance",
+   "fieldtype": "Section Break",
+   "label": "Wartung"
+  },
+  {
+   "fieldname": "next_maintenance_date",
+   "fieldtype": "Date",
+   "label": "N\u00e4chster Wartungstermin"
   }
  ],
- "modified": "2020-04-24 20:29:31.771994",
+ "modified": "2020-04-27 21:28:04.571488",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Stickmaschine",
