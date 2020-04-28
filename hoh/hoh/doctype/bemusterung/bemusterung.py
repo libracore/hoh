@@ -29,6 +29,7 @@ class Bemusterung(Document):
             'is_stock_item': 1,
             'stock_uom': 'm',
             'dessin': self.dessin,
+            'bemusterung': self.name,
             'komposition': self.komposition,
             'pflegesymbole': self.pflegesymbole,
             'stoffbreite_von': self.stoffbreite_von,
