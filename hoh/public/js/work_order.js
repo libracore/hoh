@@ -1,4 +1,14 @@
 frappe.ui.form.on('Work Order', {
+    refresh: function(frm) {
+        // button to complete finishing
+        if ((frm.doc.status === "Completed") && (frm.doc.ausruestung_fertig === 0)) {
+            frm.page.set_indicator(__('Ausrüsten'), 'orange');
+            frm.add_custom_button(__('Ausrüstung fertig'), function() {
+                cur_frm.set_value("ausruestung_fertig", 1);
+                cur_frm.save_or_update();
+            }).addClass("btn-primary");
+        } 
+    },
     production_item: function(frm) {
         // change on production item --> fetch related data fields
         if (frm.doc.production_item) {
@@ -30,7 +40,7 @@ function fill_details(frm, bemusterung) {
     for (var i = 0; i < bemusterung.items.length; i++) {
         if ((bemusterung.items[i].item_group === "Garne") || (bemusterung.items[i].item_group === "Kordel")) {
             garne.push(bemusterung.items[i].item_name);
-        } else if (bemusterung.items[i].item_group === "Stoffe") {
+        } else if ((bemusterung.items[i].item_group === "Stoffe") || (bemusterung.items[i].item_group === "Hilfsstoffe")) {
             stoffe.push(bemusterung.items[i].item_name);
         } else if (bemusterung.items[i].item_group === "Pailletten") {
             pailletten.push(bemusterung.items[i].item_name);
@@ -55,4 +65,8 @@ function fill_details(frm, bemusterung) {
             cur_frm.set_value("kartenmeter", dessin.gesamtmeter);
         }
     });
+}
+
+function check_material_status(frm) {
+    
 }

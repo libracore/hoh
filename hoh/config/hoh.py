@@ -110,6 +110,14 @@ def get_data():
                        "label": _("Stickplan"),
                        "description": _("Stickplan"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Ausruestplan",
+                       "label": _("Ausruestplan"),
+                       "description": _("Ausruestplan"),
+                       "is_query_report": True
                    }
             ]
         },

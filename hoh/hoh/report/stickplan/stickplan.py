@@ -15,6 +15,7 @@ def get_columns():
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
         {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
         {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 120},
+        {"label": _("Materialstatus"), "fieldname": "ready", "fieldtype": "Data", "width": 120},
         {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
         {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
@@ -68,7 +69,11 @@ def get_data(filters):
          `tabDessin`.`gesamtmeter` AS `ktm`,
          `tabWork Order`.`qty` * `tabDessin`.`gesamtmeter` AS `ktm_total`,
          ((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
-         (((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / 13) AS `schicht`
+         (((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / 13) AS `schicht`,
+         (SELECT 
+          IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "OK", "NOK")
+          FROM `tabWork Order Item` AS `tWOI`
+          WHERE `tWOI`.`parent` = `tabWork Order`.`name`) AS `ready`
         FROM `tabWork Order`
         LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
         LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
