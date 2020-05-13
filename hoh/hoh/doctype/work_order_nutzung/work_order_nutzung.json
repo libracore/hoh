@@ -1,0 +1,48 @@
+{
+ "creation": "2020-05-13 20:06:02.212300",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "maschinenstunden",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "maschinenstunden",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Maschinenstunden",
+   "precision": "2",
+   "reqd": 1
+  },
+  {
+   "columns": 4,
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bemerkungen"
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-05-13 20:10:59.715871",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Work Order Nutzung",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

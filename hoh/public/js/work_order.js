@@ -14,6 +14,14 @@ frappe.ui.form.on('Work Order', {
         if (frm.doc.production_item) {
             fetch_item_details(frm);
         }
+    },
+    before__save: function(frm) {
+        // calculate total machine hours
+        var machine_hours = 0;
+        for (var i = 0; i < frm.doc.nutzungen.length; i++) {
+            machine_hours += frm.doc.nutzungen[i].maschinenstunden;
+        }
+        cur_frm.set_value('summe_maschinenstunden', machine_hours);
     }
 });
 
@@ -63,6 +71,7 @@ function fill_details(frm, bemusterung) {
         "callback": function(response) {
             var dessin = response.message;
             cur_frm.set_value("kartenmeter", dessin.gesamtmeter);
+            cur_frm.set_value("stickmaschine", dessin.stickmaschine);
         }
     });
 }

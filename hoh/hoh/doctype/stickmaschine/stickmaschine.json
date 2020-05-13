@@ -7,8 +7,13 @@
  "field_order": [
   "title",
   "ktm_per_h",
+  "column_main",
+  "alternativmaschine",
   "section_maintenance",
-  "next_maintenance_date"
+  "next_maintenance_date",
+  "section_function",
+  "rapport",
+  "description"
  ],
  "fields": [
   {
@@ -33,9 +38,35 @@
    "fieldname": "next_maintenance_date",
    "fieldtype": "Date",
    "label": "N\u00e4chster Wartungstermin"
+  },
+  {
+   "fieldname": "column_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alternativmaschine",
+   "fieldtype": "Link",
+   "label": "Alternativmaschine",
+   "options": "Stickmaschine"
+  },
+  {
+   "fieldname": "section_function",
+   "fieldtype": "Section Break",
+   "label": "Funktion"
+  },
+  {
+   "fieldname": "rapport",
+   "fieldtype": "Table",
+   "label": "Rapport",
+   "options": "Stickmaschine Rapport"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Beschreibung"
   }
  ],
- "modified": "2020-04-27 21:28:04.571488",
+ "modified": "2020-05-13 07:59:59.833541",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Stickmaschine",
