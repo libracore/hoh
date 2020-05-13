@@ -42,7 +42,9 @@
   "section_stickereitext",
   "stickereitext",
   "section_details_2",
-  "details"
+  "details",
+  "section_satznummern",
+  "satznummern"
  ],
  "fields": [
   {
@@ -268,10 +270,21 @@
    "fieldname": "maschinell_umfaedeln_details",
    "fieldtype": "Data",
    "label": "Maschinell umf\u00e4deln Details"
+  },
+  {
+   "fieldname": "section_satznummern",
+   "fieldtype": "Section Break",
+   "label": "Satznummern"
+  },
+  {
+   "fieldname": "satznummern",
+   "fieldtype": "Table",
+   "label": "Satznummern",
+   "options": "Dessin Satz"
   }
  ],
  "image_field": "image",
- "modified": "2020-04-22 16:39:53.888252",
+ "modified": "2020-05-13 20:42:28.295581",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",

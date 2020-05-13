@@ -15,19 +15,19 @@ frappe.ui.form.on('Dessin', {
                     + frm.doc.details[i].schluss;
             frappe.model.set_value(cur_frm.doc.details[i].doctype, 
                     cur_frm.doc.details[i].name, 'gesamt', sum);
-            if (frm.doc.details[i].bezeichnung === "Stickhöhe") {
+            if (frm.doc.details[i].bezeichnung.includes("Stickhöhe")) {
                 cur_frm.set_value('stickhoehe', sum);
-            } else if (frm.doc.details[i].bezeichnung === "Paillettenmeter") {
+            } else if (frm.doc.details[i].bezeichnung.includes("Paillettenmeter")) {
                 gesamt_meter += sum;
-            } else if (frm.doc.details[i].bezeichnung === "Schnurmeter") {
+            } else if (frm.doc.details[i].bezeichnung.includes("Schnurmeter")) {
                 gesamt_meter += sum;
-            } else if (frm.doc.details[i].bezeichnung === "Stickmeter") {
+            } else if (frm.doc.details[i].bezeichnung.includes("Stickmeter")) {
                 gesamt_meter += sum;
-            } else if (frm.doc.details[i].bezeichnung === "Kordelmeter") {
+            } else if (frm.doc.details[i].bezeichnung.includes("Kordelmeter")) {
                 gesamt_meter += sum;
-            } else if (frm.doc.details[i].bezeichnung === "Lasermeter") {
+            } else if (frm.doc.details[i].bezeichnung.includes("Lasermeter")) {
                 gesamt_meter += sum;
-            } else if (frm.doc.details[i].bezeichnung === "Bluecutmeter") {
+            } else if (frm.doc.details[i].bezeichnung .includes("Bluecutmeter")) {
                 gesamt_meter += sum;
             }
         }
