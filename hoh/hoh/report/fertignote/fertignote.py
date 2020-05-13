@@ -40,11 +40,16 @@ def get_columns():
     ]
 
 def get_data(filters):
+    # set filters
     if not filters.stickmaschine:
         filters.stickmaschine = "%"
     else:
         filters.stickmaschine = "%{0}%".format(filters.stickmaschine)
-        
+    # get shift hours
+    company = frappe.defaults.get_global_default('company')
+    hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
+    
+    # prepare query
     sql_query = """SELECT
          `tabWork Order`.`name` AS `work_order`,
          IFNULL(`tabWork Order`.`sales_order`, "-") AS `sales_order`,
@@ -69,7 +74,7 @@ def get_data(filters):
          `tabDessin`.`gesamtmeter` AS `ktm`,
          `tabWork Order`.`qty` * `tabDessin`.`gesamtmeter` AS `ktm_total`,
          ((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
-         (((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / 13) AS `schicht`,
+         (((`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
          (SELECT 
           IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "OK", "NOK")
           FROM `tabWork Order Item` AS `tWOI`
@@ -84,7 +89,7 @@ def get_data(filters):
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` = "Completed"
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;
-      """.format(stickmaschine=filters.stickmaschine)
+      """.format(stickmaschine=filters.stickmaschine, hours_per_shift=hours_per_shift)
 
     data = frappe.db.sql(sql_query, as_dict=1)
 

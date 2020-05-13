@@ -32,7 +32,9 @@
   "calculate_composition",
   "komposition",
   "section_pflegesymbole",
-  "pflegesymbole"
+  "pflegesymbole",
+  "section_remarks",
+  "remarks"
  ],
  "fields": [
   {
@@ -201,9 +203,19 @@
    "fieldname": "calculate_composition",
    "fieldtype": "Button",
    "label": "Komposition berechnen"
+  },
+  {
+   "fieldname": "section_remarks",
+   "fieldtype": "Section Break",
+   "label": "Bemerkungen"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text Editor",
+   "label": "Bemerkungen"
   }
  ],
- "modified": "2020-04-24 20:25:45.033803",
+ "modified": "2020-05-13 20:20:34.612086",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

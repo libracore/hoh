@@ -118,6 +118,14 @@ def get_data():
                        "label": _("Ausruestplan"),
                        "description": _("Ausruestplan"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Fertignote",
+                       "label": _("Fertignote"),
+                       "description": _("Fertignote"),
+                       "is_query_report": True
                    }
             ]
         },

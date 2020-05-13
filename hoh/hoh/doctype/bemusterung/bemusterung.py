@@ -89,10 +89,12 @@ class Bemusterung(Document):
                 total_multiplier += multiplier
                 # aggregate contents
                 for c in item.komposition:
-                    if c.material in composition:
-                        composition[c.material] = composition[c.material] + c.anteil * multiplier
-                    else:
-                        composition[c.material] = c.anteil * multiplier
+                    # exclude support materials, the will leave the product in finish
+                    if c.material not in ['AC', 'AB', 'VL']:
+                        if c.material in composition:
+                            composition[c.material] = composition[c.material] + c.anteil * multiplier
+                        else:
+                            composition[c.material] = c.anteil * multiplier
         # normalise contents
         for key, value in composition.items():
             composition[key] = round(value / total_multiplier)
