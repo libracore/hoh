@@ -6,12 +6,13 @@
  "field_order": [
   "nm",
   "von",
-  "bis"
+  "bis",
+  "bemerkung"
  ],
  "fields": [
   {
    "fieldname": "nm",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Nm",
    "reqd": 1
@@ -29,9 +30,14 @@
    "in_list_view": 1,
    "label": "Bis",
    "reqd": 1
+  },
+  {
+   "fieldname": "bemerkung",
+   "fieldtype": "Data",
+   "label": "Bemerkung"
   }
  ],
- "modified": "2020-05-13 20:41:52.713460",
+ "modified": "2020-05-27 00:25:59.214407",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin Satz",
