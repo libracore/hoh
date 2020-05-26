@@ -34,10 +34,11 @@
   {
    "fieldname": "bemerkung",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Bemerkung"
   }
  ],
- "modified": "2020-05-27 00:25:59.214407",
+ "modified": "2020-05-27 00:28:01.745879",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin Satz",
