@@ -112,3 +112,16 @@ class Bemusterung(Document):
                 'material': key
             })
         return
+
+@frappe.whitelist()
+def get_label_data(selected_items):
+    sql_query = """SELECT 
+                       `tabBemusterung`.`name` AS `name`,
+                       IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+                   FROM `tabBemusterung`
+                   LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
+                   LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
+                   WHERE `tabBemusterung`.`name` IN ({selected_items});
+                """.format(selected_items=selected_items[1:-1])
+
+    return frappe.db.sql(sql_query, as_dict=True)
