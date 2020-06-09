@@ -165,27 +165,27 @@
    "label": "Minimalmenge"
   },
   {
-   "description": "in Metern",
+   "description": "in cm",
    "fieldname": "stoffbreite_von",
    "fieldtype": "Float",
    "label": "Stoffbreite von"
   },
   {
-   "description": "in Metern",
+   "description": "in cm",
    "fieldname": "stoffbreite_bis",
    "fieldtype": "Float",
    "label": "Stoffbreite bis",
    "precision": "2"
   },
   {
-   "description": "in Metern",
+   "description": "in cm",
    "fieldname": "fertigbreite_von",
    "fieldtype": "Float",
    "label": "Fertigbreite von",
    "precision": "2"
   },
   {
-   "description": "in Metern",
+   "description": "in cm",
    "fieldname": "fertigbreite_bis",
    "fieldtype": "Float",
    "label": "Fertigbreite bis",
@@ -215,7 +215,7 @@
    "label": "Bemerkungen"
   }
  ],
- "modified": "2020-05-13 20:20:34.612086",
+ "modified": "2020-06-09 17:16:14.310650",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
