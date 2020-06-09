@@ -85,7 +85,7 @@ class Bemusterung(Document):
         for i in self.items:
             item = frappe.get_doc("Item", i.item_code)
             if item.komposition:
-                multiplier = i.qty
+                multiplier = (i.qty * item.weight_per_unit or 1)
                 total_multiplier += multiplier
                 # aggregate contents
                 for c in item.komposition:
