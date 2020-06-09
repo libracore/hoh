@@ -8,7 +8,6 @@
   "title",
   "ktm_per_h",
   "column_main",
-  "alternativmaschine",
   "section_maintenance",
   "next_maintenance_date",
   "section_function",
@@ -44,12 +43,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "alternativmaschine",
-   "fieldtype": "Link",
-   "label": "Alternativmaschine",
-   "options": "Stickmaschine"
-  },
-  {
    "fieldname": "section_function",
    "fieldtype": "Section Break",
    "label": "Funktion"
@@ -66,7 +59,7 @@
    "label": "Beschreibung"
   }
  ],
- "modified": "2020-05-13 07:59:59.833541",
+ "modified": "2020-06-09 16:56:48.531830",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Stickmaschine",

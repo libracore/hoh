@@ -145,9 +145,9 @@
   },
   {
    "fieldname": "stickmaschine",
-   "fieldtype": "Link",
+   "fieldtype": "Table MultiSelect",
    "label": "Stickmaschine",
-   "options": "Stickmaschine"
+   "options": "Dessin Stickmaschine"
   },
   {
    "fieldname": "lokal",
@@ -284,7 +284,7 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-05-13 20:42:28.295581",
+ "modified": "2020-06-09 16:58:19.825092",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
