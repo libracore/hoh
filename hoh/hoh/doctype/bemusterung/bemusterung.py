@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe import _
+from erpnextswiss.erpnextswiss.doctype.label_printer.label_printer import create_pdf
 
 class Bemusterung(Document):
     def validate(self):
@@ -113,7 +114,6 @@ class Bemusterung(Document):
             })
         return
 
-@frappe.whitelist()
 def get_label_data(selected_items):
     sql_query = """SELECT 
                        `tabBemusterung`.`name` AS `name`,
@@ -122,6 +122,21 @@ def get_label_data(selected_items):
                    LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
                    LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
                    WHERE `tabBemusterung`.`name` IN ({selected_items});
-                """.format(selected_items=selected_items[1:-1])
+                """.format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
+
+@frappe.whitelist()
+def get_label(label_printer, selected_items):
+    # get raw data
+    data = get_label_data(selected_items)
+    # prepare content
+    content = frappe.render_template('hoh/hoh/doctype/bemusterung/price_label.html', {'bemusterung': data})
+    # create pdf
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"
+    

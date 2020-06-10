@@ -1,0 +1,10 @@
+{% for i in range(0, bemusterung|len) %}
+<table style="width: 100mm; height: 45mm; {% if i < (bemusterung|len - 1) %}page-break-after: always;{% endif %}{#background-color: yellow; border: 1px solid black;#}">
+    <tr>
+        <td></td>
+        <td>{{ bemusterung[i].name }}<br>
+            {{ bemusterung[i].standard_selling_rate }}
+        </td>
+    </tr>
+</table>
+{% endfor %}
