@@ -15,18 +15,20 @@ class Angebot(WebsiteGenerator):
         show_sidebar = 1
     )
     
-    def get_context(self, context):
-        context.update({
-            "items": frappe.get_list("Angebot", fields=['name', 'angebotsdatum']),
-            "title": _("Quotations")
-        })
-        
-        return context
+    # THIS CODE IS NOT EXECUTED, CONSIDER OPTION IN get_list_context
+    #def get_context(self, context):
+    #    context.update({
+    #        "items": frappe.get_list("Angebot", filters={'docstatus': 1}, fields=['name']),
+    #        "title": _("Quotations")
+    #    })
+    #    
+    #    return context
         
 # enable list view sidebar
 def get_list_context(context=None):
     context.update({
         'no_breadcrumbs': True,
-        'show_sidebar': True
+        'show_sidebar': True,
+        'row_template': 'templates/includes/angebot_row.html'
     })
     return context
