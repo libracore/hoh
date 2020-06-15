@@ -71,7 +71,14 @@ function fill_details(frm, bemusterung) {
         "callback": function(response) {
             var dessin = response.message;
             cur_frm.set_value("kartenmeter", dessin.gesamtmeter);
-            cur_frm.set_value("stickmaschine", dessin.stickmaschine);
+            // read machine
+            var machine = null;
+            if (dessin.stickmaschine.length > 0) {
+                machine = dessin.stickmaschine[0].stickmaschine;
+            }
+            if (machine) {
+                cur_frm.set_value("stickmaschine", machine);
+            }
         }
     });
 }

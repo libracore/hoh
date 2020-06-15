@@ -32,7 +32,10 @@
   "base_net_total",
   "amended_from",
   "section_remarks",
-  "remarks"
+  "remarks",
+  "section_website",
+  "route",
+  "show_in_website"
  ],
  "fields": [
   {
@@ -210,10 +213,28 @@
    "fieldtype": "Currency",
    "label": "Total (company currency)",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_website",
+   "fieldtype": "Section Break",
+   "label": "Website"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "Route"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_in_website",
+   "fieldtype": "Check",
+   "label": "Show in Website"
   }
  ],
+ "has_web_view": 1,
+ "is_published_field": "show_in_website",
  "is_submittable": 1,
- "modified": "2020-04-08 11:32:27.757989",
+ "modified": "2020-06-15 11:23:53.000069",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot",
@@ -246,6 +267,7 @@
    "write": 1
   }
  ],
+ "route": "/angebot",
  "sort_field": "modified",
  "sort_order": "DESC",
  "title_field": "title",

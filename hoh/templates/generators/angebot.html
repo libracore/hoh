@@ -1,0 +1,10 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h1>{{ customer }}</h1>
+
+{% for m in muster %}
+    {{ m.name }}<br>
+{% endfor %}
+
+{% endblock %}
