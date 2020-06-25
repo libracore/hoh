@@ -9,6 +9,8 @@
   "dessin",
   "farbe",
   "dessinnummer",
+  "kollektion",
+  "image",
   "column_main",
   "title",
   "bezeichnung",
@@ -212,9 +214,21 @@
    "fieldname": "remarks",
    "fieldtype": "Text Editor",
    "label": "Bemerkungen"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "kollektion",
+   "fieldtype": "Link",
+   "label": "Kollektion",
+   "options": "Kollektion"
   }
  ],
- "modified": "2020-06-15 13:58:43.947135",
+ "image_field": "image",
+ "modified": "2020-06-25 19:15:57.557324",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

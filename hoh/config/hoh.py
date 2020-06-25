@@ -221,6 +221,12 @@ def get_data():
                    },
                    {
                        "type": "doctype",
+                       "name": "Kollektion",
+                       "label": _("Kollektion"),
+                       "description": _("Kollektion")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Garnstaerke",
                        "label": _("Garnstaerke"),
                        "description": _("Garnstaerke")

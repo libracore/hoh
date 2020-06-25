@@ -1,13 +1,11 @@
 {
- "allow_rename": 1,
  "autoname": "field:title",
- "creation": "2020-03-19 15:30:15.976898",
+ "creation": "2020-06-25 19:13:59.501871",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title",
-  "description"
+  "title"
  ],
  "fields": [
   {
@@ -17,19 +15,12 @@
    "label": "Title",
    "reqd": 1,
    "unique": 1
-  },
-  {
-   "description": "deutsche Sprache, klein schreiben",
-   "fieldname": "description",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Description"
   }
  ],
- "modified": "2020-06-25 19:10:04.336601",
+ "modified": "2020-06-25 19:14:20.314509",
  "modified_by": "Administrator",
  "module": "hoh",
- "name": "Farbe",
+ "name": "Kollektion",
  "owner": "Administrator",
  "permissions": [
   {
@@ -43,6 +34,37 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Item Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1
   }
  ],
  "quick_entry": 1,
