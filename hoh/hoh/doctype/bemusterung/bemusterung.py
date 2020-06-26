@@ -7,6 +7,7 @@ import frappe
 from frappe.model.document import Document
 from frappe import _
 from erpnextswiss.erpnextswiss.doctype.label_printer.label_printer import create_pdf
+from datetime import datetime
 
 class Bemusterung(Document):
     def validate(self):
@@ -115,23 +116,38 @@ class Bemusterung(Document):
         return
 
 def get_label_data(selected_items):
-    sql_query = """SELECT 
+    sql_query = """SELECT
+                       `tabBemusterung`.`item` AS `item`,
                        `tabBemusterung`.`name` AS `name`,
+                       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
+                       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
+                       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
+                       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
+                       `tabBemusterung`.`minimalmenge` AS `minimalmenge`,
+                       `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
+                       `tabBemusterung`.`rate` AS `preis`,
+                       `tabItem Pflegesymbol`.`pflegesymbol` AS `pflegesymbol`,
+                       `tabItem Komposition`.`material` AS `material`,
+                       `tabItem Komposition`.`anteil` AS `anteil`,
                        IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
                    FROM `tabBemusterung`
-                   LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
-                   LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
-                   WHERE `tabBemusterung`.`name` IN ({selected_items});
-                """.format(selected_items=selected_items)
+                   LEFT JOIN `tabItem` AS `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
+                   LEFT JOIN `tabItem Price` AS `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
+                   LEFT JOIN `tabItem Pflegesymbol` AS `tabItem Pflegesymbol` ON `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent`
+                   LEFT JOIN `tabItem Komposition` AS `tabItem Komposition` ON `tabBemusterung`.`name` = `tabItem Komposition`.`parent`;
+                   WHERE `tabBemusterung`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
 
 @frappe.whitelist()
 def get_label(label_printer, selected_items):
     # get raw data
-    data = get_label_data(selected_items)
+    data = { 
+        'items': get_label_data(selected_items),
+        'date': datetime.today().strftime('%d.%m.%Y')
+    }
     # prepare content
-    content = frappe.render_template('hoh/hoh/doctype/bemusterung/price_label.html', {'bemusterung': data})
+    content = frappe.render_template('hoh/hoh/doctype/bemusterung/price_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)

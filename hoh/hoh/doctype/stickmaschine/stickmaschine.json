@@ -8,6 +8,7 @@
   "title",
   "ktm_per_h",
   "column_main",
+  "touren",
   "section_maintenance",
   "next_maintenance_date",
   "section_function",
@@ -57,10 +58,15 @@
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "label": "Beschreibung"
+  },
+  {
+   "fieldname": "touren",
+   "fieldtype": "Float",
+   "label": "Touren"
   }
  ],
- "modified": "2020-06-09 16:56:48.531830",
- "modified_by": "Administrator",
+ "modified": "2020-06-24 13:02:30.773367",
+ "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Stickmaschine",
  "owner": "Administrator",
