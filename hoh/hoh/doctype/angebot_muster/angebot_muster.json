@@ -14,6 +14,17 @@
   "section_details",
   "customs_tariff__number",
   "country_of_origin",
+  "stoffbreite_von",
+  "stoffbreite_bis",
+  "fertigbreite_von",
+  "fertigbreite_bis",
+  "zusammensetzung",
+  "gewicht",
+  "pflegesymbole",
+  "column_details",
+  "dessin",
+  "dessin_image",
+  "image",
   "section_remarks",
   "remarks"
  ],
@@ -95,10 +106,79 @@
    "fieldtype": "Link",
    "label": "UOM",
    "options": "UOM"
+  },
+  {
+   "fieldname": "column_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "bemusterung.dessin",
+   "fieldname": "dessin",
+   "fieldtype": "Link",
+   "label": "Dessin",
+   "options": "Dessin",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dessin_image",
+   "fieldtype": "Data",
+   "label": "Dessin Image",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "bemusterung.stoffbreite_von",
+   "fieldname": "stoffbreite_von",
+   "fieldtype": "Float",
+   "label": "Stoffbreite von",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "bemusterung.stoffbreite_bis",
+   "fieldname": "stoffbreite_bis",
+   "fieldtype": "Float",
+   "label": "Stoffbreite bis",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "bemusterung.fertigbreite_von",
+   "fieldname": "fertigbreite_von",
+   "fieldtype": "Float",
+   "label": "Fertigbreite von",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "bemusterung.fertigbreite_bis",
+   "fieldname": "fertigbreite_bis",
+   "fieldtype": "Float",
+   "label": "Fertigbreite bis",
+   "read_only": 1
+  },
+  {
+   "fieldname": "zusammensetzung",
+   "fieldtype": "Data",
+   "label": "Zusammensetzung",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gewicht",
+   "fieldtype": "Float",
+   "label": "Gewicht",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pflegesymbole",
+   "fieldtype": "Data",
+   "label": "Pflegesymbole",
+   "read_only": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Data",
+   "label": "Image"
   }
  ],
  "istable": 1,
- "modified": "2020-04-06 20:37:43.466537",
+ "modified": "2020-06-25 19:21:33.195978",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot Muster",

@@ -44,7 +44,7 @@ class Bemusterung(Document):
             'standard_rate': self.rate,
             'weight_uom': 'kg',
             'weight_per_unit': self.gewicht,
-            'stickmaschine': self.stickmaschine
+            'is_sales_item': 1
         })
         for k in self.komposition:
             row = new_item.append('komposition', {
@@ -55,6 +55,10 @@ class Bemusterung(Document):
             row = new_item.append('pflegesymbole', {
                 'pflegesymbol': p.pflegesymbol
             })
+        for s in self.stickmaschine:
+            row = new_item.append('stickmaschine', {
+                'stickmaschine': s.stickmaschine
+            })
         item = new_item.insert()
         # create new BOM
         new_bom = frappe.get_doc({
@@ -63,7 +67,8 @@ class Bemusterung(Document):
             'quantity': 1,
             'is_active': 1,
             'is_default': 1,
-            'allow_same_item_multiple_times': 1
+            'allow_same_item_multiple_times': 1,
+            'uom': new_item.stock_uom
         })
         for i in self.items:
             row = new_bom.append('items', {

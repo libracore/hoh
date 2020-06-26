@@ -1,0 +1,98 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="row">
+    <h1>{{ _("Quotation") }}</h1>
+</div>
+
+<style>
+td {
+    padding: 6px;
+    vertical-align: top;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+</style>
+
+<div class="row">
+    <table style="width: 100%; ">
+        <tr>
+            <td style="border: 1px solid silver; ">{{ _("Customer") }}</td>
+            <td style="border: 1px solid silver; ">{{ customer_name }} ({{ customer }})</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid silver; ">{{ _("Date") }}</td>
+            <td style="border: 1px solid silver; ">{{ frappe.utils.get_datetime(angebotsdatum).strftime('%d.%m.%Y') }}</td>
+        </tr>
+        {% if valid_until %}
+        <tr>
+            <td style="border: 1px solid silver; ">{{ _("Valid until") }}</td>
+            <td style="border: 1px solid silver; ">
+                {{ frappe.utils.get_datetime(valid_until).strftime('%d.%m.%Y') }}
+            </td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+
+<div class="row">
+    <h2>{{ _("Items") }}</h2>
+</div>
+
+{# compile all used dessins #}
+{% set dessins = [] %}
+{% for m in muster %}
+    {% if m.dessin not in dessins %}
+        {% if dessins.append(m.dessin) %}{% endif %}
+    {% endif %}
+{% endfor %}
+
+<div class="row">
+    <table style="width: 100%; ">
+        <tr>
+            <td><b>{{ _("Dessin") }}</b></td>
+            <td><b>{{ _("Variants") }}</b></td>
+            <td><b>{{ _("Details") }}</b></td>
+            <td><b>{{ _("Price") }} {{ currency }}</b></td>
+        </tr>
+        {% for d in dessins %}
+            <tr>
+                {# frappe.get_doc is not available here #}
+                {% set variants = [] %}
+                {% set vars = {} %}
+                {% for m in muster %}
+                    {% if m.dessin == d %}
+                        {% if variants.append(m.bemusterung) %}{% endif %}
+                        {% if vars.update({'details': (m.idx - 1)}) %}{% endif %}
+                    {% endif %}                    
+                {% endfor %}
+                <td>
+                    {{ d }}
+                    {% if muster[vars.details].dessin_image %}
+                        <br><img src="{{ muster[vars.details].dessin_image }}" style="width: 200px; " />
+                    {% endif %}
+                </td>
+                <td>{{ variants|join("<br>") }}</td>
+                <td>
+                    {{ _("Country of Origin") }}: {{ muster[vars.details].country_of_origin or "" }}<br>
+                    {{ muster[vars.details].remarks or ""}}
+                </td>
+                <td>
+                    {{ "{:,.2f}".format(muster[vars.details].rate).replace(",", "'") }} 
+                    {{ currency }}/{{ muster[vars.details].uom }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="row">
+    <h2>{{ _("Remarks") }}</h2>
+</div>
+
+<div class="row">
+    <p>{{ remarks or "" }}</p>
+</div>
+{% endblock %}

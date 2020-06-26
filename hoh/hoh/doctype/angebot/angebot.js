@@ -48,6 +48,24 @@ frappe.ui.form.on('Angebot Muster', {
     base_rate: function(frm, cdt, cdn) {
         var rate = frappe.model.get_value(cdt, cdn, 'base_rate') * frm.doc.exchange_rate
         frappe.model.set_value(cdt, cdn, "rate", rate);
+    },
+    dessin: function(frm,  cdt, cdn) {
+        var d = frappe.model.get_value(cdt, cdn, 'dessin');
+        if (d) {
+            frappe.call({
+                "method": "frappe.client.get",
+                "args": {
+                    "doctype": "Dessin",
+                    "name": d
+                },
+                "callback": function(response) {
+                    var dessin = response.message;
+                    if (dessin) {
+                        frappe.model.set_value(cdt, cdn, "dessin_image", dessin.image);
+                    } 
+                }
+            });
+        }
     }
 });
 

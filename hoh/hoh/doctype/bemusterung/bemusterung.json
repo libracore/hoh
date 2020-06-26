@@ -9,9 +9,11 @@
   "dessin",
   "farbe",
   "dessinnummer",
+  "kollektion",
+  "image",
   "column_main",
-  "bezeichnung",
   "title",
+  "bezeichnung",
   "item",
   "section_bom",
   "items",
@@ -192,11 +194,10 @@
    "precision": "2"
   },
   {
-   "fetch_from": "dessin.stickmaschine",
    "fieldname": "stickmaschine",
-   "fieldtype": "Link",
+   "fieldtype": "Table MultiSelect",
    "label": "Stickmaschine",
-   "options": "Stickmaschine",
+   "options": "Dessin Stickmaschine",
    "read_only": 1
   },
   {
@@ -213,9 +214,21 @@
    "fieldname": "remarks",
    "fieldtype": "Text Editor",
    "label": "Bemerkungen"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "kollektion",
+   "fieldtype": "Link",
+   "label": "Kollektion",
+   "options": "Kollektion"
   }
  ],
- "modified": "2020-06-09 17:16:14.310650",
+ "image_field": "image",
+ "modified": "2020-06-25 19:15:57.557324",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

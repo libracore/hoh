@@ -19,26 +19,27 @@ frappe.ui.form.on('Bemusterung', {
 	},
     dessin: function(frm) {
         console.log("dessin...");
-        if (!frm.doc.bezeichnung) {
-            frappe.call({
-                "method": "frappe.client.get",
-                "args": {
-                    "doctype": "Dessin",
-                    "name": frm.doc.dessin
-                },
-                "callback": function(response) {
-                    var dessin = response.message;
+        frappe.call({
+            "method": "frappe.client.get",
+            "args": {
+                "doctype": "Dessin",
+                "name": frm.doc.dessin
+            },
+            "callback": function(response) {
+                var dessin = response.message;
 
-                    if (dessin) {
-                        frm.set_value('bezeichnung', dessin.bezeichnung);
-                    } 
-                }
-            });
-            // cur_frm.add_fetch('dessin', 'bezeichnung', 'bezeichnung');
-            console.log("set...");
-        }
-        
-        update_title(frm);
+                if (dessin) {
+                    cur_frm.set_value('bezeichnung', dessin.bezeichnung);
+                    for (var i = 0; i < dessin.stickmaschine.length; i++) {
+                        var child = cur_frm.add_child('stickmaschine');
+                        frappe.model.set_value(child.doctype, child.name, 'stickmaschine', dessin.stickmaschine[i].stickmaschine);
+                    }
+                    cur_frm.refresh_field('stickmaschine');
+                } 
+                
+                update_title(frm);
+            }
+        });
     },
     farbe: function(frm) {
         update_title(frm);

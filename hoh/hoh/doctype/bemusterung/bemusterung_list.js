@@ -7,7 +7,6 @@ frappe.listview_settings['Bemusterung'] = {
             var selected = listview.get_checked_items();
             create_label(selected);
 		});
-
 	}
 };
 
