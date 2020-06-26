@@ -42,8 +42,8 @@ class Bemusterung(Document):
             'customs_tariff_number': self.customs_tariff_number,
             't_min_menge': self.minimalmenge,
             'standard_rate': self.rate,
-            'weight_uom': 'kg',
-            'weight_per_unit': self.gewicht,
+            'weight_uom': 'g',
+            'weight_per_unit': (self.gewicht * 1000),
             'is_sales_item': 1
         })
         for k in self.komposition:
