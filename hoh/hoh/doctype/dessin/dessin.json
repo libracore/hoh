@@ -39,6 +39,7 @@
   "lokal",
   "paillettenart",
   "cut",
+  "punchzeit",
   "section_stickereitext",
   "stickereitext",
   "section_details_2",
@@ -281,11 +282,17 @@
    "fieldtype": "Table",
    "label": "Satznummern",
    "options": "Dessin Satz"
+  },
+  {
+   "description": "in Minuten",
+   "fieldname": "punchzeit",
+   "fieldtype": "Float",
+   "label": "Punchzeit"
   }
  ],
  "image_field": "image",
- "modified": "2020-06-09 16:58:19.825092",
- "modified_by": "Administrator",
+ "modified": "2020-06-26 14:57:45.883526",
+ "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Dessin",
  "owner": "Administrator",
