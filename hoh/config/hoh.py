@@ -126,6 +126,12 @@ def get_data():
                        "label": _("Fertignote"),
                        "description": _("Fertignote"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Kalkulationseinstellungen",
+                       "label": _("Kalkulationseinstellungen"),
+                       "description": _("Kalkulationseinstellungen")
                    }
             ]
         },

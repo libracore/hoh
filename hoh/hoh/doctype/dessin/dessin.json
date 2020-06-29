@@ -40,6 +40,7 @@
   "paillettenart",
   "cut",
   "punchzeit",
+  "entwicklungskosten",
   "section_stickereitext",
   "stickereitext",
   "section_details_2",
@@ -288,11 +289,17 @@
    "fieldname": "punchzeit",
    "fieldtype": "Float",
    "label": "Punchzeit"
+  },
+  {
+   "fieldname": "entwicklungskosten",
+   "fieldtype": "Currency",
+   "label": "Entwicklungskosten",
+   "read_only": 1
   }
  ],
  "image_field": "image",
- "modified": "2020-06-26 14:57:45.883526",
- "modified_by": "nicole.gret@libracore.com",
+ "modified": "2020-06-29 15:41:21.098626",
+ "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
  "owner": "Administrator",

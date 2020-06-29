@@ -37,7 +37,21 @@ frappe.ui.form.on('Dessin', {
         if (frm.doc.dessinnummer) {
             cur_frm.set_value('dessintitel', frm.doc.dessinnummer);
         }
-    }
+    },
+    punchzeit: function(frm) {
+		// wert entwicklungskostensatz holen
+		frappe.call({
+			"method": "frappe.client.get",
+			"args": {
+				"doctype": "Kalkulationseinstellungen",
+				"name": "Kalkulationseinstellungen"
+			},
+			"callback": function(response) {
+				var factor = response.message.entwicklungskostensatz;
+				cur_frm.set_value("entwicklungskosten", factor * frm.doc.punchzeit);
+			}
+		});
+	} 
 });
 
 function prepare_details(frm) {
