@@ -66,6 +66,24 @@ frappe.ui.form.on('Angebot Muster', {
                 }
             });
         }
+    },
+    bemusterung: function(frm,  cdt, cdn) {
+        var d = frappe.model.get_value(cdt, cdn, 'bemusterung');
+        if (d) {
+            frappe.call({
+                "method": "frappe.client.get",
+                "args": {
+                    "doctype": "Bemusterung",
+                    "name": d
+                },
+                "callback": function(response) {
+                    var bemusterung = response.message;
+                    if (bemusterung) {
+                        frappe.model.set_value(cdt, cdn, "image", bemusterung.image);
+                    } 
+                }
+            });
+        }
     }
 });
 

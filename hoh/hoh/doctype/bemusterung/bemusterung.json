@@ -218,7 +218,8 @@
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
-   "label": "Image"
+   "label": "Image",
+   "hidden": 1
   },
   {
    "fieldname": "kollektion",
@@ -228,7 +229,7 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-06-25 19:15:57.557324",
+ "modified": "2020-06-30 21:41:57.557324",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
