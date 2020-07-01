@@ -1,4 +1,5 @@
 DocType: Garnstaerke,Garnstaerke,Garnstärke
 Report: Ausruestplan,Ausruestplan,Ausrüstplan
 DocType: Bemusterung,Bemusterung,Grundartikel
+DocType: Bemusterung,Title,Titel
 DocType: Dessin,Cut,Cut
