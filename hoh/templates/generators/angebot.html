@@ -71,7 +71,7 @@ td {
                 <td>
                     {{ d }}
                     {% if muster[vars.details].dessin_image %}
-                        <br><img src="{{ muster[vars.details].dessin_image }}" style="width: 200px; " />
+                        <br><img src="{{ muster[vars.details].image or muster[vars.details].dessin_image }}" style="width: 200px; " />
                     {% endif %}
                 </td>
                 <td>{{ variants|join("<br>") }}</td>

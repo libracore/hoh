@@ -23,6 +23,11 @@ frappe.ui.form.on('Angebot', {
             cur_frm.set_value('angebotsdatum', frappe.datetime.nowdate());
             cur_frm.refresh_field('angebotsdatum');
         }
+        if (frm.doc.docstatus == 0) {
+            frm.add_custom_button(__("Artikel von Kollektion"), function() {
+                load_collection(frm);
+            });
+        }
 	},
     customer_name: function(frm) {
         cur_frm.set_value('title', frm.doc.customer_name);
@@ -80,7 +85,24 @@ frappe.ui.form.on('Angebot Muster', {
                     var bemusterung = response.message;
                     if (bemusterung) {
                         frappe.model.set_value(cdt, cdn, "image", bemusterung.image);
-                    } 
+                        var compositions = [];
+                        for (var i = 0; i < bemusterung.komposition.length; i++) {
+                            compositions.push(bemusterung.komposition[i].anteil 
+                                + "% " + bemusterung.komposition[i].material);
+                        }
+                        frappe.model.set_value(cdt, cdn, "zusammensetzung", compositions.join(", "));
+                    }
+                    // get care symbols
+                    frappe.call({
+                        "method": "hoh.hoh.doctype.angebot.angebot.get_care_symbol_html",
+                        "args": {
+                            "bemusterung": d
+                        },
+                        "callback": function(response) {
+                            var html = response.message;
+                            frappe.model.set_value(cdt, cdn, "pflegesymbole", html);
+                        }
+                    });
                 }
             });
         }
@@ -119,18 +141,60 @@ function update_currency_values(frm) {
 
 function get_exchange_rate(frm) {
     frappe.call({
-    method: 'erpnextaustria.erpnextaustria.utils.get_eur_exchange_rate',
-    args: {
-        'currency': frm.doc.currency
-    },
-    callback: function(r) {
-        if (r.message) {
-            var exchange_rate = r.message;
-            cur_frm.set_value('exchange_rate', exchange_rate);
-            console.log("Exchange rate " + frm.doc.currency + ": " + exchange_rate);
-        } else {
-            cur_frm.set_value('exchange_rate', 1);
+        method: 'erpnextaustria.erpnextaustria.utils.get_eur_exchange_rate',
+        args: {
+            'currency': frm.doc.currency
+        },
+        callback: function(r) {
+            if (r.message) {
+                var exchange_rate = r.message;
+                cur_frm.set_value('exchange_rate', exchange_rate);
+                console.log("Exchange rate " + frm.doc.currency + ": " + exchange_rate);
+            } else {
+                cur_frm.set_value('exchange_rate', 1);
+            }
         }
-    }
-});
+    });
+}
+
+function load_collection(frm) {
+    // show dialog to select collection
+    frappe.prompt([
+            {
+                'fieldname': 'collection', 
+                'fieldtype': 'Link', 
+                'label': 'Kollektion', 
+                'options': 'Kollektion',
+                'reqd': 1
+            }
+        ],
+        function(values){
+            // load collection    
+            frappe.call({
+                method: 'frappe.client.get_list',
+                args: {
+                    doctype: 'Bemusterung',
+                    filters: [
+                        ['kollektion', '=', values.collection]
+                    ],
+                    fields: ['name', 'rate']
+                },
+                callback: function(response) {
+                    // add items from collection
+                    if (response.message) {
+                        var muster = response.message;
+                        for (var i = 0; i < response.message.length; i++) {
+                            var child = cur_frm.add_child('muster');
+                            frappe.model.set_value(child.doctype, child.name, 'bemusterung', muster[i].name);
+                            frappe.model.set_value(child.doctype, child.name, 'qty', 1);
+                            frappe.model.set_value(child.doctype, child.name, 'rate', muster[i].rate);
+                        }
+                        cur_frm.refresh_field('muster');
+                    }
+                }
+            });
+        },
+        'Artikel von Kollektion',
+        'Hinzufügen'
+    );
 }

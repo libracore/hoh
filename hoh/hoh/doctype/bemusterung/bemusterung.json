@@ -9,12 +9,13 @@
   "dessin",
   "farbe",
   "dessinnummer",
-  "kollektion",
+  "stickrapport",
   "image",
   "column_main",
   "title",
   "bezeichnung",
   "item",
+  "kollektion",
   "section_bom",
   "items",
   "section_specs",
@@ -218,18 +219,26 @@
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
-   "label": "Image",
-   "hidden": 1
+   "hidden": 1,
+   "label": "Image"
   },
   {
    "fieldname": "kollektion",
    "fieldtype": "Link",
    "label": "Kollektion",
    "options": "Kollektion"
+  },
+  {
+   "fetch_from": "dessin.stickrapport",
+   "fieldname": "stickrapport",
+   "fieldtype": "Link",
+   "label": "Stickrapport",
+   "options": "Rapport",
+   "read_only": 1
   }
  ],
  "image_field": "image",
- "modified": "2020-06-30 21:41:57.557324",
+ "modified": "2020-07-12 22:48:40.657339",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

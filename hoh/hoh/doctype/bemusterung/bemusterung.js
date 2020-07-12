@@ -16,6 +16,9 @@ frappe.ui.form.on('Bemusterung', {
 
             });
         }
+        frm.add_custom_button(__("Nadelrechner"), function() {
+            nadelrechner(frm, 0.0, 0.0);
+        });
 	},
     dessin: function(frm) {
         console.log("dessin...");
@@ -85,3 +88,47 @@ function update_title(frm) {
     }
 }
 
+function nadelrechner(frm, input, output) {
+    var d = new frappe.ui.Dialog({
+        'fields': [
+            {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Data', 'read_only': 1, 'default': frm.doc.stickrapport},
+            {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input},
+            {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output}
+        ],
+        primary_action: function(){
+            d.hide();
+            // calculate
+            var input = d.get_values().nadel;
+            var needle_per_m = 70 / 9.26;
+            if (frm.doc.stickrapport === "4/4") {
+                needle_per_m = 684 / 9.26;
+            } else if (frm.doc.stickrapport === "8/4") {
+                needle_per_m = 342 / 9.26;
+            } else if (frm.doc.stickrapport === "12/4") {
+                needle_per_m = 228 / 9.26;
+            } else if (frm.doc.stickrapport === "16/4") {
+                needle_per_m = 172 / 9.26;
+            } else if (frm.doc.stickrapport === "20/4") {
+                needle_per_m = 138 / 9.26;
+            } else if (frm.doc.stickrapport === "24/4") {
+                needle_per_m = 114 / 9.26;
+            } else if (frm.doc.stickrapport === "28/4") {
+                needle_per_m = 98 / 9.26;
+            } else if (frm.doc.stickrapport === "32/4") {
+                needle_per_m = 86 / 9.26;
+            } else if (frm.doc.stickrapport === "36/4") {
+                needle_per_m = 76 / 9.26;
+            } else if (frm.doc.stickrapport === "40/4") {
+                needle_per_m = 70 / 9.26;
+            } else {
+                frappe.msgprint("Unbekannter Rapport");
+            }
+            output = input * needle_per_m;
+            // repeat
+            nadelrechner(frm, input, output);
+        },
+        primary_action_label: __('OK'),
+        title: __("Nadelrechner")
+    });
+    d.show();
+}
