@@ -127,8 +127,10 @@ function nadelrechner(frm, input, output, target=null) {
                 needle_per_m = 34 / 9.26;
             } else if (frm.doc.stickrapport === "44/4") {
                 needle_per_m = 31 / 9.26;
-            }else if (frm.doc.stickrapport === "48/4") {
+            } else if (frm.doc.stickrapport === "48/4") {
                 needle_per_m = 28 / 9.26;
+            } else if (frm.doc.stickrapport === "96/4") {
+                needle_per_m = 14 / 9.26;
             } else {
                 frappe.msgprint("Unbekannter Rapport");
             }
