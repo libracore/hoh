@@ -104,27 +104,31 @@ function nadelrechner(frm, input, output, target=null) {
             d.hide();
             // calculate
             var input = d.get_values().nadel;
-            var needle_per_m = 70 / 9.26;
+            var needle_per_m = 28 / 9.26;
             if (frm.doc.stickrapport === "4/4") {
-                needle_per_m = 684 / 9.26;
+                needle_per_m = 344 / 9.26;
             } else if (frm.doc.stickrapport === "8/4") {
-                needle_per_m = 342 / 9.26;
-            } else if (frm.doc.stickrapport === "12/4") {
-                needle_per_m = 228 / 9.26;
-            } else if (frm.doc.stickrapport === "16/4") {
                 needle_per_m = 172 / 9.26;
-            } else if (frm.doc.stickrapport === "20/4") {
-                needle_per_m = 138 / 9.26;
-            } else if (frm.doc.stickrapport === "24/4") {
+            } else if (frm.doc.stickrapport === "12/4") {
                 needle_per_m = 114 / 9.26;
-            } else if (frm.doc.stickrapport === "28/4") {
-                needle_per_m = 98 / 9.26;
-            } else if (frm.doc.stickrapport === "32/4") {
+            } else if (frm.doc.stickrapport === "16/4") {
                 needle_per_m = 86 / 9.26;
+            } else if (frm.doc.stickrapport === "20/4") {
+                needle_per_m = 68 / 9.26;
+            } else if (frm.doc.stickrapport === "24/4") {
+                needle_per_m = 57 / 9.26;
+            } else if (frm.doc.stickrapport === "28/4") {
+                needle_per_m = 49 / 9.26;
+            } else if (frm.doc.stickrapport === "32/4") {
+                needle_per_m = 43 / 9.26;
             } else if (frm.doc.stickrapport === "36/4") {
-                needle_per_m = 76 / 9.26;
+                needle_per_m = 38 / 9.26;
             } else if (frm.doc.stickrapport === "40/4") {
-                needle_per_m = 70 / 9.26;
+                needle_per_m = 34 / 9.26;
+            } else if (frm.doc.stickrapport === "44/4") {
+                needle_per_m = 31 / 9.26;
+            }else if (frm.doc.stickrapport === "48/4") {
+                needle_per_m = 28 / 9.26;
             } else {
                 frappe.msgprint("Unbekannter Rapport");
             }
