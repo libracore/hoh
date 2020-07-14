@@ -79,6 +79,11 @@ frappe.ui.form.on('Bemusterung Artikel', {
                 }
             });
         }
+    },
+    btn_nadelrechner: function(frm, cdt, cdn) {
+        var target = {'cdt': cdt, 'cdn': cdn, 'field': 'qty'};
+        var current = frappe.model.get_value(cdt, cdn, 'qty');
+        nadelrechner(frm, current, 0.0, target);
     }
 });
 
@@ -88,7 +93,7 @@ function update_title(frm) {
     }
 }
 
-function nadelrechner(frm, input, output) {
+function nadelrechner(frm, input, output, target=null) {
     var d = new frappe.ui.Dialog({
         'fields': [
             {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Data', 'read_only': 1, 'default': frm.doc.stickrapport},
@@ -124,8 +129,13 @@ function nadelrechner(frm, input, output) {
                 frappe.msgprint("Unbekannter Rapport");
             }
             output = input * needle_per_m;
-            // repeat
-            nadelrechner(frm, input, output);
+            // if there is a target, fill value
+            if (target) {
+                frappe.model.set_value(target.cdt, target.cdn, target.field, output);
+            } else {
+                // repeat
+                nadelrechner(frm, input, output);
+            }
         },
         primary_action_label: __('OK'),
         title: __("Nadelrechner")
