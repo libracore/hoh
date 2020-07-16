@@ -1,4 +1,4 @@
-﻿{
+{
  "custom_fields": [
   {
    "_assign": null,
@@ -938,8 +938,8 @@
  ],
  "custom_perms": [],
  "doctype": "Item",
- "property_setters": [
-{
+ "property_setters": [ 
+  {
    "_assign": null,
    "_comments": null,
    "_liked_by": null,
@@ -962,6 +962,6 @@
    "property_type": "Data",
    "value": "item_code"
   }
-],
+ ],
  "sync_on_migrate": 1
 }
