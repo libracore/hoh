@@ -1,4 +1,4 @@
-{
+﻿{
  "custom_fields": [
   {
    "_assign": null,
@@ -938,6 +938,30 @@
  ],
  "custom_perms": [],
  "doctype": "Item",
- "property_setters": [ ],
+ "property_setters": [
+{
+   "_assign": null,
+   "_comments": null,
+   "_liked_by": null,
+   "_user_tags": null,
+   "creation": "2020-07-16 09:10:10.826010",
+   "default_value": null,
+   "doc_type": "Item",
+   "docstatus": 0,
+   "doctype_or_field": "DocType",
+   "field_name": null,
+   "idx": 0,
+   "modified": "2020-07-16 09:10:10.826010",
+   "modified_by": "Administrator",
+   "name": "Item-title_field",
+   "owner": "Administrator",
+   "parent": null,
+   "parentfield": null,
+   "parenttype": null,
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "item_code"
+  }
+],
  "sync_on_migrate": 1
 }
