@@ -238,8 +238,8 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-07-12 22:48:40.657339",
- "modified_by": "Administrator",
+ "modified": "2020-07-16 15:28:47.942566",
+ "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Bemusterung",
  "owner": "Administrator",
@@ -270,6 +270,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "bezeichnung",
+ "title_field": "title",
  "track_changes": 1
 }
