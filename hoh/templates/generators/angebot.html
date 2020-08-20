@@ -76,12 +76,21 @@ td {
                 </td>
                 <td>{{ variants|join("<br>") }}</td>
                 <td>
-                    {{ _("Country of Origin") }}: {{ muster[vars.details].country_of_origin or "" }}<br>
+                    {{ _("Country of Origin") }}: {{ muster[vars.details].country_of_origin or "-" }}<br>
                     {{ muster[vars.details].remarks or ""}}
                 </td>
                 <td>
                     {{ "{:,.2f}".format(muster[vars.details].rate).replace(",", "'") }} 
                     {{ currency }}/{{ muster[vars.details].uom }}
+                </td>
+            </tr>
+            <tr>
+                <td colspan=4>
+                    {% for m in muster %}
+                      {% if m.dessin == d and m.image %}
+                        <img src="{{ m.image }}" alt="{{ m.bemusterung }}" title="{{ m.bemusterung }}" style="width: 200px; " />
+                      {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
         {% endfor %}
