@@ -10,6 +10,7 @@
   "farbe",
   "dessinnummer",
   "stickrapport",
+  "paillettenrapport",
   "image",
   "column_main",
   "title",
@@ -235,11 +236,18 @@
    "label": "Stickrapport",
    "options": "Rapport",
    "read_only": 1
+  },
+  {
+   "fetch_from": "dessin.paillettenrapport",
+   "fieldname": "paillettenrapport",
+   "fieldtype": "Link",
+   "label": "Paillettenrapport",
+   "options": "Rapport"
   }
  ],
  "image_field": "image",
- "modified": "2020-07-16 15:28:47.942566",
- "modified_by": "nicole.gret@libracore.com",
+ "modified": "2020-08-24 21:27:58.716214",
+ "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
  "owner": "Administrator",

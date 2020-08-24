@@ -39,6 +39,12 @@ def get_data():
                    },
                    {
                        "type": "doctype",
+                       "name": "Kalkulation",
+                       "label": _("Kalkulation"),
+                       "description": _("Kalkulation")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Musterkarte",
                        "label": _("Musterkarte"),
                        "description": _("Musterkarte")

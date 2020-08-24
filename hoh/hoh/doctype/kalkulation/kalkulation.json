@@ -1,0 +1,164 @@
+{
+ "creation": "2020-08-24 21:19:04.859288",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bemusterung",
+  "column_head",
+  "dessin",
+  "section_general",
+  "stickrapport",
+  "paillettenrapport",
+  "section_development",
+  "entwicklungskosten",
+  "section_avor",
+  "ruestkosten",
+  "section_material",
+  "material",
+  "section_labour",
+  "section_finish",
+  "section_calc",
+  "total_cost_per_m"
+ ],
+ "fields": [
+  {
+   "fieldname": "bemusterung",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Bemusterung",
+   "options": "Bemusterung",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_general",
+   "fieldtype": "Section Break",
+   "label": "Allgemein"
+  },
+  {
+   "fetch_from": "bemusterung.stickrapport",
+   "fieldname": "stickrapport",
+   "fieldtype": "Link",
+   "label": "Stickrapport",
+   "options": "Rapport",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "bemusterung.paillettenrapport",
+   "fieldname": "paillettenrapport",
+   "fieldtype": "Link",
+   "label": "Paillettenrapport",
+   "options": "Rapport",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_development",
+   "fieldtype": "Section Break",
+   "label": "Entwicklungskosten"
+  },
+  {
+   "fieldname": "section_avor",
+   "fieldtype": "Section Break",
+   "label": "AVOR"
+  },
+  {
+   "fieldname": "section_material",
+   "fieldtype": "Section Break",
+   "label": "Materialkosten"
+  },
+  {
+   "fieldname": "section_labour",
+   "fieldtype": "Section Break",
+   "label": "Arbeitskosten"
+  },
+  {
+   "fieldname": "section_finish",
+   "fieldtype": "Section Break",
+   "label": "Ausr\u00fcstungskosten"
+  },
+  {
+   "fieldname": "column_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "bemusterung.dessin",
+   "fieldname": "dessin",
+   "fieldtype": "Link",
+   "label": "Dessin",
+   "options": "Dessin",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "dessin.entwicklungskosten",
+   "fieldname": "entwicklungskosten",
+   "fieldtype": "Currency",
+   "label": "Entwicklungskosten"
+  },
+  {
+   "fieldname": "ruestkosten",
+   "fieldtype": "Currency",
+   "label": "R\u00fcstkosten"
+  },
+  {
+   "fieldname": "material",
+   "fieldtype": "Table",
+   "label": "Material",
+   "options": "Kalkulation Material"
+  },
+  {
+   "fieldname": "section_calc",
+   "fieldtype": "Section Break",
+   "label": "Kalkulation"
+  },
+  {
+   "fieldname": "total_cost_per_m",
+   "fieldtype": "Currency",
+   "label": "Gesamtkosten pro m"
+  }
+ ],
+ "modified": "2020-08-24 21:34:31.957047",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Kalkulation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Master Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "bemusterung",
+ "track_changes": 1
+}
