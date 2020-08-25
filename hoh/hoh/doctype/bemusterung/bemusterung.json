@@ -242,11 +242,12 @@
    "fieldname": "paillettenrapport",
    "fieldtype": "Link",
    "label": "Paillettenrapport",
-   "options": "Rapport"
+   "options": "Rapport",
+   "read_only": 1
   }
  ],
  "image_field": "image",
- "modified": "2020-08-24 21:27:58.716214",
+ "modified": "2020-08-25 20:52:48.635787",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
