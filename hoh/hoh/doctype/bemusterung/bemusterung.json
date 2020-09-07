@@ -29,6 +29,7 @@
   "minimalmenge",
   "column_specs",
   "rate",
+  "preisgruppe",
   "customs_tariff_number",
   "country_of_origin",
   "stickmaschine",
@@ -244,10 +245,17 @@
    "label": "Paillettenrapport",
    "options": "Rapport",
    "read_only": 1
+  },
+  {
+   "default": "E",
+   "fieldname": "preisgruppe",
+   "fieldtype": "Select",
+   "label": "Preisgruppe",
+   "options": "\nE\nE*"
   }
  ],
  "image_field": "image",
- "modified": "2020-08-25 20:52:48.635787",
+ "modified": "2020-09-07 15:51:25.618750",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

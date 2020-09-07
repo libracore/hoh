@@ -18,12 +18,9 @@ function create_label(selected) {
     }
     // retrieve pdf
     if (selected_items.length > 0) {
-        // reference to the Label Printer record to be used
-        var label_printer = "Labels 100x48mm"; 
         // html-content of the label
         var url = "/api/method/hoh.hoh.doctype.bemusterung.bemusterung.get_label"  
-                + "?label_printer=" + encodeURIComponent(label_printer)
-                + "&selected_items=" + encodeURIComponent("'" + selected_items.join("','") + "'");
+                + "?selected_items=" + encodeURIComponent("'" + selected_items.join("','") + "'");
         var w = window.open(
              frappe.urllib.get_full_url(url)
         );
