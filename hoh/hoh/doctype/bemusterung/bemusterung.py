@@ -147,7 +147,12 @@ def get_label_data(selected_items):
     return frappe.db.sql(sql_query, as_dict=True)
 
 @frappe.whitelist()
-def get_label(label_printer, selected_items):
+def get_label(selected_items):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.label_printer_prices:
+        frappe.throw( _("Please define a label printer for price labels under HOH Settings.") )
+    label_printer = settings.label_printer_prices
     # get raw data
     data = { 
         'items': get_label_data(selected_items),

@@ -227,6 +227,12 @@ def get_data():
             "items": [
                    {
                        "type": "doctype",
+                       "name": "HOH Settings",
+                       "label": _("HOH Settings"),
+                       "description": _("HOH Settings")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Dessinnummer",
                        "label": _("Dessinnummer"),
                        "description": _("Dessinnummer")
