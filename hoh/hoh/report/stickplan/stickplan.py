@@ -65,7 +65,7 @@ def get_data(filters):
          `tabSales Order`.`delivery_Date` AS `delivery_date`,
          SUBSTRING_INDEX(`tabWork Order`.`planned_start_date`, ' ', 1)  AS `start_date`,
          `tabWork Order`.`expected_delivery_date` AS `end_date`,
-         `tabDessin`.`stickmaschine` AS `stickmaschine`,
+         `tabWork Order`.`stickmaschine` AS `stickmaschine`,
          `tabWork Order`.`production_item` AS `item`,
          `tabWork Order`.`qty` AS `qty`,
          `tabWork Order`.`stock_uom` AS `uom`,

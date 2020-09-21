@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 frappe.query_reports["Stickplan"] = {
-	"filters": [
+    "filters": [
         {
             "fieldname":"stickmaschine",
             "label": __("Stickmaschine"),
@@ -24,5 +24,10 @@ frappe.query_reports["Stickplan"] = {
             "default": frappe.datetime.add_months(frappe.datetime.get_today(), +12),
             "width": "60px"
         }
-	]
+    ],
+    "onload": (report) => {
+        report.page.add_inner_button(__('Work Order List'), function () {
+           window.location.href="/desk#List/Work Order/List";
+        })
+    }
 };
