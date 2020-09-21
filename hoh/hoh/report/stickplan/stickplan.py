@@ -45,7 +45,12 @@ def get_data(filters):
         filters.stickmaschine = "%"
     else:
         filters.stickmaschine = "%{0}%".format(filters.stickmaschine)
-
+    # get additional conditions
+    conditions = ""
+    if filters.from_date:
+        conditions += "AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'".format(from_date=filters.from_date)
+    if filters.to_date:
+        conditions += "AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'".format(from_date=filters.to_date)
     # get shift hours
     company = frappe.defaults.get_global_default('company')
     hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
@@ -89,10 +94,9 @@ def get_data(filters):
           `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` != "Completed"
-          AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'
-          AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'
+          {conditions}
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;
-      """.format(stickmaschine=filters.stickmaschine, from_date=filters.from_date, to_date=filters.to_date, hours_per_shift=hours_per_shift)
+      """.format(stickmaschine=filters.stickmaschine, conditions=conditions, hours_per_shift=hours_per_shift)
 
     data = frappe.db.sql(sql_query, as_dict=1)
 
