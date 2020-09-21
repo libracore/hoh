@@ -102,6 +102,8 @@ class Bemusterung(Document):
                             composition[c.material] = composition[c.material] + c.anteil * multiplier
                         else:
                             composition[c.material] = c.anteil * multiplier
+        # store total weight
+        self.gewicht = ((total_multiplier or 0) / 1000)
         # normalise contents
         for key, value in composition.items():
             composition[key] = round(value / total_multiplier)
