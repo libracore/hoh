@@ -50,7 +50,7 @@ def get_data(filters):
     if filters.from_date:
         conditions += "AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'".format(from_date=filters.from_date)
     if filters.to_date:
-        conditions += "AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'".format(from_date=filters.to_date)
+        conditions += "AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'".format(to_date=filters.to_date)
     # get shift hours
     company = frappe.defaults.get_global_default('company')
     hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
