@@ -86,7 +86,7 @@ def get_data(filters):
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
         LEFT JOIN `tabStickmaschine` ON `tabDessin`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
-          `tabDessin`.`stickmaschine` LIKE "{stickmaschine}"
+          `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` != "Completed"
           AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'

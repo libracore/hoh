@@ -58,7 +58,7 @@ def get_data(filters):
              SUM(`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) AS `ktm_total`,
              `tabDessin`.`stickmaschine` AS `stickmaschine`
            FROM `tabWork Order`
-		   LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
+         LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
            LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
            WHERE 
              `tabWork Order`.`docstatus` < 2
