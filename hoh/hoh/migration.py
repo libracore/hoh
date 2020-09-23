@@ -50,6 +50,7 @@ def import_payments(file, account, cost_center):
                     payment['type'] = "Receive"
                     payment['party_type'] = "Customer"
                     payment['party'] = "C-{0}".format(row['GKto-Nr'])
+                    submit = False
             elif len(row['GKto-Nr']) == 4:
                 # direct payment of expense
                 payment['paid_from'] = account
