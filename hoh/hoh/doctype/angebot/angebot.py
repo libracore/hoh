@@ -50,3 +50,12 @@ def get_care_symbol_html(bemusterung):
     # render data
     html = frappe.render_template('hoh/hoh/doctype/angebot/care_symbols.html', data)
     return html
+
+def get_composition_string(bemusterung):
+    bemusterung = frappe.get_doc("Bemusterung", bemusterung)
+    compositions = []
+    for c in bemusterung.komposition:
+        compositions.append("{0}% {1}".format(c.anteil, c.material))
+    
+    zusammensetzung = ", ".join(compositions)
+    return zusammensetzung
