@@ -1,0 +1,28 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Online Catalogue") }} {% endblock %}
+
+{% block header %}<h1>{{ _("Online Catalogue") }}</h1>{% endblock %}
+
+{% block page_content %}
+
+<div class="row mt-5">
+	<div class="col-12">
+        <p class="post-description"> {{ intro }} </p>
+        {% for item in items %} 
+            {{ item.name }}
+        {% endfor %}
+        
+	</div>
+</div>
+
+{% endblock %}
+
+{% block base_scripts %}
+<!-- js should be loaded in body! -->
+<script type="text/javascript" src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/js/frappe-web.min.js"></script>
+<script type="text/javascript" src="/assets/js/control.min.js"></script>
+<script type="text/javascript" src="/assets/js/dialog.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-4-web.min.js"></script>
+{% endblock %}
