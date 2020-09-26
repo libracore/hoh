@@ -59,3 +59,12 @@ def get_composition_string(bemusterung):
     
     zusammensetzung = ", ".join(compositions)
     return zusammensetzung
+
+def get_category_string(bemusterung):
+    bemusterung = frappe.get_doc("Bemusterung", bemusterung)
+    categories = []
+    for c in bemusterung.produktkategorien:
+        categories.append("{0}".format(c.produktkategorie.lower().replace(' ', '')))
+    
+    category_string = " ".join(categories)
+    return category_string  
