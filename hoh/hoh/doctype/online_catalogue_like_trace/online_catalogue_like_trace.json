@@ -5,7 +5,8 @@
  "engine": "InnoDB",
  "field_order": [
   "user",
-  "bemusterung"
+  "bemusterung",
+  "like"
  ],
  "fields": [
   {
@@ -23,9 +24,16 @@
    "label": "Bemusterung",
    "options": "Bemusterung",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "like",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Like"
   }
  ],
- "modified": "2020-09-23 20:21:36.127567",
+ "modified": "2020-09-26 23:54:28.747186",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Online Catalogue Like Trace",
@@ -46,5 +54,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "title_field": "bemusterung",
  "track_changes": 1
 }

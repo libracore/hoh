@@ -51,6 +51,30 @@ function show_modal(src, caption) {
 }
 </script>
 
+<script>
+// like a product
+function like(product, heart_object) {
+    // change heart color
+    var heart = document.getElementById(heart_object);
+    var like = 1
+    if (heart.style.color == "red") {
+        heart.style.color = "#36414c";
+        like = 0;
+    } else {
+        heart.style.color = "red";
+    }
+    // call trace function
+    frappe.call({
+    method: 'hoh.hoh.doctype.online_catalogue_like_trace.online_catalogue_like_trace.add_like',
+    args: {
+        user: frappe.session.user,
+        bemusterung: product,
+        like: like
+    }
+});
+}
+</script>
+
 <style>
  /* Style the Image Used to Trigger the Modal */
 #myImg {
@@ -183,7 +207,9 @@ function show_modal(src, caption) {
 
             <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}">
               <div class="card mb-4 box-shadow">
-                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; "></div>
+                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; ">
+                    <div style="position: absolute; top: 5px; left: auto; bottom: auto; right: 5px; "><i class="fa fa-heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
+                </div>
                 <div class="card-body">
                   <p class="card-text">
                   {{ _("Stoffbreite") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
