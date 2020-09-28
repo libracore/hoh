@@ -19,9 +19,8 @@ td {
 <!--  IMAGE MODAL -->
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
   <!-- The Close Button -->
-  <span class="close">&times;</span>
+  <span class="closemodal"><i class="fa fa-times-circle"></i></span>
 
   <!-- Modal Content (The Image) -->
   <img class="modal-content" id="img01">
@@ -37,31 +36,34 @@ var modalImg = document.getElementById("img01");
 var captionText = document.getElementById("caption");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("closemodal")[0];
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-  modal.style.display = "none";
+    modal.style.display = "none";
 }
 
 function show_modal(src, caption) {
-  modal.style.display = "block";
-  modalImg.src = src;
-  captionText.innerHTML = caption;
+    // display modal
+    modal.style.display = "block";
+    modalImg.src = src;
+    captionText.innerHTML = caption;
 }
 </script>
 
 <script>
 // like a product
 function like(product, heart_object) {
+    // prevent recursive hits
+    event.stopPropagation();
     // change heart color
     var heart = document.getElementById(heart_object);
     var like = 1
-    if (heart.style.color == "red") {
+    if (heart.style.color == "rgb(181, 1, 66)") {
         heart.style.color = "#36414c";
         like = 0;
     } else {
-        heart.style.color = "red";
+        heart.style.color = "rgb(181, 1, 66)";
     }
     // call trace function
     frappe.call({
@@ -132,13 +134,15 @@ function like(product, heart_object) {
 }
 
 /* The Close Button */
-.close {
+.closemodal {
   position: absolute;
-  right: 35px;
-  color: #f1f1f1;
+  right: 15px;
+  color: #b50142;
   font-size: 40px;
   font-weight: bold;
   transition: 0.3s;
+  z-index: 1000;
+  cursor: pointer;
 }
 
 .close:hover,
@@ -207,7 +211,7 @@ function like(product, heart_object) {
 
             <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}">
               <div class="card mb-4 box-shadow">
-                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; ">
+                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
                     <div style="position: absolute; top: 5px; left: auto; bottom: auto; right: 5px; "><i class="fa fa-heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
                 </div>
                 <div class="card-body">
@@ -216,20 +220,24 @@ function like(product, heart_object) {
                   {{ _("Fertigbreite") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
                   {{ _("Zusammensetzung") }}: {{ item.zusammensetzung }}<br>
                   {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
-                  {{ item.pflegesymbole }}
+                  <!-- {{ item.pflegesymbole }} -->
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary" onclick="show_modal('{{ item.image }}', '{{ item.name }}');">{{ item.name }}</button>
                     </div>
-                    <small class="text-muted">
-                    <!-- price category -->
-                    €
-                    {%- if item.rate > 100 %}€{% endif %}
-                    {%- if item.rate > 130 %}€{% endif %}
-                    {%- if item.rate > 170 %}€{% endif %}
-                    {%- if item.rate > 200 %}€{% endif %}
-                    </small>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <p class="card-text" style="font-weight: 700; color: gold; ">
+                        <!-- price category -->
+                        &euro;
+                        {%- if item.rate > 100 %}&euro;{% endif %}
+                        {%- if item.rate > 130 %}&euro;{% endif %}
+                        {%- if item.rate > 170 %}&euro;{% endif %}
+                        {%- if item.rate > 200 %}&euro;{% endif %}
+                        </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -291,6 +299,10 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 </script>
+
+<!-- language blocks -->
+<div id="DE"></div>
+<div id="EN"></div>
 
 {% endblock %}
 
