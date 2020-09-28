@@ -43,6 +43,8 @@
   "entwicklungskosten",
   "section_stickereitext",
   "stickereitext",
+  "section_nadelinfo",
+  "nadelinfo",
   "section_details_2",
   "details",
   "section_satznummern",
@@ -295,10 +297,21 @@
    "fieldtype": "Currency",
    "label": "Entwicklungskosten",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_nadelinfo",
+   "fieldtype": "Section Break",
+   "label": "Nadelinfo"
+  },
+  {
+   "description": "in Meter",
+   "fieldname": "nadelinfo",
+   "fieldtype": "Small Text",
+   "label": "Nadelinfo"
   }
  ],
  "image_field": "image",
- "modified": "2020-06-29 15:41:21.098626",
+ "modified": "2020-09-18 16:15:10.882232",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",

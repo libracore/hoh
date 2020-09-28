@@ -1,0 +1,304 @@
+{% extends "templates/web.html" %}
+
+{% block title %} {{ _("Online Catalogue") }} {% endblock %}
+
+{% block header %}<h1>{{ _("Online Catalogue") }}</h1>{% endblock %}
+
+{% block page_content %}
+<style>
+td {
+    padding: 6px;
+    vertical-align: top;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+</style>
+
+<!--  IMAGE MODAL -->
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- The Close Button -->
+  <span class="close">&times;</span>
+
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="img01">
+
+  <!-- Modal Caption (Image Text) -->
+  <div id="caption"></div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+function show_modal(src, caption) {
+  modal.style.display = "block";
+  modalImg.src = src;
+  captionText.innerHTML = caption;
+}
+</script>
+
+<script>
+// like a product
+function like(product, heart_object) {
+    // change heart color
+    var heart = document.getElementById(heart_object);
+    var like = 1
+    if (heart.style.color == "red") {
+        heart.style.color = "#36414c";
+        like = 0;
+    } else {
+        heart.style.color = "red";
+    }
+    // call trace function
+    frappe.call({
+    method: 'hoh.hoh.doctype.online_catalogue_like_trace.online_catalogue_like_trace.add_like',
+    args: {
+        user: frappe.session.user,
+        bemusterung: product,
+        like: like
+    }
+});
+}
+</script>
+
+<style>
+ /* Style the Image Used to Trigger the Modal */
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+} 
+
+/* ***** filter divs ***** */
+.filterDiv {
+  float: left;
+  /*background-color: #2196F3;
+  color: #ffffff;
+  width: 100px;
+  line-height: 100px;
+  text-align: center;
+  margin: 2px;*/
+  display: none; /* Hidden by default */
+}
+
+/* The "show" class is added to the filtered elements */
+.show {
+  display: block;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 4px 8px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Add a light grey background on mouse-over */
+.btn:hover {
+  background-color: #ddd;
+}
+
+/* Add a dark background to the active button */
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+</style>
+
+<div class="row" id="buttonContainer">
+  <button class="btn active" onclick="filterSelection('all')"> {{ _("Show all") }}</button>&nbsp;
+  {% for f in filters %}
+  <button class="btn" onclick="filterSelection('{{ f.lower().replace(' ', '') }}')">{{ _(f) }}</button>&nbsp;
+  {% endfor %}
+</div>
+
+<div class="album py-5 bg-light">
+        <div class="container_cards" style="overflow: hidden; ">
+          <div class="row">
+          {% for item in items %}
+
+            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}">
+              <div class="card mb-4 box-shadow">
+                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; ">
+                    <div style="position: absolute; top: 5px; left: auto; bottom: auto; right: 5px; "><i class="fa fa-heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
+                  {{ _("Stoffbreite") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
+                  {{ _("Fertigbreite") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
+                  {{ _("Zusammensetzung") }}: {{ item.zusammensetzung }}<br>
+                  {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
+                  {{ item.pflegesymbole }}
+                  </p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="show_modal('{{ item.image }}', '{{ item.name }}');">{{ item.name }}</button>
+                    </div>
+                    <small class="text-muted">
+                    <!-- price category -->
+                    €
+                    {%- if item.rate > 100 %}€{% endif %}
+                    {%- if item.rate > 130 %}€{% endif %}
+                    {%- if item.rate > 170 %}€{% endif %}
+                    {%- if item.rate > 200 %}€{% endif %}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          {% endfor %}
+          </div>
+          
+        </div>
+</div>
+
+<script>
+// make cards filterable
+filterSelection("all")
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("filterDiv");
+  if (c == "all") c = "";
+  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+  for (i = 0; i < x.length; i++) {
+    w3RemoveClass(x[i], "show");
+    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+  }
+}
+
+// Show filtered elements
+function w3AddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {
+      element.className += " " + arr2[i];
+    }
+  }
+}
+
+// Hide elements that are not selected
+function w3RemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+// Add active class to the current control button (highlight it)
+var btnContainer = document.getElementById("buttonContainer");
+var btns = btnContainer.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+</script>
+
+{% endblock %}
+
+{% block base_scripts %}
+<!-- js should be loaded in body! -->
+<script type="text/javascript" src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/assets/js/frappe-web.min.js"></script>
+<script type="text/javascript" src="/assets/js/control.min.js"></script>
+<script type="text/javascript" src="/assets/js/dialog.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-4-web.min.js"></script>
+{% endblock %}

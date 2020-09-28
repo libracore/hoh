@@ -4,3 +4,4 @@
 *.swp
 tags
 hoh/docs/current
+__pycache__

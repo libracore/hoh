@@ -45,6 +45,12 @@ def get_data(filters):
         filters.stickmaschine = "%"
     else:
         filters.stickmaschine = "%{0}%".format(filters.stickmaschine)
+    # get additional conditions
+    conditions = ""
+    if filters.from_date:
+        conditions += "AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'".format(from_date=filters.from_date)
+    if filters.to_date:
+        conditions += "AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'".format(to_date=filters.to_date)
     # get shift hours
     company = frappe.defaults.get_global_default('company')
     hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
@@ -59,7 +65,7 @@ def get_data(filters):
          `tabSales Order`.`delivery_Date` AS `delivery_date`,
          SUBSTRING_INDEX(`tabWork Order`.`planned_start_date`, ' ', 1)  AS `start_date`,
          `tabWork Order`.`expected_delivery_date` AS `end_date`,
-         `tabDessin`.`stickmaschine` AS `stickmaschine`,
+         `tabWork Order`.`stickmaschine` AS `stickmaschine`,
          `tabWork Order`.`production_item` AS `item`,
          `tabWork Order`.`qty` AS `qty`,
          `tabWork Order`.`stock_uom` AS `uom`,
@@ -85,11 +91,12 @@ def get_data(filters):
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
         LEFT JOIN `tabStickmaschine` ON `tabDessin`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
-          `tabDessin`.`stickmaschine` LIKE "{stickmaschine}"
+          `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` != "Completed"
+          {conditions}
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;
-      """.format(stickmaschine=filters.stickmaschine, hours_per_shift=hours_per_shift)
+      """.format(stickmaschine=filters.stickmaschine, conditions=conditions, hours_per_shift=hours_per_shift)
 
     data = frappe.db.sql(sql_query, as_dict=1)
 

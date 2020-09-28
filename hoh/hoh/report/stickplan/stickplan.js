@@ -3,12 +3,31 @@
 /* eslint-disable */
 
 frappe.query_reports["Stickplan"] = {
-	"filters": [
+    "filters": [
         {
             "fieldname":"stickmaschine",
             "label": __("Stickmaschine"),
             "fieldtype": "Link",
             "options": "Stickmaschine"
+        },
+        {
+            "fieldname":"from_date",
+            "label": __("From Date"),
+            "fieldtype": "Date",
+            "default": frappe.datetime.add_months(frappe.datetime.get_today(), -12),
+            "width": "60px"
+        },
+                {
+            "fieldname":"to_date",
+            "label": __("To Date"),
+            "fieldtype": "Date",
+            "default": frappe.datetime.add_months(frappe.datetime.get_today(), +12),
+            "width": "60px"
         }
-	]
+    ],
+    "onload": (report) => {
+        report.page.add_inner_button(__('Work Order List'), function () {
+           window.location.href="/desk#List/Work Order/List";
+        })
+    }
 };
