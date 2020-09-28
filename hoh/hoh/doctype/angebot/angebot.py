@@ -38,11 +38,16 @@ def get_list_context(context=None):
 def get_care_symbol_html(bemusterung):
     # prepare query
     sql_query = """SELECT `tabPflegesymbol`.`titel` AS `title`, 
-          `tabPflegesymbol`.`image` AS `url`
+          `tabPflegesymbol`.`image` AS `url`,
+          IF(`tabPflegesymbol`.`typ` = "Waschen", 1,
+          IF(`tabPflegesymbol`.`typ` = "Bleichen", 2,
+          IF(`tabPflegesymbol`.`typ` = "Bügeln", 3,
+          IF(`tabPflegesymbol`.`typ` = "Reinigung", 4, 5)))) AS `sort`
         FROM `tabItem Pflegesymbol` 
         LEFT JOIN `tabPflegesymbol` ON `tabItem Pflegesymbol`.`pflegesymbol` = `tabPflegesymbol`.`name`
         WHERE `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
-          AND `tabItem Pflegesymbol`.`parent` = "{bemusterung}";""".format(bemusterung=bemusterung)
+          AND `tabItem Pflegesymbol`.`parent` = "{bemusterung}"
+        ORDER BY `sort` ASC;""".format(bemusterung=bemusterung)
     # collect data
     data = {
         'symbols': frappe.db.sql(sql_query, as_dict=True)
