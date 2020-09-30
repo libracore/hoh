@@ -30,7 +30,7 @@ def get_context(context):
 
     context.items = items
 
-    raw_filters = frappe.get_all("Produktkategorie", fields=['name'])
+    raw_filters = frappe.get_all("Produktkategorie", fields=['name'], order_by='sort_index')
     filters = []
     for f in raw_filters:
         filters.append(f['name'])

@@ -164,7 +164,7 @@ function show_modal(src, caption) {
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{{ m.image or m.dessin_image }}" alt="{{ m.bemusterung }}">
+                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ m.image or m.dessin_image }}', '{{ m.bemusterung }}');"></div>
                 <div class="card-body">
                   <p class="card-text">
                   {{ _("Stoffbreite") }}: {{ m.stoffbreite_von }} - {{ m.stoffbreite_bis }}<br>

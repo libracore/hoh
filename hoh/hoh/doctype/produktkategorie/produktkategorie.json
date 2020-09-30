@@ -5,7 +5,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "title",
+  "sort_index"
  ],
  "fields": [
   {
@@ -15,9 +16,16 @@
    "label": "Title",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "description": "Lowest number comes first",
+   "fieldname": "sort_index",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Sort index"
   }
  ],
- "modified": "2020-09-23 18:01:23.755099",
+ "modified": "2020-09-30 21:33:27.669338",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Produktkategorie",

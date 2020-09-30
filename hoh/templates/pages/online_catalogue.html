@@ -67,13 +67,28 @@ function like(product, heart_object) {
     }
     // call trace function
     frappe.call({
-    method: 'hoh.hoh.doctype.online_catalogue_like_trace.online_catalogue_like_trace.add_like',
-    args: {
-        user: frappe.session.user,
-        bemusterung: product,
-        like: like
+        method: 'hoh.hoh.doctype.online_catalogue_like_trace.online_catalogue_like_trace.add_like',
+        args: {
+            user: frappe.session.user,
+            bemusterung: product,
+            like: like
+        }
+    });
+}
+
+// request a product
+function cart(product, cart_object) {
+    // prevent recursive hits
+    event.stopPropagation();
+    // change heart color
+    var cart = document.getElementById(cart_object);
+    var like = 1
+    if (cart.style.color == "rgb(181, 1, 66)") {
+        cart.style.color = "#36414c";
+        like = 0;
+    } else {
+        cart.style.color = "rgb(181, 1, 66)";
     }
-});
 }
 </script>
 
@@ -202,6 +217,8 @@ function like(product, heart_object) {
   {% for f in filters %}
   <button class="btn" onclick="filterSelection('{{ f.lower().replace(' ', '') }}')">{{ _(f) }}</button>&nbsp;
   {% endfor %}
+  <!--  add special filters and functions -->
+  <span style="font-size: 14pt; "><i class="fa fa-heart fa-lg show-likes" onclick="show_likes()"></i></span>
 </div>
 
 <div class="album py-5 bg-light">
@@ -209,10 +226,11 @@ function like(product, heart_object) {
           <div class="row">
           {% for item in items %}
 
-            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}">
+            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}">
               <div class="card mb-4 box-shadow">
                 <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
-                    <div style="position: absolute; top: 5px; left: auto; bottom: auto; right: 5px; "><i class="fa fa-heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
+                    <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
+                    <div style="position: absolute; top: 5px; left: 25px; bottom: auto; right: auto; "><i class="fa fa-shopping-cart cart" onclick="cart('{{ item.name }}', 'cart{{ loop.index }}');" style="cursor: pointer; " id="cart{{ loop.index }}"></i></div>
                 </div>
                 <div class="card-body">
                   <p class="card-text">
@@ -220,7 +238,7 @@ function like(product, heart_object) {
                   {{ _("Fertigbreite") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
                   {{ _("Zusammensetzung") }}: {{ item.zusammensetzung }}<br>
                   {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
-                  <!-- {{ item.pflegesymbole }} -->
+                  {{ item.pflegesymbole }}
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
@@ -253,39 +271,65 @@ function like(product, heart_object) {
 // make cards filterable
 filterSelection("all")
 function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
-  if (c == "all") c = "";
-  // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "show");
-    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-  }
+    var x, i;
+    x = document.getElementsByClassName("filterDiv");
+    if (c == "all") c = "";
+    // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+    for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+    }
 }
 
 // Show filtered elements
 function w3AddClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {
-      element.className += " " + arr2[i];
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) {
+            element.className += " " + arr2[i];
+        }
     }
-  }
 }
 
 // Hide elements that are not selected
 function w3RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+            arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
     }
-  }
-  element.className = arr1.join(" ");
+    element.className = arr1.join(" ");
+}
+
+function show_likes() {
+    // deactivate buttons
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    current = document.getElementsByClassName("show-likes");
+    current[0].className += " active";
+    var x, i;
+    x = document.getElementsByClassName("filterDiv");
+    // remove show class from all cards
+    for (i = 0; i < x.length; i++) {
+      w3RemoveClass(x[i], "show");
+    }
+    // find all card ids with red heart
+    var cards = [];
+    heart_elements = document.getElementsByClassName("heart");
+    for (i = 0; i < heart_elements.length; i++) {
+        if (heart_elements[i].style.color == "rgb(181, 1, 66)") {
+            cards.push(heart_elements[i].id.replace("heart", "card"));
+        }
+    }
+    // show hearted cards
+    for (i = 0; i < cards.length; i++) {
+        w3AddClass(document.getElementById(cards[i]), "show");
+    }
 }
 
 // Add active class to the current control button (highlight it)
@@ -298,6 +342,17 @@ for (var i = 0; i < btns.length; i++) {
     this.className += " active";
   });
 }
+
+// add title line buttons (concept, not used as this gives a high top bar)
+/* var breadcrumbs = document.getElementsByClassName("page-breadcrumbs");
+if (breadcrumbs.length > 0) {
+    var catalogue_nav = document.createElement("div");
+    catalogue_nav.classList.add("container");
+    catalogue_nav.style.textAlign = "right";
+    catalogue_nav.innerHTML = '<i class="fa fa-heart"></i>';
+    //catalogue_nav.appendChild(document.createTextNode('<i class="fa fa-heart"></i>'));
+    breadcrumbs[0].appendChild(catalogue_nav);
+} */
 </script>
 
 <!-- language blocks -->
