@@ -18,7 +18,7 @@ td {
 
 <!--  IMAGE MODAL -->
 <!-- The Modal -->
-<div id="myModal" class="modal">
+<div id="myModal" class="image-modal modal">
   <!-- The Close Button -->
   <span class="closemodal"><i class="fa fa-times-circle"></i></span>
 
@@ -103,7 +103,7 @@ function cart(product, cart_object) {
 #myImg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
-.modal {
+.image-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -192,51 +192,51 @@ function cart(product, cart_object) {
 }
 
 /* Style the buttons */
-.btn {
+/* .btn {
   border: none;
   outline: none;
   padding: 4px 8px;
   background-color: #f1f1f1;
   cursor: pointer;
-}
+} */
 
 /* Add a light grey background on mouse-over */
-.btn:hover {
+/*.btn:hover {
   background-color: #ddd;
-}
+}*/
 
 /* Add a dark background to the active button */
 .btn.active {
-  background-color: #666;
+  background-color: rgb(181, 1, 66) !important;
   color: white;
 }
 </style>
 
 <div class="row" id="buttonContainer">
-  <button class="btn active" onclick="filterSelection('all')"> {{ _("Show all") }}</button>&nbsp;
+  <button class="btn btn-secondary active" onclick="filterSelection('all')" style="margin: 1px; "> {{ _("Show all") }}</button>&nbsp;
   {% for f in filters %}
-  <button class="btn" onclick="filterSelection('{{ f.lower().replace(' ', '') }}')">{{ _(f) }}</button>&nbsp;
+  <button class="btn btn-secondary " onclick="filterSelection('{{ f.lower().replace(' ', '') }}')"  style="margin: 1px; ">{{ _(f) }}</button>&nbsp;
   {% endfor %}
   <!--  add special filters and functions -->
-  <span style="font-size: 14pt; "><i class="fa fa-heart fa-lg show-likes" onclick="show_likes()"></i></span>
+  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-heart fa-lg show-likes" onclick="show_likes()" title="{{ _('Show likes') }}"></i></span>&nbsp;
+  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-shopping-cart fa-lg shopping_cart" onclick="place_request()" title="{{ _('Request') }}"></i></span>&nbsp;
 </div>
 
 <div class="album py-5 bg-light">
         <div class="container_cards" style="overflow: hidden; ">
           <div class="row">
           {% for item in items %}
-
             <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}">
               <div class="card mb-4 box-shadow">
                 <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
-                    <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}"></i></div>
-                    <div style="position: absolute; top: 5px; left: 25px; bottom: auto; right: auto; "><i class="fa fa-shopping-cart cart" onclick="cart('{{ item.name }}', 'cart{{ loop.index }}');" style="cursor: pointer; " id="cart{{ loop.index }}"></i></div>
+                    <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}" title="{{ _('Like') }}"></i></div>
+                    <div style="position: absolute; top: 5px; left: 25px; bottom: auto; right: auto; "><i class="fa fa-shopping-cart cart" onclick="cart('{{ item.name }}', 'cart{{ loop.index }}');" style="cursor: pointer; " id="cart{{ loop.index }}" title="{{ _('Add to request list') }}" data-item="{{ item.name }}"></i></div>
                 </div>
                 <div class="card-body">
                   <p class="card-text">
-                  {{ _("Stoffbreite") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
-                  {{ _("Fertigbreite") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
-                  {{ _("Zusammensetzung") }}: {{ item.zusammensetzung }}<br>
+                  {{ _("Fabric width") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
+                  {{ _("Final width") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
+                  {{ _("Composition") }}: {{ item.zusammensetzung }}<br>
                   {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
                   {{ item.pflegesymbole }}
                   </p>
@@ -329,6 +329,41 @@ function show_likes() {
     // show hearted cards
     for (i = 0; i < cards.length; i++) {
         w3AddClass(document.getElementById(cards[i]), "show");
+    }
+}
+
+function place_request() {
+    // find all card ids with red shopping cart
+    var items = [];
+    cart_elements = document.getElementsByClassName("cart");
+    for (var i = 0; i < cart_elements.length; i++) {
+        if (cart_elements[i].style.color == "rgb(181, 1, 66)") {
+            items.push({'bemusterung': cart_elements[i].dataset.item});
+        }
+    }
+    if (items.length > 0) {
+        frappe.confirm(
+            __("Would you like to request the selected items (marked with the shopping cart icon)?"),
+            function () {
+                // on yes
+                // place request on active cards
+                frappe.call({
+                    method: 'hoh.hoh.doctype.online_catalogue_request.online_catalogue_request.place_request',
+                    args: {
+                        user: frappe.session.user,
+                        items: items
+                    },
+                    callback: function(response) {
+                        frappe.msgprint( __("Thank you for your enquiry. We will contact you as soon as possible."), __("Request received") );
+                    }
+                });
+            },
+            function () {
+                // on no
+            }
+        );
+    } else {
+        frappe.msgprint( __("Please mark items first with the shopping cart icon.") );
     }
 }
 

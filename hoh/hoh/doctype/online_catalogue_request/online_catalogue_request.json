@@ -1,12 +1,12 @@
 {
- "creation": "2020-09-23 20:21:36.127567",
+ "creation": "2020-09-30 21:42:20.350834",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "user",
-  "bemusterung",
-  "like"
+  "section_requested_items",
+  "items"
  ],
  "fields": [
   {
@@ -18,25 +18,21 @@
    "reqd": 1
   },
   {
-   "fieldname": "bemusterung",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Bemusterung",
-   "options": "Bemusterung",
-   "reqd": 1
+   "fieldname": "section_requested_items",
+   "fieldtype": "Section Break",
+   "label": "Requested items"
   },
   {
-   "default": "0",
-   "fieldname": "like",
-   "fieldtype": "Check",
-   "in_list_view": 1,
-   "label": "Like"
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Online Catalogue Request Item"
   }
  ],
- "modified": "2020-09-30 21:42:38.147955",
+ "modified": "2020-09-30 22:52:31.660849",
  "modified_by": "Administrator",
  "module": "hoh",
- "name": "Online Catalogue Like Trace",
+ "name": "Online Catalogue Request",
  "owner": "Administrator",
  "permissions": [
   {
@@ -63,8 +59,9 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "bemusterung",
+ "title_field": "user",
  "track_changes": 1
 }

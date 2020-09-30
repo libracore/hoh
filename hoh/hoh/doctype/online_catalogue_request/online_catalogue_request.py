@@ -5,17 +5,19 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+import json
 
-class OnlineCatalogueLikeTrace(Document):
+class OnlineCatalogueRequest(Document):
     pass
 
 @frappe.whitelist()
-def add_like(user, bemusterung, like=1):
-    new_like = frappe.get_doc({
-        'doctype': "Online Catalogue Like Trace",
+def place_request(user, items):
+    if isinstance(items, str):
+        items = data = json.loads(items)
+    new_request = frappe.get_doc({
+        'doctype': "Online Catalogue Request",
         'user': user,
-        'bemusterung': bemusterung,
-        'like': like
+        'items': items
     })
-    new_like.insert()
+    new_request.insert()
     return

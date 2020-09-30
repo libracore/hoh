@@ -5,4 +5,18 @@ DocType: Bemusterung,Title,Titel
 DocType: Dessin,Cut,Cut
 DocType: Item Group,Print,Print
 DocType: HOH Settings,HOH Settings,HOH-Einstellungen
+DocType: Produktkategorie,Lowest number comes first,Kleinste Nummer zuerst
+DocType: Produktkategorie,Sort index,Reihenfolge
 Page: Online Catalogue,Online Catalogue,Onlinekatalog
+Page: Online Catalogue,Show likes,Favoriten anzeigen
+Page: Online Catalogue,Country of Origin,Ursprungsland
+Page: Online Catalogue,Fabric width,Stoffbreite
+Page: Online Catalogue,Final width,Fertigbreite
+Page: Online Catalogue,Composition,Zusammensetzung
+Page: Online Catalogue,Request,Anfragen
+Page: Online Catalogue,Would you like to request the selected items (marked with the shopping cart icon)?,Möchten Sie die mit einem Einkaufswagen markierten Produkte anfragen?
+Page: Online Catalogue,Add to request list,Zu Anfrageliste hinzufügen
+Page: Online Catalogue,Like,Favorit
+Page: Online Catalogue,Please mark items first with the shopping cart icon.,Bitte markieren Sie zuerst Produkte mit dem Einkaufswagen-Symbol
+Page: Online Catalogue,Thank you for your enquiry. We will contact you as soon as possible.,Vielen Dank für Ihre Anfrgae. Wir werden uns schnellstmöglich bei Ihnen melden.
+Page: Online Catalogue,Request received,Anfrage erhalten
