@@ -95,120 +95,100 @@ function cart(product, cart_object) {
 <style>
  /* Style the Image Used to Trigger the Modal */
 #myImg {
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 #myImg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
 .image-modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
 /* Modal Content (Image) */
 .modal-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
 }
 
 /* Caption of Modal Image (Image Text) - Same Width as the Image */
 #caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  height: 150px;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
 }
 
 /* Add Animation - Zoom in the Modal */
 .modal-content, #caption {
-  animation-name: zoom;
-  animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
 }
 
 @keyframes zoom {
-  from {transform:scale(0)}
-  to {transform:scale(1)}
+    from {transform:scale(0)}
+    to {transform:scale(1)}
 }
 
 /* The Close Button */
 .closemodal {
-  position: absolute;
-  right: 15px;
-  color: #b50142;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
-  z-index: 1000;
-  cursor: pointer;
+    position: absolute;
+    right: 15px;
+    color: #b50142;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 1000;
+    cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
-  .modal-content {
-    width: 100%;
-  }
+    .modal-content {
+        width: 100%;
+    }
 } 
 
 /* ***** filter divs ***** */
 .filterDiv {
-  float: left;
-  /*background-color: #2196F3;
-  color: #ffffff;
-  width: 100px;
-  line-height: 100px;
-  text-align: center;
-  margin: 2px;*/
-  display: none; /* Hidden by default */
+    float: left;
+    display: none; /* Hidden by default */
 }
 
 /* The "show" class is added to the filtered elements */
 .show {
-  display: block;
+    display: block;
 }
-
-/* Style the buttons */
-/* .btn {
-  border: none;
-  outline: none;
-  padding: 4px 8px;
-  background-color: #f1f1f1;
-  cursor: pointer;
-} */
-
-/* Add a light grey background on mouse-over */
-/*.btn:hover {
-  background-color: #ddd;
-}*/
 
 /* Add a dark background to the active button */
 .btn.active {
-  background-color: rgb(181, 1, 66) !important;
-  color: white;
+    background-color: rgb(181, 1, 66) !important;
+    color: white;
 }
 </style>
 
@@ -218,15 +198,16 @@ function cart(product, cart_object) {
   <button class="btn btn-secondary " onclick="filterSelection('{{ f.lower().replace(' ', '') }}')"  style="margin: 1px; ">{{ _(f) }}</button>&nbsp;
   {% endfor %}
   <!--  add special filters and functions -->
-  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-heart fa-lg show-likes" onclick="show_likes()" title="{{ _('Show likes') }}"></i></span>&nbsp;
-  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-shopping-cart fa-lg shopping_cart" onclick="place_request()" title="{{ _('Request') }}"></i></span>&nbsp;
+  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-heart fa-lg show-likes" onclick="show_likes()" title="{{ _('Show likes') }}"></i></span>&nbsp;&nbsp;
+  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-shopping-cart fa-lg shopping_cart" onclick="place_request()" title="{{ _('Request') }}"></i></span>&nbsp;&nbsp;&nbsp;
+  <span style="font-size: 14pt; cursor: pointer; margin-top: 5px; "><i class="fa fa-print fa-lg printer" onclick="print()" title="{{ _('Print') }}"></i></span>&nbsp;
 </div>
 
 <div class="album py-5 bg-light">
         <div class="container_cards" style="overflow: hidden; ">
           <div class="row">
           {% for item in items %}
-            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}">
+            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}" data-item="{{ item.name }}">
               <div class="card mb-4 box-shadow">
                 <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
                     <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}" title="{{ _('Like') }}"></i></div>
@@ -316,7 +297,7 @@ function show_likes() {
     x = document.getElementsByClassName("filterDiv");
     // remove show class from all cards
     for (i = 0; i < x.length; i++) {
-      w3RemoveClass(x[i], "show");
+        w3RemoveClass(x[i], "show");
     }
     // find all card ids with red heart
     var cards = [];
@@ -332,6 +313,7 @@ function show_likes() {
     }
 }
 
+// this function will place all shopping-cart marked items in request
 function place_request() {
     // find all card ids with red shopping cart
     var items = [];
@@ -367,15 +349,61 @@ function place_request() {
     }
 }
 
+// this function will generate a pdf from all visible cards
+function print() {
+    // find all shown card
+    var items = [];
+    cart_elements = document.getElementsByClassName("show");
+    for (var i = 0; i < cart_elements.length; i++) {
+        items.push(cart_elements[i].dataset.item);
+    }
+    if (items.length > 0) {
+        // place request on active cards
+        /*frappe.call({
+            method: 'hoh.templates.pages.online_catalogue.get_print',
+            args: {
+                selected_items: items
+            },
+            callback: function(r) {
+                if (r.message) {
+                    // prepare the pdf file for download
+                    download("hoferhecht.pdf", r.message.content);
+                } 
+            }
+        });*/
+        /* var url = frappe.urllib.get_full_url("/api/method/hoh.templates.pages.online_catalogue.download_pdf"  
+                + "?selected_items=" + encodeURIComponent("{0}".format(items))); */
+        var url = "/api/method/hoh.templates.pages.online_catalogue.download_pdf"  
+                + "?selected_items=" + encodeURIComponent(items.join("|"));
+        var w = window.open(url);
+        if (!w) {
+            frappe.msgprint(__("Please enable pop-ups")); return;
+        }
+    }
+}
+
+function download(filename, content) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:application/pdf;charset=utf-8,' + encodeURIComponent(content));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
 // Add active class to the current control button (highlight it)
 var btnContainer = document.getElementById("buttonContainer");
 var btns = btnContainer.getElementsByClassName("btn");
 for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
+    btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+    });
 }
 
 // add title line buttons (concept, not used as this gives a high top bar)

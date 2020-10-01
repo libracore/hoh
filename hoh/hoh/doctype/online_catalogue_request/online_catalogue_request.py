@@ -13,7 +13,7 @@ class OnlineCatalogueRequest(Document):
 @frappe.whitelist()
 def place_request(user, items):
     if isinstance(items, str):
-        items = data = json.loads(items)
+        items = json.loads(items)
     new_request = frappe.get_doc({
         'doctype': "Online Catalogue Request",
         'user': user,

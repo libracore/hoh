@@ -1,0 +1,25 @@
+<!-- header -->
+<div id="header-html" class="hidden-pdf">
+  {% set letter_head = frappe.get_doc("Letter Head", "Commercial") %}
+  {% if letter_head %}
+    {{ letter_head.content }}
+  {% else %}
+    <p>Letter head Standard not found. Please define the letter head under print settings.</p>
+  {% endif %}
+</div>
+
+<!-- content -->
+<h1>{{ _("Online Catalogue") }}</h1>
+<p>{{ date }}</p>
+
+<!-- footer -->
+<div id="footer-html" class="visible-pdf">
+  {% if letter_head %}
+    {{ letter_head.footer }}
+  {% else %}
+    <p>No letter head found. Please define a letter head under print settings and mark it as default</p>
+  {% endif %}
+  <p style="font-size: 6pt !important; text-align: right">
+    {{ _("Page") }} <span class="page"></span> {{ _("of") }} <span class="topage"></span>
+  </p>
+</div>

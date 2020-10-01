@@ -5,6 +5,9 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 from hoh.hoh.doctype.angebot.angebot import get_care_symbol_html, get_composition_string, get_category_string
+from datetime import datetime
+import pdfkit
+import os
 
 no_cache = 1
 # check login
@@ -36,3 +39,51 @@ def get_context(context):
         filters.append(f['name'])
     context.filters = filters
     
+@frappe.whitelist()
+def download_pdf(selected_items):
+    # parse parameter to list
+    if isinstance(selected_items, str):
+        selected_items = selected_items.split("|")
+    # create temporary file
+    fname = os.path.join("/tmp", "frappe-pdf-{0}.pdf".format(frappe.generate_hash()))
+    # get raw data
+    items = []
+    for s in selected_items:
+        doc = frappe.get_doc("Bemusterung", s)
+        items.append({
+            'name': doc.name, 
+            'image': doc.image, 
+            'stoffbreite_von': doc.stoffbreite_von, 
+            'stoffbreite_bis': doc.stoffbreite_bis, 
+            'fertigbreite_von': doc.fertigbreite_von,
+            'fertigbreite_bis': doc.fertigbreite_bis, 
+            'gewicht': doc.gewicht, 
+            'rate': doc.rate,
+            'country_of_origin':  doc.country_of_origin,
+            'zusammensetzung': get_composition_string(doc.name),
+            'pflegesymbole': get_care_symbol_html(doc.name)
+        })
+    data = { 
+        'items': items,
+        'date': datetime.today().strftime('%d.%m.%Y'),
+        'doc': {
+            'customer': None
+        }
+    }
+    # prepare content
+    content = frappe.render_template('hoh/templates/pages/catalogue_print.html', data)
+    options={}
+    # generate pdf
+    pdfkit.from_string(content, fname, options=options or {})
+    with open(fname, "rb") as fileobj:
+        filedata = fileobj.read()
+    cleanup(fname)
+    # prepare for download
+    frappe.local.response.filename = "hoferhecht_{0}.pdf".format(datetime.today().strftime('%Y-%m-%d'))
+    frappe.local.response.filecontent = filedata
+    frappe.local.response.type = "download"
+
+def cleanup(fname):
+    if os.path.exists(fname):
+        os.remove(fname)
+    return
