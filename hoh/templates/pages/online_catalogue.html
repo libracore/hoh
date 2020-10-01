@@ -204,48 +204,48 @@ function cart(product, cart_object) {
 </div>
 
 <div class="album py-5 bg-light">
-        <div class="container_cards" style="overflow: hidden; ">
-          <div class="row">
-          {% for item in items %}
-            <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}" data-item="{{ item.name }}">
-              <div class="card mb-4 box-shadow">
-                <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
-                    <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}" title="{{ _('Like') }}"></i></div>
-                    <div style="position: absolute; top: 5px; left: 25px; bottom: auto; right: auto; "><i class="fa fa-shopping-cart cart" onclick="cart('{{ item.name }}', 'cart{{ loop.index }}');" style="cursor: pointer; " id="cart{{ loop.index }}" title="{{ _('Add to request list') }}" data-item="{{ item.name }}"></i></div>
+    <div class="container_cards" style="overflow: hidden; ">
+      <div class="row">
+      {% for item in items %}
+        <div class="col-md-3 col-sm-4 col-xs-6 filterDiv {{ item.categories }}" id="card{{ loop.index }}" data-item="{{ item.name }}">
+          <div class="card mb-4 box-shadow">
+            <div style="width: 100%; padding-top: 120%; background-image: url('{{ item.image }}'); background-size: 100%; position: relative; "  onclick="show_modal('{{ item.image }}', '{{ item.name }}');">
+                <div style="position: absolute; top: 5px; left: 5px; bottom: auto; right: auto; "><i class="fa fa-heart heart" onclick="like('{{ item.name }}', 'heart{{ loop.index }}');" style="cursor: pointer; " id="heart{{ loop.index }}" title="{{ _('Like') }}"></i></div>
+                <div style="position: absolute; top: 5px; left: 25px; bottom: auto; right: auto; "><i class="fa fa-shopping-cart cart" onclick="cart('{{ item.name }}', 'cart{{ loop.index }}');" style="cursor: pointer; " id="cart{{ loop.index }}" title="{{ _('Add to request list') }}" data-item="{{ item.name }}"></i></div>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+              {{ _("Fabric width") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
+              {{ _("Final width") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
+              {{ _("Composition") }}: {{ item.zusammensetzung }}<br>
+              {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
+              {{ item.pflegesymbole }}
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="show_modal('{{ item.image }}', '{{ item.name }}');">{{ item.name }}</button>
                 </div>
-                <div class="card-body">
-                  <p class="card-text">
-                  {{ _("Fabric width") }}: {{ item.stoffbreite_von }} - {{ item.stoffbreite_bis }}<br>
-                  {{ _("Final width") }}: {{ item.fertigbreite_von }} - {{ item.fertigbreite_bis }}<br>
-                  {{ _("Composition") }}: {{ item.zusammensetzung }}<br>
-                  {{ _("Country of Origin") }}: {{ item.country_of_origin or "Austria" }}<br>
-                  {{ item.pflegesymbole }}
-                  </p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="show_modal('{{ item.image }}', '{{ item.name }}');">{{ item.name }}</button>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <p class="card-text" style="font-weight: 700; color: gold; ">
-                        <!-- price category -->
-                        &euro;
-                        {%- if item.rate > 100 %}&euro;{% endif %}
-                        {%- if item.rate > 130 %}&euro;{% endif %}
-                        {%- if item.rate > 170 %}&euro;{% endif %}
-                        {%- if item.rate > 200 %}&euro;{% endif %}
-                        </p>
-                    </div>
-                  </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <p class="card-text" style="font-weight: 700; color: gold; ">
+                    <!-- price category -->
+                    &euro;
+                    {%- if item.rate > 100 %}&euro;{% endif %}
+                    {%- if item.rate > 130 %}&euro;{% endif %}
+                    {%- if item.rate > 170 %}&euro;{% endif %}
+                    {%- if item.rate > 200 %}&euro;{% endif %}
+                    </p>
                 </div>
               </div>
             </div>
-          
-          {% endfor %}
           </div>
-          
         </div>
+      
+      {% endfor %}
+      </div>
+      
+    </div>
 </div>
 
 <script>
