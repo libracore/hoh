@@ -20,7 +20,12 @@ def get_context(context):
                 'fertigbreite_bis', 'gewicht', 'rate',
                 'country_of_origin'],
         order_by='name')
-    
+    sql_query = """
+        SELECT `name`, `image`, `stoffbreite_von`, `stoffbreite_bis`, `fertigbreite_von`,
+                `fertigbreite_bis`, `gewicht`, `rate`, `country_of_origin`
+        FROM `tabBemusterung
+        
+    """
     context.no_cache = 1
     context.show_sidebar = False
     

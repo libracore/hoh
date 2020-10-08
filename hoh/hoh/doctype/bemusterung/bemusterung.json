@@ -43,7 +43,8 @@
   "section_online_catalogue",
   "show_online",
   "column_online_catalogue",
-  "produktkategorien"
+  "produktkategorien",
+  "prio"
  ],
  "fields": [
   {
@@ -277,10 +278,16 @@
    "fieldtype": "Table MultiSelect",
    "label": "Produktkategorien",
    "options": "Bemusterung Produktkategorie"
+  },
+  {
+   "description": "Priority for product (higher will be first)",
+   "fieldname": "prio",
+   "fieldtype": "Int",
+   "label": "Prio"
   }
  ],
  "image_field": "image",
- "modified": "2020-09-23 20:19:42.564589",
+ "modified": "2020-10-08 22:00:49.792286",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

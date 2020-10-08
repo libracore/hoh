@@ -2,6 +2,7 @@ DocType: Garnstaerke,Garnstaerke,Garnstärke
 Report: Ausruestplan,Ausruestplan,Ausrüstplan
 DocType: Bemusterung,Bemusterung,Grundartikel
 DocType: Bemusterung,Title,Titel
+DocType: Bemusterung,Priority for product (higher will be first),Priorität (höher kommt zuerst)
 DocType: Dessin,Cut,Cut
 DocType: Item Group,Print,Print
 DocType: HOH Settings,HOH Settings,HOH-Einstellungen
