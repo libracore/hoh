@@ -69,6 +69,12 @@ def get_data():
             "items": [
                    {
                        "type": "doctype",
+                       "name": "Online Catalogue Request",
+                       "label": _("Online Catalogue Request"),
+                       "description": _("Online Catalogue Request")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Angebot",
                        "label": _("Angebot"),
                        "description": _("Angebot")

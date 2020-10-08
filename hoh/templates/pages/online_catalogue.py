@@ -15,7 +15,7 @@ if frappe.session.user=='Guest':
         
 def get_context(context):
     items = frappe.get_all("Bemusterung", 
-        filters=[['image', 'LIKE', '%']], 
+        filters=[['image', 'LIKE', '%'], ['show_online', '=', 1]], 
         fields=['name', 'image', 'stoffbreite_von', 'stoffbreite_bis', 'fertigbreite_von',
                 'fertigbreite_bis', 'gewicht', 'rate',
                 'country_of_origin'],
