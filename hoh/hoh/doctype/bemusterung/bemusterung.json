@@ -267,7 +267,8 @@
    "default": "0",
    "fieldname": "show_online",
    "fieldtype": "Check",
-   "label": "Im Onlinekatalog anzeigen"
+   "label": "Im Onlinekatalog anzeigen",
+   "no_copy": 1
   },
   {
    "fieldname": "column_online_catalogue",
@@ -277,17 +278,19 @@
    "fieldname": "produktkategorien",
    "fieldtype": "Table MultiSelect",
    "label": "Produktkategorien",
+   "no_copy": 1,
    "options": "Bemusterung Produktkategorie"
   },
   {
    "description": "Priority for product (higher will be first)",
    "fieldname": "prio",
    "fieldtype": "Int",
-   "label": "Prio"
+   "label": "Prio",
+   "no_copy": 1
   }
  ],
  "image_field": "image",
- "modified": "2020-10-08 22:00:49.792286",
+ "modified": "2020-10-08 22:08:33.124357",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

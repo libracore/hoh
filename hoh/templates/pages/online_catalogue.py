@@ -14,26 +14,29 @@ if frappe.session.user=='Guest':
     frappe.throw(_("You need to be logged in to access this page"), frappe.PermissionError)
         
 def get_context(context):
-    items = frappe.get_all("Bemusterung", 
+    """items = frappe.get_all("Bemusterung", 
         filters=[['image', 'LIKE', '%'], ['show_online', '=', 1]], 
         fields=['name', 'image', 'stoffbreite_von', 'stoffbreite_bis', 'fertigbreite_von',
                 'fertigbreite_bis', 'gewicht', 'rate',
                 'country_of_origin'],
-        order_by='name')
+        order_by='name')"""
     sql_query = """
         SELECT `name`, `image`, `stoffbreite_von`, `stoffbreite_bis`, `fertigbreite_von`,
                 `fertigbreite_bis`, `gewicht`, `rate`, `country_of_origin`
-        FROM `tabBemusterung
-        
+        FROM `tabBemusterung`
+        WHERE `image` LIKE '%' AND `show_online` = 1
+        ORDER BY `prio` DESC, `name` ASC;
     """
+    items = frappe.db.sql(sql_query, as_dict=True)
+    
     context.no_cache = 1
     context.show_sidebar = False
     
     for item in items:
-        item['zusammensetzung'] = get_composition_string(item.name)
-        item['pflegesymbole'] = get_care_symbol_html(item.name)
+        item['zusammensetzung'] = get_composition_string(item['name'])
+        item['pflegesymbole'] = get_care_symbol_html(item['name'])
         item['rate'] = 1.2 * float(item['rate'])
-        item['categories'] = get_category_string(item.name)
+        item['categories'] = get_category_string(item['name'])
 
     context.items = items
 
