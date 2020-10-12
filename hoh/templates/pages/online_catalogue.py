@@ -12,7 +12,9 @@ no_cache = 1
 # check login
 if frappe.session.user=='Guest':
     frappe.throw(_("You need to be logged in to access this page"), frappe.PermissionError)
-        
+if not "@" in frappe.session.user:
+    frappe.throw(_("You need to be logged in to access this page"), frappe.PermissionError)
+
 def get_context(context):
     """items = frappe.get_all("Bemusterung", 
         filters=[['image', 'LIKE', '%'], ['show_online', '=', 1]], 
@@ -28,10 +30,11 @@ def get_context(context):
         ORDER BY `prio` DESC, `name` ASC;
     """
     items = frappe.db.sql(sql_query, as_dict=True)
-    
+
     context.no_cache = 1
     context.show_sidebar = False
-    
+    context.user = frappe.session.user
+
     for item in items:
         item['zusammensetzung'] = get_composition_string(item['name'])
         item['pflegesymbole'] = get_care_symbol_html(item['name'])

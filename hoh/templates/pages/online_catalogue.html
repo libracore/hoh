@@ -2,7 +2,7 @@
 
 {% block title %} {{ _("Online Catalogue") }} {% endblock %}
 
-{% block header %}<h1>{{ _("Online Catalogue") }}</h1>{% endblock %}
+{% block header %}<h1>{{ _("Online Catalogue") }} <!-- {{ user }} --></h1>{% endblock %}
 
 {% block page_content %}
 <style>
@@ -192,6 +192,8 @@ function cart(product, cart_object) {
 }
 </style>
 
+{% if "@" in user %}{# secondary protection layer for overflow attacks #}
+
 <div class="row" id="buttonContainer">
   <button class="btn btn-secondary active" onclick="filterSelection('all')" style="margin: 1px; "> {{ _("Show all") }}</button>&nbsp;
   {% for f in filters %}
@@ -247,6 +249,12 @@ function cart(product, cart_object) {
       
     </div>
 </div>
+{% else %}
+<script type="text/javascript">
+    window.location.href = "/login";
+</script>
+<p>If you are not redirected automatically, follow this <a href='/login'>link</a>.</p>
+{% endif %}
 
 <script>
 // make cards filterable
