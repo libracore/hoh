@@ -1,4 +1,5 @@
 {
+ "allow_rename": 1,
  "autoname": "field:titel",
  "creation": "2020-03-09 20:36:15.086627",
  "doctype": "DocType",
@@ -34,7 +35,7 @@
   }
  ],
  "image_field": "image",
- "modified": "2020-03-09 20:54:32.658258",
+ "modified": "2020-10-20 20:38:06.332005",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Pflegesymbol",

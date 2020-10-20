@@ -2,11 +2,19 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Dessin', {
-	refresh: function(frm) {
+    refresh: function(frm) {
         if (frm.doc.__islocal) {
             prepare_details(frm);
         }
-	},
+        /* only show active machines */
+        cur_frm.fields_dict['stickmaschine'].get_query = function(doc) {
+            return {
+                filters: {
+                    "disabled": 0
+                }
+            }
+        }
+    },
     before_save: function(frm) {
         var gesamt_meter = 0; // schnurmeter + pailletenmeter + stickmeter
         for (var i = 0; i < frm.doc.details.length; i++) {
@@ -39,19 +47,19 @@ frappe.ui.form.on('Dessin', {
         }
     },
     punchzeit: function(frm) {
-		// wert entwicklungskostensatz holen
-		frappe.call({
-			"method": "frappe.client.get",
-			"args": {
-				"doctype": "Kalkulationseinstellungen",
-				"name": "Kalkulationseinstellungen"
-			},
-			"callback": function(response) {
-				var factor = response.message.entwicklungskostensatz;
-				cur_frm.set_value("entwicklungskosten", factor * frm.doc.punchzeit);
-			}
-		});
-	} 
+        // wert entwicklungskostensatz holen
+        frappe.call({
+            "method": "frappe.client.get",
+            "args": {
+                "doctype": "HOH Settings",
+                "name": "HOH Settings"
+            },
+            "callback": function(response) {
+                var factor = response.message.entwicklungskostensatz;
+                cur_frm.set_value("entwicklungskosten", factor * frm.doc.punchzeit);
+            }
+        });
+    } 
 });
 
 function prepare_details(frm) {

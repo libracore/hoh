@@ -6,7 +6,9 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
-  "sort_index"
+  "sort_index",
+  "column_main",
+  "disabled"
  ],
  "fields": [
   {
@@ -23,9 +25,19 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Sort index"
+  },
+  {
+   "fieldname": "column_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
   }
  ],
- "modified": "2020-09-30 21:33:27.669338",
+ "modified": "2020-10-20 20:24:16.287177",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Produktkategorie",
