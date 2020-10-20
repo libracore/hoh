@@ -162,7 +162,7 @@ def get_label(selected_items):
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
-    content = frappe.render_template('hoh/hoh/doctype/bemusterung/price_label.html', data)
+    content = frappe.render_template('hoh/hoh/templates/labels/price_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
