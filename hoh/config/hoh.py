@@ -172,9 +172,9 @@ def get_data():
                    {
                        "type": "report",
                        "doctype": "Item",
-                       "name": "Stock Projected Qty",
-                       "label": _("Stock Projected Qty"),
-                       "description": _("Stock Projected Qty"),
+                       "name": "Bestellbestand",
+                       "label": _("Bestellbestand"),
+                       "description": _("Bestellbestand"),
                        "is_query_report": True
                    }
             ]
