@@ -78,6 +78,7 @@ class Bemusterung(Document):
                 'rate': i.valuation_rate
             })
         bom = new_bom.insert()
+	bom.submit()			# auto submit BOM
         # create reference
         self.item = item.name
         self.save()
