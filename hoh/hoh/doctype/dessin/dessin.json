@@ -306,12 +306,12 @@
   {
    "description": "in Meter",
    "fieldname": "nadelinfo",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text Editor",
    "label": "Nadelinfo"
   }
  ],
  "image_field": "image",
- "modified": "2020-09-18 16:15:10.882232",
+ "modified": "2020-10-26 20:33:51.333348",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Dessin",
