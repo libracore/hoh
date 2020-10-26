@@ -176,6 +176,14 @@ def get_data():
                        "label": _("Bestellbestand"),
                        "description": _("Bestellbestand"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Stoffbedarf",
+                       "label": _("Stoffbedarf"),
+                       "description": _("Stoffbedarf"),
+                       "is_query_report": True
                    }
             ]
         },

@@ -5,6 +5,8 @@
  "engine": "InnoDB",
  "field_order": [
   "label_printer_prices",
+  "column_general",
+  "primary_warehouse",
   "section_kalkulation",
   "entwicklungskostensatz"
  ],
@@ -21,13 +23,24 @@
    "label": "Kalkulation"
   },
   {
+   "description": "EUR/min",
    "fieldname": "entwicklungskostensatz",
    "fieldtype": "Currency",
    "label": "Entwicklungskostensatz"
+  },
+  {
+   "fieldname": "column_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "primary_warehouse",
+   "fieldtype": "Link",
+   "label": "Primary warehouse",
+   "options": "Warehouse"
   }
  ],
  "issingle": 1,
- "modified": "2020-10-20 20:50:08.461484",
+ "modified": "2020-10-26 16:56:36.450938",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "HOH Settings",

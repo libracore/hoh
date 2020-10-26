@@ -37,7 +37,8 @@ def get_data(filters):
         item_code_filter = """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters.item_group)
     if filters.supplier:
         item_code_filter = """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters.supplier)
-
+    primary_warehouse = frappe.get_value("HOH Settings", "HOH Settings", "primary_warehouse")
+    
     sql_query = """SELECT 
                     `tabBin`.`item_code` AS `item_code`,
                     `tabItem`.`item_name` AS `item_name`,
@@ -54,8 +55,10 @@ def get_data(filters):
                 FROM `tabBin`
                 LEFT JOIN `tabItem` ON `tabBin`.`item_code` = `tabItem`.`name`
                 LEFT JOIN `tabItem Default` ON `tabItem`.`name` = `tabItem Default`.`parent`
-            WHERE `tabBin`.`warehouse` = 'Lagerräume - HOH'
-              AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter};""".format(item_code_filter=item_code_filter)
+            WHERE `tabBin`.`warehouse` = '{warehouse}'
+              AND `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
+              AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter};""".format(
+              item_code_filter=item_code_filter, warehouse=primary_warehouse)
     
     data = frappe.db.sql(sql_query, as_dict=True)
     
