@@ -16,6 +16,9 @@ frappe.ui.form.on('Work Order', {
         }
     },
     before__save: function(frm) {
+        if (!frm.doc.stoff) {
+            fetch_item_details(frm);
+        }
         // calculate total machine hours
         var machine_hours = 0;
         for (var i = 0; i < frm.doc.nutzungen.length; i++) {
@@ -28,6 +31,7 @@ frappe.ui.form.on('Work Order', {
 function fetch_item_details(frm) {
     frappe.call({
         "method": "frappe.client.get",
+        "async": false,
         "args": {
             "doctype": "Bemusterung",
             "name": frm.doc.production_item
@@ -64,6 +68,7 @@ function fill_details(frm, bemusterung) {
     // read kartenmeter
     frappe.call({
         "method": "frappe.client.get",
+        "async": false,
         "args": {
             "doctype": "Dessin",
             "name": bemusterung.dessin

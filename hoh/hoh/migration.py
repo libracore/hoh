@@ -104,3 +104,31 @@ def import_payments(file, account, cost_center):
 def get_account(account_number):
     account = frappe.get_all("Account", filters={'account_number': account_number}, fields=['name'])
     return account[0]['name']
+
+# this function will update machines from dessin
+def update_machines():
+    # loog through bemusterung
+    bemusterungen = frappe.get_all("Bemusterung", fields=['name'])
+    for b in bemusterungen:
+        print("Updating Bemusterung {0} ...".format(b['name']))
+        b_doc = frappe.get_doc("Bemusterung", b['name'])
+        b_doc.stickmaschine = []
+        d_doc = frappe.get_doc("Dessin", b_doc.dessin)
+        for s in d_doc.stickmaschine:
+            row = b_doc.append('stickmaschine', { 'stickmaschine': s.stickmaschine })
+        b_doc.save()
+    frappe.db.commit()
+    # loog through items
+    items = frappe.get_all("Item", fields=['name'])
+    for i in items:
+        print("Updating Item {0} ...".format(i['name']))
+        i_doc = frappe.get_doc("Item", i['name'])
+        if i_doc.dessin:
+            i_doc.stickmaschine = []
+            d_doc = frappe.get_doc("Dessin", i_doc.dessin)
+            for s in d_doc.stickmaschine:
+                row = i_doc.append('stickmaschine', { 'stickmaschine': s.stickmaschine })
+            i_doc.save()
+    frappe.db.commit()
+    print("done")
+    return

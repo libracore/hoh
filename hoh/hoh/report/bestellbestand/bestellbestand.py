@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
+import ast          # to parse str to dict (from JS calls)
 
 def execute(filters=None):
     columns = get_columns()
@@ -27,16 +28,21 @@ def get_columns():
         {"label": _("To order"), "fieldname": "to_order", "fieldtype": "Float", "width": 100}
     ]
 
+@frappe.whitelist()
 def get_data(filters):
     item_code_filter = ""
-    if filters.item_code:
-        item_code_filter += """ AND `tabItem`.`item_code` = '{item_code}'""".format(item_code=filters.item_code)
-    if filters.item_name:
-        item_code_filter += """ AND `tabItem`.`item_name` LIKE '%{item_name}%'""".format(item_name=filters.item_name)
-    if filters.item_group:
-        item_code_filter = """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters.item_group)
-    if filters.supplier:
-        item_code_filter = """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters.supplier)
+    if type(filters) is str:
+        filters = ast.literal_eval(filters)
+    else:
+        filters = dict(filters)
+    if 'item_code' in filters:
+        item_code_filter += """ AND `tabItem`.`item_code` = '{item_code}'""".format(item_code=filters['item_code'])
+    if 'item_name' in filters:
+        item_code_filter += """ AND `tabItem`.`item_name` LIKE '%{item_name}%'""".format(item_name=filters['item_name'])
+    if 'item_group' in filters:
+        item_code_filter = """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters['item_group'])
+    if 'supplier' in filters:
+        item_code_filter = """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters['supplier'])
     primary_warehouse = frappe.get_value("HOH Settings", "HOH Settings", "primary_warehouse")
     
     sql_query = """SELECT 

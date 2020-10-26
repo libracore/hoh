@@ -44,13 +44,13 @@ def get_data(filters):
     if not filters.stickmaschine:
         filters.stickmaschine = "%"
     else:
-        filters.stickmaschine = "%{0}%".format(filters.stickmaschine)
+        filters.stickmaschine = "{0}".format(filters.stickmaschine)
     # get additional conditions
     conditions = ""
     if filters.from_date:
-        conditions += "AND `tabWork Order`.`expected_delivery_date` >= '{from_date}'".format(from_date=filters.from_date)
+        conditions += "AND (`tabWork Order`.`expected_delivery_date` >= '{from_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)".format(from_date=filters.from_date)
     if filters.to_date:
-        conditions += "AND `tabWork Order`.`expected_delivery_date` <= '{to_date}'".format(to_date=filters.to_date)
+        conditions += "AND (`tabWork Order`.`expected_delivery_date` <= '{to_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)".format(to_date=filters.to_date)
     # get shift hours
     company = frappe.defaults.get_global_default('company')
     hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
@@ -91,7 +91,7 @@ def get_data(filters):
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
         LEFT JOIN `tabStickmaschine` ON `tabDessin`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
-          `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
+          (`tabWork Order`.`stickmaschine` LIKE "{stickmaschine}" OR `tabWork Order`.`stickmaschine` IS NULL)
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` != "Completed"
           {conditions}

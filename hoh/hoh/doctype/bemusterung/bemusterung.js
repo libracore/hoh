@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Bemusterung', {
-	refresh: function(frm) {
+    refresh: function(frm) {
         if ((!frm.doc.__islocal) && (!frm.doc.item)) {
             frm.add_custom_button(__("Artikel erstellen"), function() {
                 frappe.call({
@@ -19,7 +19,7 @@ frappe.ui.form.on('Bemusterung', {
         frm.add_custom_button(__("Nadelrechner"), function() {
             nadelrechner(frm, 0.0, 0.0);
         });
-	},
+    },
     dessin: function(frm) {
         console.log("dessin...");
         frappe.call({
@@ -35,7 +35,9 @@ frappe.ui.form.on('Bemusterung', {
                     cur_frm.set_value('bezeichnung', dessin.bezeichnung);
                     for (var i = 0; i < dessin.stickmaschine.length; i++) {
                         var child = cur_frm.add_child('stickmaschine');
-                        frappe.model.set_value(child.doctype, child.name, 'stickmaschine', dessin.stickmaschine[i].stickmaschine);
+                        try {
+                            frappe.model.set_value(child.doctype, child.name, 'stickmaschine', dessin.stickmaschine[i].stickmaschine);
+                        } catch { console.log("error"); }
                     }
                     cur_frm.refresh_field('stickmaschine');
                 } 
