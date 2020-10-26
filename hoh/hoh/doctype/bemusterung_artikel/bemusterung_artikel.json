@@ -11,8 +11,9 @@
   "btn_nadelrechner",
   "qty",
   "stock_uom",
-  "weight_pr_unit",
-  "valuation_rate"
+  "valuation_rate",
+  "weight_per_unit",
+  "weight_per_m"
  ],
  "fields": [
   {
@@ -47,7 +48,8 @@
    "fetch_if_empty": 1,
    "fieldname": "valuation_rate",
    "fieldtype": "Currency",
-   "label": "Valuation rate"
+   "label": "Valuation rate",
+   "read_only": 1
   },
   {
    "fetch_from": "item_code.item_group",
@@ -65,23 +67,32 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Stock UOM",
-   "options": "UOM"
+   "options": "UOM",
+   "read_only": 1
   },
   {
    "columns": 1,
    "fetch_from": "item_code.weight_per_unit",
    "fieldname": "weight_per_unit",
    "fieldtype": "Float",
-   "label": "Weight pr unit"
+   "label": "Weight pr unit",
+   "read_only": 1
   },
   {
    "fieldname": "btn_nadelrechner",
    "fieldtype": "Button",
    "label": "Nadelrechner"
+  },
+  {
+   "fetch_from": "item_code.gewicht",
+   "fieldname": "weight_per_m",
+   "fieldtype": "Float",
+   "label": "Weight per m",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2020-10-07 15:21:12.050921",
+ "modified": "2020-10-26 11:49:59.323613",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung Artikel",

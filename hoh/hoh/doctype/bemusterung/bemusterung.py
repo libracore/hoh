@@ -45,6 +45,7 @@ class Bemusterung(Document):
             'standard_rate': self.rate,
             'weight_uom': 'g',
             'weight_per_unit': (self.gewicht * 1000),
+            'gewicht': (self.gewicht * 1000),
             'is_sales_item': 1
         })
         for k in self.komposition:
@@ -78,7 +79,7 @@ class Bemusterung(Document):
                 'rate': i.valuation_rate
             })
         bom = new_bom.insert()
-	bom.submit()			# auto submit BOM
+    bom.submit()            # auto submit BOM
         # create reference
         self.item = item.name
         self.save()
@@ -126,26 +127,26 @@ class Bemusterung(Document):
 
 def get_label_data(selected_items):
     sql_query = """SELECT
-					   `tabBemusterung`.`item` AS `item`,
-					   `tabBemusterung`.`name` AS `name`,
-					   `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
-					   `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
-					   `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
-					   `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
-					   `tabBemusterung`.`minimalmenge` AS `minimalmenge`,
-					   `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
-					   `tabBemusterung`.`rate` AS `preis`,
-					   (SELECT GROUP_CONCAT(CONCAT("<img src='", `tabPflegesymbol`.`image`, "'>"))
-						FROM `tabItem Pflegesymbol` 
-						LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
-						WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung") AS `pflegesymbole`,
-					   (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`))
-						FROM `tabItem Komposition`
-						WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung") AS `material`,
-					   IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
-					FROM `tabBemusterung`
-					LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
-					LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
+                       `tabBemusterung`.`item` AS `item`,
+                       `tabBemusterung`.`name` AS `name`,
+                       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
+                       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
+                       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
+                       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
+                       `tabBemusterung`.`minimalmenge` AS `minimalmenge`,
+                       `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
+                       `tabBemusterung`.`rate` AS `preis`,
+                       (SELECT GROUP_CONCAT(CONCAT("<img src='", `tabPflegesymbol`.`image`, "'>"))
+                        FROM `tabItem Pflegesymbol` 
+                        LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
+                        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung") AS `pflegesymbole`,
+                       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`))
+                        FROM `tabItem Komposition`
+                        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung") AS `material`,
+                       IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+                    FROM `tabBemusterung`
+                    LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
+                    LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
                    WHERE `tabBemusterung`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)

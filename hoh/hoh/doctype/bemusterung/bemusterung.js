@@ -83,13 +83,10 @@ frappe.ui.form.on('Bemusterung Artikel', {
     btn_nadelrechner: function(frm, cdt, cdn) {
         var target = {'cdt': cdt, 'cdn': cdn, 'field': 'qty'};
         var current = frappe.model.get_value(cdt, cdn, 'qty');
-        var item_group = frappe.model.get_value(cdt, cdn, 'item_group'); /* FIX THIS --> g/m */
-        var uom_per_m = frappe.model.get_value(cdt, cdn, 'weight_per_unit');
-        if ((item_group === "Garne") || (item_group === "Kordel")) {
-            uom_per_m = 0.05;
-        } else if (item_group === "Bobinen") {
-            uom_per_m = 0.01;
-        } else {
+        var item_group = frappe.model.get_value(cdt, cdn, 'item_group'); 
+        var uom_per_m = frappe.model.get_value(cdt, cdn, 'weight_per_m');
+        // ignore weight per m for pailletten, this is in pcs
+        if (item_group === "Pailletten") {
             uom_per_m = 1;
         }
         nadelrechner(frm, current, 0.0, target, uom_per_m);
