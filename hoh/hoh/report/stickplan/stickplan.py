@@ -89,7 +89,7 @@ def get_data(filters):
         LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
         LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
-        LEFT JOIN `tabStickmaschine` ON `tabDessin`.`stickmaschine` = `tabStickmaschine`.`name`
+        LEFT JOIN `tabStickmaschine` ON `tabWork Order`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
           (`tabWork Order`.`stickmaschine` LIKE "{stickmaschine}" OR `tabWork Order`.`stickmaschine` IS NULL)
           AND `tabWork Order`.`docstatus` < 2
