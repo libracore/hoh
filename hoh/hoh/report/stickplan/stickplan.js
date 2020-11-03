@@ -51,3 +51,12 @@ frappe.query_reports["Stickplan"] = {
         });
     }
 };
+
+/* add event listener for double clicks to move up */
+cur_page.container.addEventListener("dblclick", function(event) {
+    var content = event.target.innerHTML;
+    if (content.startsWith("WO-")) {
+        /* move this work order up by one */
+        
+    }
+});
