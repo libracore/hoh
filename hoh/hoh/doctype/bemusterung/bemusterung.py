@@ -76,6 +76,7 @@ class Bemusterung(Document):
             row = new_bom.append('items', {
                 'item_code': i.item_code,
                 'qty': i.qty,
+                'uom': i.stock_uom,
                 'rate': i.valuation_rate
             })
         bom = new_bom.insert()

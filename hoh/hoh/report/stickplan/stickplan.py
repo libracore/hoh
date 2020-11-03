@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
+import ast
 
 def execute(filters=None):
     columns = get_columns()
@@ -19,7 +20,7 @@ def get_columns():
         {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
         {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
-        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Date", "width": 90},
+        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
         {"label": _("End Date"), "fieldname": "end_date", "fieldtype": "Date",  "width": 90},
         {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
         {"label": _("Nächste Wartung"), "fieldname": "next_maintenance_date", "fieldtype": "Date", "width": 75},
@@ -40,17 +41,22 @@ def get_columns():
     ]
 
 def get_data(filters):
-    # set filters
-    if not filters.stickmaschine:
-        filters.stickmaschine = "%"
+    if type(filters) is str:
+        filters = ast.literal_eval(filters)
     else:
-        filters.stickmaschine = "{0}".format(filters.stickmaschine)
+        filters = dict(filters)
     # get additional conditions
     conditions = ""
-    if filters.from_date:
-        conditions += "AND (`tabWork Order`.`expected_delivery_date` >= '{from_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)".format(from_date=filters.from_date)
-    if filters.to_date:
-        conditions += "AND (`tabWork Order`.`expected_delivery_date` <= '{to_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)".format(to_date=filters.to_date)
+    if 'stickmaschine' in filters and filters['stickmaschine']:
+        conditions += """ AND `tabWork Order`.`stickmaschine` = "{0}" """.format(filters['stickmaschine'])
+    if 'from_date' in filters and filters['from_date']:
+        conditions += """ AND (`tabWork Order`.`expected_delivery_date` >= '{from_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(from_date=filters['from_date'])
+    if 'to_date' in filters and filters['to_date']:
+        conditions += """ AND (`tabWork Order`.`expected_delivery_date` <= '{to_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(to_date=filters['to_date'])
+    if 'item_code' in filters and filters['item_code']:
+        conditions += """ AND `tabWork Order`.`production_item` = '{item_code}'""".format(item_code=filters['item_code'])
+    if 'sales_order' in filters and filters['sales_order']:
+        conditions += """ AND `tabWork Order`.`sales_order` = '{sales_order}'""".format(sales_order=filters['sales_order'])
     # get shift hours
     company = frappe.defaults.get_global_default('company')
     hours_per_shift = frappe.get_value('Company', company, 'h_pro_schicht') 
@@ -63,7 +69,7 @@ def get_data(filters):
          IFNULL(`tabSales Order`.`customer`, "-") AS `customer`,
          IFNULL(`tabSales Order`.`customer_name`, "-") AS `customer_name`,
          `tabSales Order`.`delivery_Date` AS `delivery_date`,
-         SUBSTRING_INDEX(`tabWork Order`.`planned_start_date`, ' ', 1)  AS `start_date`,
+         `tabWork Order`.`planned_start_date` AS `start_date`,
          `tabWork Order`.`expected_delivery_date` AS `end_date`,
          `tabWork Order`.`stickmaschine` AS `stickmaschine`,
          `tabWork Order`.`production_item` AS `item`,
@@ -82,7 +88,7 @@ def get_data(filters):
          (((`tabWork Order`.`qty` / 9.1) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
          ((((`tabWork Order`.`qty` / 9.1) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
          (SELECT 
-          IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "OK", "NOK")
+          IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
           FROM `tabWork Order Item` AS `tWOI`
           WHERE `tWOI`.`parent` = `tabWork Order`.`name`) AS `ready`
         FROM `tabWork Order`
@@ -91,13 +97,21 @@ def get_data(filters):
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
         LEFT JOIN `tabStickmaschine` ON `tabWork Order`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
-          (`tabWork Order`.`stickmaschine` LIKE "{stickmaschine}" OR `tabWork Order`.`stickmaschine` IS NULL)
-          AND `tabWork Order`.`docstatus` < 2
+          `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` != "Completed"
           {conditions}
-        ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;
-      """.format(stickmaschine=filters.stickmaschine, conditions=conditions, hours_per_shift=hours_per_shift)
+        ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
+      """.format(conditions=conditions, hours_per_shift=hours_per_shift)
 
     data = frappe.db.sql(sql_query, as_dict=1)
 
     return data
+
+@frappe.whitelist()
+def update_material_status():
+    data = get_data(filters={'stickmaschine': None, 'from_date': None, 'to_date': None})
+    for entry in data:
+        wo = frappe.get_doc("Work Order", entry['work_order'])
+        wo.set_available_qty()
+        wo.save()
+    return

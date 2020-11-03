@@ -179,10 +179,18 @@ def get_data():
                    },
                    {
                        "type": "report",
-                       "doctype": "Item",
+                       "doctype": "Work Order",
                        "name": "Stoffbedarf",
                        "label": _("Stoffbedarf"),
                        "description": _("Stoffbedarf"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Halbfabrikatbedarf",
+                       "label": _("Halbfabrikatbedarf"),
+                       "description": _("Halbfabrikatbedarf"),
                        "is_query_report": True
                    }
             ]

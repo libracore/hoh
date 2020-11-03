@@ -23,11 +23,31 @@ frappe.query_reports["Stickplan"] = {
             "fieldtype": "Date",
             "default": frappe.datetime.add_months(frappe.datetime.get_today(), +12),
             "width": "60px"
+        },
+                {
+            "fieldname":"sales_order",
+            "label": __("Sales Order"),
+            "fieldtype": "Link",
+            "options": "Sales Order"
+        },
+        {
+            "fieldname":"item_code",
+            "label": __("Item"),
+            "fieldtype": "Link",
+            "options": "Item"
         }
     ],
     "onload": (report) => {
         report.page.add_inner_button(__('Work Order List'), function () {
            window.location.href="/desk#List/Work Order/List";
-        })
+        });
+        report.page.add_inner_button(__('Update Material'), function () {
+           frappe.call({
+            "method": "hoh.hoh.report.stickplan.stickplan.update_material_status",
+            "callback": function(response) {
+                frappe.show_alert( __("Updated") );
+            }
+        });
+        });
     }
 };
