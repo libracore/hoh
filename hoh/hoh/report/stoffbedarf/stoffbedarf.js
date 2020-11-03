@@ -8,7 +8,7 @@ frappe.query_reports["Stoffbedarf"] = {
             "fieldname": "to_date",
             "label": __("To date"),
             "fieldtype": "Date",
-            "default": frappe.datetime.add_months(frappe.datetime.get_today(), 2),
+            "default": frappe.datetime.add_months(frappe.datetime.get_today(), 3),
             "reqd": 1
         }
     ]
