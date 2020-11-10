@@ -95,7 +95,8 @@ class Bemusterung(Document):
         # fetch all items
         for i in self.items:
             item = frappe.get_doc("Item", i.item_code)
-            if item.komposition:
+            # proceed only with components that have a composition and not with Pailleten (based on foil)
+            if item.komposition and not item.item_group == "Pailletten":
                 multiplier = (i.qty * item.weight_per_unit or 1)
                 total_multiplier += multiplier
                 # aggregate contents
