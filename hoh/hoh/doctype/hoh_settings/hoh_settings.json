@@ -8,7 +8,9 @@
   "column_general",
   "primary_warehouse",
   "section_kalkulation",
-  "entwicklungskostensatz"
+  "entwicklungskostensatz",
+  "section_planning",
+  "work_order_spacing"
  ],
  "fields": [
   {
@@ -37,10 +39,22 @@
    "fieldtype": "Link",
    "label": "Primary warehouse",
    "options": "Warehouse"
+  },
+  {
+   "fieldname": "section_planning",
+   "fieldtype": "Section Break",
+   "label": "Planning"
+  },
+  {
+   "default": "1",
+   "description": "Planning break between automatically planned work orders, in hours",
+   "fieldname": "work_order_spacing",
+   "fieldtype": "Float",
+   "label": "Work order spacing"
   }
  ],
  "issingle": 1,
- "modified": "2020-10-26 16:56:36.450938",
+ "modified": "2020-11-11 07:13:03.766372",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "HOH Settings",

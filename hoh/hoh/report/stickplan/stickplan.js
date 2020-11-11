@@ -41,13 +41,16 @@ frappe.query_reports["Stickplan"] = {
         report.page.add_inner_button(__('Work Order List'), function () {
            window.location.href="/desk#List/Work Order/List";
         });
-        report.page.add_inner_button(__('Update Material'), function () {
-           frappe.call({
-            "method": "hoh.hoh.report.stickplan.stickplan.update_material_status",
-            "callback": function(response) {
-                frappe.show_alert( __("Updated") );
-            }
+        report.page.add_inner_button(__('Automatically plan'), function () {
+           auto_plan();
         });
+        report.page.add_inner_button(__('Update Material'), function () {
+            frappe.call({
+                "method": "hoh.hoh.report.stickplan.stickplan.update_material_status",
+                "callback": function(response) {
+                    frappe.show_alert( __("Updated") );
+                }
+            });
         });
     }
 };
@@ -60,3 +63,27 @@ cur_page.container.addEventListener("dblclick", function(event) {
         
     }
 });
+
+function auto_plan() {
+    frappe.prompt([
+        {'fieldname': 'machine', 'fieldtype': 'Link', 'label': __('Machine'), 'reqd': 1, 'options': 'Stickmaschine'}  
+    ],
+    function(values){
+        plan_machine(values.machine);
+    },
+    __('Select machine'),
+    __('Plan')
+    );
+}
+
+function plan_machine(machine) {
+    frappe.call({
+        "method": "hoh.hoh.report.stickplan.stickplan.plan_machine",
+        "args": {
+            "machine": machine
+        },
+        "callback": function(response) {
+            frappe.show_alert( __("Updated") );
+        }
+    });
+}

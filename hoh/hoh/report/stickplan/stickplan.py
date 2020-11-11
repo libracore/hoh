@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 import ast
+from datetime import datetime, timedelta
 
 def execute(filters=None):
     columns = get_columns()
@@ -113,5 +114,26 @@ def update_material_status():
     for entry in data:
         wo = frappe.get_doc("Work Order", entry['work_order'])
         wo.set_available_qty()
+        wo.save()
+    return
+
+@frappe.whitelist()
+def plan_machine(machine):
+    data = get_data(filters={'stickmaschine': machine, 'from_date': None, 'to_date': None})
+    now = datetime.now()
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    last_start = now
+    for i in range(len(data)):
+        wo = frappe.get_doc("Work Order", data[i]['work_order'])
+        if i == 0 and wo.status in ('Draft', 'Not Started'):
+            # first planning row: if not started and in the past, move to now
+            if wo.planned_start_date < now:
+                wo.planned_start_date = now
+        else:
+            # other rows: at least (duration + break)
+            earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 1))
+            if wo.planned_start_date < (earliest_start):
+                wo.planned_start_date = earliest_start
+        last_start = wo.planned_start_date
         wo.save()
     return
