@@ -11,14 +11,14 @@ from datetime import datetime
 
 class Bemusterung(Document):
     def validate(self):
-        # make sure only one sample with this colour is used
-        same_color_dessins = frappe.get_all("Bemusterung", 
-            filters={'dessinnummer': self.dessinnummer, 'farbe': self.farbe},
-            fields=['name'])
-        if len(same_color_dessins) > 1 or \
-           (len(same_color_dessins) == 1 and same_color_dessins[0]['name'] != self.name):
-            frappe.throw( _("Diese Dessin/Farb-Kombination existiert bereits in {0}.".format(
-                same_color_dessins[0]['name'])) )
+        # make sure only one sample with this colour is used (made obsolete 2020-11-11)
+        #same_color_dessins = frappe.get_all("Bemusterung", 
+        #    filters={'dessinnummer': self.dessinnummer, 'farbe': self.farbe},
+        #    fields=['name'])
+        #if len(same_color_dessins) > 1 or \
+        #   (len(same_color_dessins) == 1 and same_color_dessins[0]['name'] != self.name):
+        #    frappe.throw( _("Diese Dessin/Farb-Kombination existiert bereits in {0}.".format(
+        #        same_color_dessins[0]['name'])) )
         return
         
     def create_item(self):
