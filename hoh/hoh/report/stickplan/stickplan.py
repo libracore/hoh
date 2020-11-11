@@ -14,25 +14,26 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
         {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
-        {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 120},
-        {"label": _("Materialstatus"), "fieldname": "ready", "fieldtype": "Data", "width": 120},
-        {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
-        {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
-        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
-        {"label": _("End Date"), "fieldname": "end_date", "fieldtype": "Date",  "width": 90},
-        {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
-        {"label": _("Nächste Wartung"), "fieldname": "next_maintenance_date", "fieldtype": "Date", "width": 75},
+        {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 120},
         {"label": _("Item"), "fieldname": "item", "fieldtype": "Link", "options": "Item", "width": 150},
-        {"label": _("Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 100},
-        {"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 100},
         {"label": _("Rap."), "fieldname": "stickrapport", "fieldtype": "Data", "width": 50},
+        {"label": _("Materialstatus"), "fieldname": "ready", "fieldtype": "Data", "width": 120},
         {"label": _("Stoff"), "fieldname": "stoff", "fieldtype": "Data", "width": 100},
         {"label": _("Garn"), "fieldname": "garn", "fieldtype": "Data", "width": 100},
         {"label": _("Pailletten"), "fieldname": "pailletten", "fieldtype": "Data", "width": 100},
         {"label": _("Monofil"), "fieldname": "monofil", "fieldtype": "Data", "width": 100},
+
+        {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
+        {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
+        {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
+        {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
+        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
+        {"label": _("End Date"), "fieldname": "end_date", "fieldtype": "Date",  "width": 90},
+        {"label": _("Nächste Wartung"), "fieldname": "next_maintenance_date", "fieldtype": "Date", "width": 75},
+        {"label": _("Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 100},
+        {"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 100},
         {"label": _("Anmerkung"), "fieldname": "anmerkung", "fieldtype": "Data", "width": 100},
         {"label": _("Ktm pro h"), "fieldname": "ktm_per_h", "fieldtype": "Float", "precision": 1, "width": 75},
         {"label": _("Ktm"), "fieldname": "ktm", "fieldtype": "Int", "width": 75},
@@ -134,6 +135,6 @@ def plan_machine(machine):
             earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 1))
             if wo.planned_start_date < (earliest_start):
                 wo.planned_start_date = earliest_start
-        last_start = wo.planned_start_date
+        last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         wo.save()
     return
