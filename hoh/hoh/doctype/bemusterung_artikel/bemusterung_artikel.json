@@ -77,7 +77,8 @@
    "fieldname": "weight_per_unit",
    "fieldtype": "Float",
    "label": "Weight pr unit",
-   "read_only": 1
+   "read_only": 1,
+   "precission": 3
   },
   {
    "fieldname": "btn_nadelrechner",
@@ -93,7 +94,7 @@
   }
  ],
  "istable": 1,
- "modified": "2020-11-04 09:35:59.323613",
+ "modified": "2020-11-11 13:44:59.323613",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung Artikel",

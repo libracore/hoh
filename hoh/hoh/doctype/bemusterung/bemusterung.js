@@ -105,9 +105,9 @@ function nadelrechner(frm, input, output, target=null, uom_per_m=1) {
     var d = new frappe.ui.Dialog({
         'fields': [
             {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Data', 'read_only': 1, 'default': frm.doc.stickrapport},
-            {'fieldname': 'uom_per_m', 'label': '(uom) pro m', 'fieldtype': 'Float', 'default': uom_per_m},
-            {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input},
-            {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output}
+            {'fieldname': 'uom_per_m', 'label': '(uom) pro m', 'fieldtype': 'Float', 'default': uom_per_m, 'precission': 3},
+            {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input, 'precission': 3},
+            {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output, 'precission': 3}
         ],
         primary_action: function(){
             d.hide();
