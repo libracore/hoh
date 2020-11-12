@@ -86,12 +86,15 @@ frappe.ui.form.on('Bemusterung Artikel', {
         var target = {'cdt': cdt, 'cdn': cdn, 'field': 'qty'};
         var current = frappe.model.get_value(cdt, cdn, 'qty');
         var item_group = frappe.model.get_value(cdt, cdn, 'item_group'); 
-        var uom_per_m = frappe.model.get_value(cdt, cdn, 'weight_per_m');
+        var g_per_m = frappe.model.get_value(cdt, cdn, 'weight_per_m');
+        var g_per_uom = frappe.model.get_value(cdt, cdn, 'weight_per_unit');
+        var uom = frappe.model.get_value(cdt, cdn, 'stock_uom');
         // ignore weight per m for pailletten, this is in pcs
-        if (item_group === "Pailletten") {
-            uom_per_m = 1;
+        if (uom === "Stk") {
+            g_per_m = 1;
+            g_per_uom = 1;
         }
-        nadelrechner(frm, current, 0.0, target, uom_per_m);
+        nadelrechner(frm, current, 0.0, target, g_per_m, g_per_uom, uom);
     }
 });
 
@@ -101,11 +104,12 @@ function update_title(frm) {
     }
 }
 
-function nadelrechner(frm, input, output, target=null, uom_per_m=1) {
+function nadelrechner(frm, input, output, target=null, g_per_m=1, g_per_uom=1, uom="kg") {
     var d = new frappe.ui.Dialog({
         'fields': [
             {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Data', 'read_only': 1, 'default': frm.doc.stickrapport},
-            {'fieldname': 'uom_per_m', 'label': '(uom) pro m', 'fieldtype': 'Float', 'default': uom_per_m, 'precission': 3},
+            {'fieldname': 'g_per_m', 'label': 'g pro m', 'fieldtype': 'Float', 'default': g_per_m, 'precission': 3},
+            {'fieldname': 'g_per_uom', 'label': 'g pro ' + uom, 'fieldtype': 'Float', 'default': g_per_uom, 'precission': 3},
             {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input, 'precission': 3},
             {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output, 'precission': 3}
         ],
@@ -113,7 +117,8 @@ function nadelrechner(frm, input, output, target=null, uom_per_m=1) {
             d.hide();
             // calculate
             var input = d.get_values().nadel;
-            var uom_per_m = d.get_values().uom_per_m;
+            var g_per_m = d.get_values().g_per_m;
+            var g_per_uom = d.get_values().g_per_uom;
             var needle_per_m = 114 / 9.1;
             if (frm.doc.stickrapport === "4/4") {
                 needle_per_m = 342 / 9.1;
@@ -170,7 +175,7 @@ function nadelrechner(frm, input, output, target=null, uom_per_m=1) {
             } else {
                 frappe.msgprint("Unbekannter Rapport");
             }
-            output = input * needle_per_m * uom_per_m;
+            output = input * needle_per_m * g_per_m / g_per_uom;
             // if there is a target, fill value
             if (target) {
                 frappe.model.set_value(target.cdt, target.cdn, target.field, output);
