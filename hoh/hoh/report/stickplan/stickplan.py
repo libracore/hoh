@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 import ast
 from datetime import datetime, timedelta
+from hoh-hoh.utils import complete_work_order_details
 
 def execute(filters=None):
     columns = get_columns()
@@ -24,7 +25,7 @@ def get_columns():
         {"label": _("Garn"), "fieldname": "garn", "fieldtype": "Data", "width": 100},
         {"label": _("Pailletten"), "fieldname": "pailletten", "fieldtype": "Data", "width": 100},
         {"label": _("Monofil"), "fieldname": "monofil", "fieldtype": "Data", "width": 100},
-
+        {"label": _("Bobinen"), "fieldname": "bobinen", "fieldtype": "Data", "width": 100},
         {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
         {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
@@ -82,6 +83,7 @@ def get_data(filters):
          `tabWork Order`.`garn` AS `garn`,
          `tabWork Order`.`pailletten` AS `pailletten`,
          `tabWork Order`.`monofil` AS `monofil`,
+         `tabWork Order`.`bobinen` AS `bobinen`,
          `tabWork Order`.`anmerkung` AS `anmerkung`,
          `tabStickmaschine`.`ktm_per_h` AS `ktm_per_h`,
          `tabStickmaschine`.`next_maintenance_date` AS `next_maintenance_date`,
@@ -116,6 +118,9 @@ def update_material_status():
         wo = frappe.get_doc("Work Order", entry['work_order'])
         wo.set_available_qty()
         wo.save()
+        # complete details if missing
+        if not wo.stoffe:
+            complete_work_order_details(wo.name)
     return
 
 @frappe.whitelist()

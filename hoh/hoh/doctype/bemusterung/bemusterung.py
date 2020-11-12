@@ -42,7 +42,6 @@ class Bemusterung(Document):
             'country_of_origin':self.country_of_origin,
             'customs_tariff_number': self.customs_tariff_number,
             't_min_menge': self.minimalmenge,
-            'standard_rate': self.rate,
             'weight_uom': 'g',
             'weight_per_unit': (self.gewicht * 1000),
             'gewicht': (self.gewicht * 1000),
@@ -62,6 +61,16 @@ class Bemusterung(Document):
                 'stickmaschine': s.stickmaschine
             })
         item = new_item.insert()
+        # create new item price record
+        price_list = frappe.get_value("Selling Settings", "Selling Settings", "selling_price_list")
+        new_item_price = frappe.get_doc({
+            'doctype': 'Item Price',
+            'item_code': item.item_code,
+            'uom': 'm',
+            'price_list': price_list,
+            'price_list_rate': self.rate
+        })
+        new_item_price.insert()
         # create new BOM
         new_bom = frappe.get_doc({
             'doctype': 'BOM',

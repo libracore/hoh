@@ -59,3 +59,50 @@ def bulk_set_prices(item_code_pattern, price_list, rate):
     # write changes to database
     frappe.db.commit()
     return updated_item_prices
+
+@frappe.whitelist()
+def compile_details(bemusterung):
+    # collect values from bemusterung > BOM
+    bemusterung = frappe.get_doc("Bemusterung", bemusterung)
+    dessin = frappe.get_doc("Dessin", bemusterung.dessin)
+    garne = []
+    stoffe = []
+    pailletten = []
+    monofil = []
+    bobinen = []
+    for item in bemusterung.items:
+        if item.item_group == "Garne" or item.item_group == "Kordel":
+            garne.append(item.item_name)
+        elif item.item_group == "Stoffe" or item.item_group == "Hilfsstoffe":
+            stoffe.append(item.item_name)
+        elif item.item_group == "Pailletten":
+            pailletten.append(item.item_name)
+        elif item.item_group == "Monofil":
+            monofil.append(item.item_name)
+        elif item.item_group == "Bobinen":
+            bobinen.append(item.item_name)
+    details = {
+        'garne': " + ".join(garne),
+        'stoffe': " + ".join(stoffe),
+        'pailletten': " + ".join(pailletten),
+        'monofil': " + ".join(monofil),
+        'bobinen': " + ".join(bobinen),
+        'kartenmeter': dessin.gesamtmeter
+    }
+    if len(dessin.stickmaschine) > 0:
+        details['stickmaschine'] = dessin.stickmaschine[0].stickmaschine
+    return details
+    
+def complete_work_order_details(work_order):
+    wo = frappe.get_doc("Work Order", work_order)
+    if wo.production_item:
+        details = compile_details(bemusterung)
+        wo.garne = details['garne']
+        wo.stoffe = details['stoffe']
+        wo.pailletten = details['pailletten']
+        wo.monofil = details['monofil']
+        wo.bobinen = details['bobinen']
+        wo.kartenmeter = details['kartenmeter']
+        wo.stickmaschine = details['stickmaschine'] if 'stickmaschine' in details else None
+        wo.save()
+    return
