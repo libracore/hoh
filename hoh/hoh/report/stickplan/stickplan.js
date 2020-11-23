@@ -57,12 +57,58 @@ frappe.query_reports["Stickplan"] = {
 
 /* add event listener for double clicks to move up */
 cur_page.container.addEventListener("dblclick", function(event) {
-    var content = event.target.innerHTML;
+    var content = strip_html_tags(event.target.innerHTML).trim();
     if (content.startsWith("WO-")) {
-        /* move this work order up by one */
-        
+        get_wo_details(content);
     }
 });
+
+function strip_html_tags(str)
+{
+   if ((str===null) || (str===''))
+       return false;
+   else
+   str = str.toString();
+  return str.replace(/<[^>]*>/g, '');
+}
+
+function get_wo_details(work_order) {
+    frappe.call({
+        "method": "hoh.hoh.report.stickplan.stickplan.get_planning_wo",
+        "args": {
+            "wo": work_order
+        },
+        "callback": function(response) {
+            var wo = response.message;
+            show_planning_dialog(wo);
+        }
+    });
+}
+
+function show_planning_dialog(wo) {
+    console.log(wo);
+    var d = new frappe.ui.Dialog({
+        'title': __('Planning'),
+        'fields': [
+            {'fieldname': 'work_order', 'fieldtype': 'Link', 'options': 'Work Order', 
+             'label': __('Work Order'), 'read_only': 1, 'default': wo.work_order},
+            {'fieldname': 'sales_order', 'fieldtype': 'Link', 'options': 'Sales Order', 
+             'label': __('Sales Order'), 'read_only': 1, 'default': wo.sales_order},
+            {'fieldname': 'start_date', 'fieldtype': 'Datetime', 'default': wo.planned_start_date,
+             'label': __('Start Date')  },
+            {'fieldname': 'earlier_date', 'fieldtype': 'Datetime', 'default': wo.previous_date,
+             'label': __('Earlier Date')  },
+            {'fieldname': 'later_date', 'fieldtype': 'Datetime', 'default': wo.next_date,
+             'label': __('Later Date')  }
+        ],
+        primary_action: function(){
+            d.hide();
+            show_alert(d.get_values());
+        },
+        primary_action_label: __('Plan')
+    });
+    d.show();
+}
 
 function auto_plan() {
     frappe.prompt([

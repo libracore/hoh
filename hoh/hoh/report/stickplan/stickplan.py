@@ -6,7 +6,7 @@ import frappe
 from frappe import _
 import ast
 from datetime import datetime, timedelta
-from hoh-hoh.utils import complete_work_order_details
+from hoh.hoh.utils import complete_work_order_details
 
 def execute(filters=None):
     columns = get_columns()
@@ -143,3 +143,28 @@ def plan_machine(machine):
         last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         wo.save()
     return
+
+""" This function returns planning date for a work order """
+@frappe.whitelist()
+def get_planning_wo(wo):
+    work_order = frappe.get_doc("Work Order", wo)
+    previous_date = None
+    next_date = None
+    if work_order.stickmaschine:
+        data = get_data(filters={'stickmaschine': work_order.stickmaschine, 
+            'from_date': work_order.planned_start_date - timedelta(days=10), 
+            'to_date': work_order.planned_start_date - timedelta(days=10)})
+        for row in range(len(data)):
+            if data[row]['work_order'] == wo:
+                if row > 0:
+                    previous_date = data[row - 1]['start_date']
+                if row < (len(data) - 1):
+                    next_date = data[row + 1]['start_date']
+                break
+    return {
+        'work_order': wo,
+        'sales_order': work_order.sales_order,
+        'planned_start_date': work_order.planned_start_date,
+        'previous_date': len(data), #previous_date,
+        'next_date': next_date
+    }
