@@ -97,9 +97,9 @@ function show_planning_dialog(wo) {
             {'fieldname': 'start_date', 'fieldtype': 'Datetime', 'default': wo.planned_start_date,
              'label': __('Start Date')  },
             {'fieldname': 'earlier_date', 'fieldtype': 'Datetime', 'default': wo.previous_date,
-             'label': __('Earlier Date')  },
+             'label': __('Earlier Date') , 'read_only': 1 },
             {'fieldname': 'later_date', 'fieldtype': 'Datetime', 'default': wo.next_date,
-             'label': __('Later Date')  }
+             'label': __('Later Date') , 'read_only': 1 }
         ],
         primary_action: function(){
             d.hide();

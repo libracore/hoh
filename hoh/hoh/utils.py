@@ -80,7 +80,7 @@ def compile_details(bemusterung):
         elif item.item_group == "Monofil":
             monofil.append(item.item_name)
         elif item.item_group == "Bobinen":
-            bobinen.append(item.item_name)
+            bobinen.append(item.item_code)
     details = {
         'garne': " + ".join(garne),
         'stoffe': " + ".join(stoffe),

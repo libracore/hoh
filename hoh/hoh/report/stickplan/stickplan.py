@@ -53,9 +53,9 @@ def get_data(filters):
     if 'stickmaschine' in filters and filters['stickmaschine']:
         conditions += """ AND `tabWork Order`.`stickmaschine` = "{0}" """.format(filters['stickmaschine'])
     if 'from_date' in filters and filters['from_date']:
-        conditions += """ AND (`tabWork Order`.`expected_delivery_date` >= '{from_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(from_date=filters['from_date'])
+        conditions += """ AND (`tabWork Order`.`planned_start_date` >= '{from_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(from_date=filters['from_date'])
     if 'to_date' in filters and filters['to_date']:
-        conditions += """ AND (`tabWork Order`.`expected_delivery_date` <= '{to_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(to_date=filters['to_date'])
+        conditions += """ AND (`tabWork Order`.`planned_start_date` <= '{to_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(to_date=filters['to_date'])
     if 'item_code' in filters and filters['item_code']:
         conditions += """ AND `tabWork Order`.`production_item` = '{item_code}'""".format(item_code=filters['item_code'])
     if 'sales_order' in filters and filters['sales_order']:
@@ -106,7 +106,7 @@ def get_data(filters):
           {conditions}
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
       """.format(conditions=conditions, hours_per_shift=hours_per_shift)
-
+    
     data = frappe.db.sql(sql_query, as_dict=1)
 
     return data
@@ -152,8 +152,9 @@ def get_planning_wo(wo):
     next_date = None
     if work_order.stickmaschine:
         data = get_data(filters={'stickmaschine': work_order.stickmaschine, 
-            'from_date': work_order.planned_start_date - timedelta(days=10), 
-            'to_date': work_order.planned_start_date - timedelta(days=10)})
+            'from_date': (work_order.planned_start_date - timedelta(days=30)).date(), 
+            'to_date': (work_order.planned_start_date + timedelta(days=30)).date() 
+        })
         for row in range(len(data)):
             if data[row]['work_order'] == wo:
                 if row > 0:
@@ -165,6 +166,6 @@ def get_planning_wo(wo):
         'work_order': wo,
         'sales_order': work_order.sales_order,
         'planned_start_date': work_order.planned_start_date,
-        'previous_date': len(data), #previous_date,
+        'previous_date': previous_date,
         'next_date': next_date
     }
