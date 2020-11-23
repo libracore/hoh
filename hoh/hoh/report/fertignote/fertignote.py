@@ -88,8 +88,10 @@ def get_data(filters):
           `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
           AND `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` = "Completed"
+          AND `tabWork Order`.`planned_start_date` >= '{from_date}'
+          AND `tabWork Order`.`planned_start_date` <= '{to_date}'
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;
-      """.format(stickmaschine=filters.stickmaschine, hours_per_shift=hours_per_shift)
+      """.format(stickmaschine=filters.stickmaschine, from_date=filters.from_date, to_date=filters.to_date, hours_per_shift=hours_per_shift)
 
     data = frappe.db.sql(sql_query, as_dict=1)
 
