@@ -7,6 +7,7 @@ from frappe import _
 import ast
 from datetime import datetime, timedelta
 from hoh.hoh.utils import complete_work_order_details
+from frappe.utils import cint
 
 def execute(filters=None):
     columns = get_columns()
@@ -167,5 +168,29 @@ def get_planning_wo(wo):
         'sales_order': work_order.sales_order,
         'planned_start_date': work_order.planned_start_date,
         'previous_date': previous_date,
-        'next_date': next_date
+        'next_date': next_date,
+        'stickmaschine': work_order.stickmaschine
     }
+
+@frappe.whitelist()
+def replan_work_order(work_order, sales_order, maschine, target_date, all_sales_order):
+    target_date = datetime.strptime(target_date, '%Y-%m-%d %H:%M:%S')
+    if cint(all_sales_order) == 1:
+        # replan complete work order
+        all_wos = frappe.get_all("Work Order", filters=[['sales_order', '=', sales_order], ['docstatus', '<', 2]], 
+            fields=['name'], order_by='planned_start_date')
+        for wo in all_wos:
+            replan(wo['name'], target_date)
+            target_date = target_date + timedelta(seconds=1)
+    else:
+        # single work order
+        replan(work_order, target_date)
+    plan_machine(maschine)
+    frappe.db.commit()
+    return
+    
+def replan(work_order, target_date):
+    wo = frappe.get_doc("Work Order", work_order)
+    wo.planned_start_date = target_date
+    wo.save()
+    return
