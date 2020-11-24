@@ -6,7 +6,8 @@ import frappe
 from frappe import _
 import ast
 from datetime import datetime, timedelta
-from hoh-hoh.utils import complete_work_order_details
+from hoh.hoh.utils import complete_work_order_details
+from frappe.utils import cint
 
 def execute(filters=None):
     columns = get_columns()
@@ -53,9 +54,9 @@ def get_data(filters):
     if 'stickmaschine' in filters and filters['stickmaschine']:
         conditions += """ AND `tabWork Order`.`stickmaschine` = "{0}" """.format(filters['stickmaschine'])
     if 'from_date' in filters and filters['from_date']:
-        conditions += """ AND (`tabWork Order`.`expected_delivery_date` >= '{from_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(from_date=filters['from_date'])
+        conditions += """ AND (`tabWork Order`.`planned_start_date` >= '{from_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(from_date=filters['from_date'])
     if 'to_date' in filters and filters['to_date']:
-        conditions += """ AND (`tabWork Order`.`expected_delivery_date` <= '{to_date}' OR `tabWork Order`.`expected_delivery_date` IS NULL)""".format(to_date=filters['to_date'])
+        conditions += """ AND (`tabWork Order`.`planned_start_date` <= '{to_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(to_date=filters['to_date'])
     if 'item_code' in filters and filters['item_code']:
         conditions += """ AND `tabWork Order`.`production_item` = '{item_code}'""".format(item_code=filters['item_code'])
     if 'sales_order' in filters and filters['sales_order']:
@@ -106,7 +107,7 @@ def get_data(filters):
           {conditions}
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
       """.format(conditions=conditions, hours_per_shift=hours_per_shift)
-
+    
     data = frappe.db.sql(sql_query, as_dict=1)
 
     return data
@@ -142,4 +143,54 @@ def plan_machine(machine):
                 wo.planned_start_date = earliest_start
         last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         wo.save()
+    return
+
+""" This function returns planning date for a work order """
+@frappe.whitelist()
+def get_planning_wo(wo):
+    work_order = frappe.get_doc("Work Order", wo)
+    previous_date = None
+    next_date = None
+    if work_order.stickmaschine:
+        data = get_data(filters={'stickmaschine': work_order.stickmaschine, 
+            'from_date': (work_order.planned_start_date - timedelta(days=30)).date(), 
+            'to_date': (work_order.planned_start_date + timedelta(days=30)).date() 
+        })
+        for row in range(len(data)):
+            if data[row]['work_order'] == wo:
+                if row > 0:
+                    previous_date = data[row - 1]['start_date']
+                if row < (len(data) - 1):
+                    next_date = data[row + 1]['start_date']
+                break
+    return {
+        'work_order': wo,
+        'sales_order': work_order.sales_order,
+        'planned_start_date': work_order.planned_start_date,
+        'previous_date': previous_date,
+        'next_date': next_date,
+        'stickmaschine': work_order.stickmaschine
+    }
+
+@frappe.whitelist()
+def replan_work_order(work_order, sales_order, maschine, target_date, all_sales_order):
+    target_date = datetime.strptime(target_date, '%Y-%m-%d %H:%M:%S')
+    if cint(all_sales_order) == 1:
+        # replan complete work order
+        all_wos = frappe.get_all("Work Order", filters=[['sales_order', '=', sales_order], ['docstatus', '<', 2]], 
+            fields=['name'], order_by='planned_start_date')
+        for wo in all_wos:
+            replan(wo['name'], target_date)
+            target_date = target_date + timedelta(seconds=1)
+    else:
+        # single work order
+        replan(work_order, target_date)
+    plan_machine(maschine)
+    frappe.db.commit()
+    return
+    
+def replan(work_order, target_date):
+    wo = frappe.get_doc("Work Order", work_order)
+    wo.planned_start_date = target_date
+    wo.save()
     return
