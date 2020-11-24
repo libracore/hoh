@@ -52,7 +52,7 @@ def get_data(filters):
                   `tabWork Order`.`status` IN ("Not Started", "Draft")
                   AND `tabWork Order`.`planned_start_date` <= "{to_date}"
                   AND `tabItem`.`item_group` IN ("Pailletten", "Applikationen")
-                ORDER BY `tabWork Order Item`.`item_code` ASC, `tabWork Order`.`planned_start_date` ASC;;""".format(
+                ORDER BY `tabWork Order Item`.`item_code` ASC, `tabWork Order`.`planned_start_date` ASC;""".format(
                 to_date=filters.to_date, warehouse=primary_warehouse)
     
     data = frappe.db.sql(sql_query, as_dict=True)

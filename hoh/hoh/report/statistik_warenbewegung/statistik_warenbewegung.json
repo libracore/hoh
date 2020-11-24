@@ -1,0 +1,47 @@
+{
+ "add_total_row": 0,
+ "creation": "2020-11-24 21:22:37.997913",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": "Commercial",
+ "modified": "2020-11-24 21:26:00.342190",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Statistik Warenbewegung",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Item",
+ "report_name": "Statistik Warenbewegung",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Item Manager"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Maintenance User"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Manufacturing User"
+  }
+ ]
+}

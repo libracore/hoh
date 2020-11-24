@@ -44,7 +44,9 @@
   "show_online",
   "column_online_catalogue",
   "produktkategorien",
-  "prio"
+  "prio",
+  "section_finish",
+  "finish_steps"
  ],
  "fields": [
   {
@@ -287,10 +289,21 @@
    "fieldtype": "Int",
    "label": "Prio",
    "no_copy": 1
+  },
+  {
+   "fieldname": "section_finish",
+   "fieldtype": "Section Break",
+   "label": "Ausr\u00fcsterei"
+  },
+  {
+   "fieldname": "finish_steps",
+   "fieldtype": "Table",
+   "label": "Finish Step",
+   "options": "Bemusterung Finish Step"
   }
  ],
  "image_field": "image",
- "modified": "2020-10-08 22:08:33.124357",
+ "modified": "2020-11-24 21:20:38.102509",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

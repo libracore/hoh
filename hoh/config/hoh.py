@@ -297,6 +297,12 @@ def get_data():
                    },
                    {
                        "type": "doctype",
+                       "name": "Finish Step",
+                       "label": _("Finish Step"),
+                       "description": _("Finish Step")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Stickmaschine",
                        "label": _("Stickmaschine"),
                        "description": _("Stickmaschine")
@@ -324,6 +330,28 @@ def get_data():
                        "name": "Lieferart",
                        "label": _("Lieferart"),
                        "description": _("Lieferart")
+                   }
+            ]
+        },
+        {
+            "label": _("Auswertungen"),
+            "icon": "fa fa-chart",
+            "items": [
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Statistik Warenbewegung",
+                       "label": _("Statistik Warenbewegung"),
+                       "description": _("Statistik Warenbewegung"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Detail Warenbewegung",
+                       "label": _("Detail Warenbewegung"),
+                       "description": _("Detail Warenbewegung"),
+                       "is_query_report": True
                    }
             ]
         }
