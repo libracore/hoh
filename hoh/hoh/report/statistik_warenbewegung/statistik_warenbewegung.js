@@ -28,3 +28,21 @@ frappe.query_reports["Statistik Warenbewegung"] = {
         }
     ]
 };
+
+/* add event listener for double clicks to move up */
+cur_page.container.addEventListener("dblclick", function(event) {
+    var content = strip_html_tags(event.target.innerHTML).trim();
+    if (content.includes(": ")) {
+        frappe.set_route("query-report", "Detail Warenbewegung", {"item": content.split(': ')[0]});
+    }
+});
+
+function strip_html_tags(str)
+{
+   if ((str===null) || (str===''))
+       return false;
+   else
+   str = str.toString();
+  return str.replace(/<[^>]*>/g, '');
+}
+

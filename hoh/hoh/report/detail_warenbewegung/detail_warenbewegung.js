@@ -25,5 +25,10 @@ frappe.query_reports["Detail Warenbewegung"] = {
             "default": frappe.datetime.get_today(),
             "reqd": 1
         }
-    ]
+    ],
+    "onload": (report) => {
+        report.page.add_inner_button(__('Statistik Warenbewegung'), function () {
+           frappe.set_route("query-report", "Statistik Warenbewegung");
+        });
+    }
 };

@@ -17,8 +17,7 @@ def get_columns():
         {"label": _("Customer name"), "fieldname": "customer_name", "width": 150},
         {"label": _("Supplier"), "fieldname": "supplier", "options": "Supplier", "width": 150},
         {"label": _("Supplier name"), "fieldname": "supplier_name", "width": 150},
-        {"label": _("Qty [m]"), "fieldname": "qty_sold", "fieldtype": "Float", "width": 100, "precission": 1},
-        {"label": _("Qty purchased [m]"), "fieldname": "qty_purchased", "fieldtype": "Float", "width": 100, "precission": 1},
+        {"label": _("Qty [m]"), "fieldname": "qty", "fieldtype": "Float", "width": 100, "precission": 1},
         {"label": _("Number of sales orders"), "fieldname": "number_of_sales_orders", "fieldtype": "Float", "width": 100, "precission": 1},
         {"label": _(" "), "fieldname": "blank", "width": 20}
     ]
@@ -57,7 +56,7 @@ def get_data(filters):
                      AND `tabPurchase Receipt`.`docstatus` = 1
                      AND `tabPurchase Receipt`.`posting_date` >= "{from_date}"
                      AND `tabPurchase Receipt`.`posting_date` <= "{to_date}";""".format(
-                from_date=filters.from_date, to_date=filters.to_date, item_code=filters.item_code)
+                from_date=filters.from_date, to_date=filters.to_date, item_code=filters.item)
     
     data = frappe.db.sql(sql_query, as_dict=True)
     
