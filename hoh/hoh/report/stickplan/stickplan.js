@@ -139,6 +139,7 @@ function plan_machine(machine) {
         },
         "callback": function(response) {
             frappe.show_alert( __("Updated") );
+            frappe.query_report.refresh();
         }
     });
 }
@@ -155,6 +156,7 @@ function replan_work_order(values) {
         },
         "callback": function(response) {
             frappe.show_alert( __("Replanned") );
+            frappe.query_report.refresh()
         }
     });
 }
