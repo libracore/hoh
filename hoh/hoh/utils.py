@@ -86,7 +86,8 @@ def compile_details(bemusterung):
         finish_steps.append({
             'finish_step': fs.finish_step,
             'supplier': fs.supplier,
-            'supplier_name': fs.supplier_name
+            'supplier_name': fs.supplier_name,
+            'remarks': fs.remarks
         })
     details = {
         'garne': " + ".join(garne),
@@ -117,6 +118,8 @@ def complete_work_order_details(work_order):
             row = wo.append('finish_steps', {
                 'finish_step': fs['finish_step'],
                 'supplier': fs['supplier'],
-                'supplier_name': fs['supplier_name'])
+                'supplier_name': fs['supplier_name'],
+                'remarks': fs['remarks']
+            })
         wo.save()
     return

@@ -35,6 +35,7 @@ def get_columns():
         {"label": _("End Date"), "fieldname": "end_date", "fieldtype": "Date",  "width": 90},
         {"label": _("Nächste Wartung"), "fieldname": "next_maintenance_date", "fieldtype": "Date", "width": 75},
         {"label": _("Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 100},
+        {"label": _("Qty full"), "fieldname": "qty_full", "fieldtype": "Data", "width": 100},
         {"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 100},
         {"label": _("Anmerkung"), "fieldname": "anmerkung", "fieldtype": "Data", "width": 100},
         {"label": _("Ktm pro h"), "fieldname": "ktm_per_h", "fieldtype": "Float", "precision": 1, "width": 75},
@@ -78,6 +79,10 @@ def get_data(filters):
          `tabWork Order`.`stickmaschine` AS `stickmaschine`,
          `tabWork Order`.`production_item` AS `item`,
          `tabWork Order`.`qty` AS `qty`,
+         (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
+            FROM `tabSales Order Item`
+            WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
+              AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty_full`,
          `tabWork Order`.`stock_uom` AS `uom`,
          `tabDessin`.`stickrapport` AS `stickrapport`,
          `tabWork Order`.`stoff` AS `stoff`,

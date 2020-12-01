@@ -50,7 +50,7 @@ def get_work_order_label_data(selected_items):
                        `tabItem`.`item_name` AS `item_name`,
                        `tabWork Order`.`stoff` AS `stoff`,
                        `tabWork Order`.`pailletten` AS `pailletten`,
-                       (SELECT CONCAT(`tabSales Order Item`.`anzahl`, " x ", `tabSales Order Item`.`verkaufseinheit`, " ", `tabSales Order Item`.`uom`) 
+                       (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`
                         WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
                           AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty`,
