@@ -162,6 +162,17 @@ def get_label_data(selected_items):
 
     return frappe.db.sql(sql_query, as_dict=True)
 
+def get_item_label_data(selected_items):
+    sql_query = """SELECT
+                       `tabItem`.`item_code` AS `item_code`,
+                       `tabItem`.`item_name` AS `item_name`,
+                       `tabItem`.`item_group` AS `item_group`,
+                       `tabItem`.`stock_uom` AS `stock_uom`
+                    FROM `tabItem`
+                    WHERE `tabItem`.`name` IN ({selected_items});""".format(selected_items=selected_items)
+
+    return frappe.db.sql(sql_query, as_dict=True)
+    
 @frappe.whitelist()
 def get_label(selected_items):
     # get label printer
@@ -175,7 +186,7 @@ def get_label(selected_items):
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
-    content = frappe.render_template('hoh/hoh/templates/labels/price_label.html', data)
+    content = frappe.render_template('hoh/templates/labels/price_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
@@ -183,4 +194,25 @@ def get_label(selected_items):
     frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
     frappe.local.response.filecontent = pdf
     frappe.local.response.type = "download"
-    
+   
+@frappe.whitelist()
+def get_item_label(selected_items):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.item_label_printer:
+        frappe.throw( _("Please define an item label printer for price labels under HOH Settings.") )
+    label_printer = settings.item_label_printer
+    # get raw data
+    data = { 
+        'items': get_item_label_data(selected_items),
+        'date': datetime.today().strftime('%d.%m.%Y')
+    }
+    # prepare content
+    content = frappe.render_template('hoh/templates/labels/item_label.html', data)
+    # create pdf
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"

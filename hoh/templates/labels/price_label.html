@@ -1,12 +1,12 @@
 {% for i in range(0, items|len) %}
-<table style="width: 100mm; height: 45mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %}{#background-color: yellow; border: 1px solid black;#}">
+<table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} ">
     <tr>
-        <td></td>
-        <td>{{ items[i].name }}<br>
-            {{ items[i].preis }}<br>
+        <td style="margin-top: 5px; "></td>
+        <td style="margin-top: 5px; ">{{ items[i].name }}<br>
             {{ date }}<br>
-            {{ items[i].pflegesymbole }}<br>
-            {{ items[i].material }}<br>
+            {{ items[i].pflegesymbole or "n/a" }}<br>
+            {{ items[i].material or "n/a" }}
+            <p style="text-align: right; margin: 0px; ">{{ items[i].preis }} EUR/m ({{ items[i].preisgruppe }})</p>
         </td>
     </tr>
 </table>
