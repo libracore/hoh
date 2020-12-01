@@ -1,8 +1,8 @@
 {% for i in range(0, items|len) %}
 <table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} ">
     <tr>
-        <td style="margin-top: 5px; "></td>
-        <td style="margin-top: 5px; ">{{ items[i].name }}<br>
+        <td style="margin-top: 0px; "></td>
+        <td style="margin-top: 0px; ">{{ items[i].name }}<br>
             {{ date }}<br>
             {{ items[i].pflegesymbole or "n/a" }}<br>
             {{ items[i].material or "n/a" }}

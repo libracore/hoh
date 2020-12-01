@@ -1,13 +1,13 @@
 // Copyright (c) 2020, libracore and contributors
 // For license information, please see license.txt
 
-frappe.listview_settings['Bemusterung'] = {
+frappe.listview_settings['Item'] = {
     onload: function(listview) {
-		listview.page.add_menu_item(__("Create Label"), function() {
+        listview.page.add_menu_item(__("Create Label"), function() {
             var selected = listview.get_checked_items();
             create_label(selected);
-		});
-	}
+        });
+    }
 };
 
 function create_label(selected) {
@@ -19,7 +19,7 @@ function create_label(selected) {
     // retrieve pdf
     if (selected_items.length > 0) {
         // html-content of the label
-        var url = "/api/method/hoh.hoh.labels.get_label"  
+        var url = "/api/method/hoh.hoh.labels.get_item_label"  
                 + "?selected_items=" + encodeURIComponent("'" + selected_items.join("','") + "'");
         var w = window.open(
              frappe.urllib.get_full_url(url)

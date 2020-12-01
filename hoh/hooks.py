@@ -30,7 +30,8 @@ doctype_js = {
     "Work Order" : "public/js/work_order.js"
 }
 doctype_list_js = {
-    "Item" : "public/js/item_list.js"
+    "Item" : "public/js/item_list.js",
+    "Work Order" : "public/js/work_order_list.js"
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
