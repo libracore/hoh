@@ -1,12 +1,15 @@
 {
- "creation": "2020-11-24 21:19:10.868254",
+ "creation": "2020-12-01 17:54:45.139951",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "finish_step",
   "supplier",
-  "supplier_name"
+  "supplier_name",
+  "date_out",
+  "date_in",
+  "completed"
  ],
  "fields": [
   {
@@ -20,7 +23,6 @@
   {
    "fieldname": "supplier",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Supplier",
    "options": "Supplier"
   },
@@ -28,16 +30,34 @@
    "fetch_from": "supplier.supplier_name",
    "fieldname": "supplier_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Supplier name",
    "read_only": 1
+  },
+  {
+   "fieldname": "date_out",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date out"
+  },
+  {
+   "fieldname": "date_in",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date in"
+  },
+  {
+   "default": "0",
+   "fieldname": "completed",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Completed"
   }
  ],
  "istable": 1,
- "modified": "2020-12-01 17:54:13.119080",
+ "modified": "2020-12-01 17:54:45.139951",
  "modified_by": "Administrator",
  "module": "hoh",
- "name": "Bemusterung Finish Step",
+ "name": "Work Order Finish Step",
  "owner": "Administrator",
  "permissions": [],
  "quick_entry": 1,
