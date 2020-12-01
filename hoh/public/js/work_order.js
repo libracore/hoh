@@ -66,6 +66,19 @@ function fetch_item_details(frm) {
             if (details.stickmaschine) {
                 cur_frm.set_value("stickmaschine", details.stickmaschine);
             }
+            // remove all rows
+            var tbl = frm.doc.finish_steps || [];
+            var i = tbl.length;
+            while (i--)
+            {
+                cur_frm.get_field("finish_steps").grid.grid_rows[i].remove();
+            }
+            details.finish_steps.forEach(function (step) {
+                var child = cur_frm.add_child('finish_steps');
+                frappe.model.set_value(child.doctype, child.name, 'finish_step', step.finish_step);
+                frappe.model.set_value(child.doctype, child.name, 'supplier', step.supplier);  
+            });
+            cur_frm.refresh();
         }
     });
 }

@@ -81,13 +81,21 @@ def compile_details(bemusterung):
             monofil.append(item.item_name)
         elif item.item_group == "Bobinen":
             bobinen.append(item.item_code)
+    finish_steps = []
+    for fs in bemusterung.finish_steps:
+        finish_steps.append({
+            'finish_step': fs.finish_step,
+            'supplier': fs.supplier,
+            'supplier_name': fs.supplier_name
+        })
     details = {
         'garne': " + ".join(garne),
         'stoffe': " + ".join(stoffe),
         'pailletten': " + ".join(pailletten),
         'monofil': " + ".join(monofil),
         'bobinen': " + ".join(bobinen),
-        'kartenmeter': dessin.gesamtmeter
+        'kartenmeter': dessin.gesamtmeter,
+        'finish_steps': finish_steps
     }
     if len(dessin.stickmaschine) > 0:
         details['stickmaschine'] = dessin.stickmaschine[0].stickmaschine
@@ -104,5 +112,11 @@ def complete_work_order_details(work_order):
         wo.bobinen = details['bobinen']
         wo.kartenmeter = details['kartenmeter']
         wo.stickmaschine = details['stickmaschine'] if 'stickmaschine' in details else None
+        wo.finish_steps = []
+        for fs in details['finish_steps']:
+            row = wo.append('finish_steps', {
+                'finish_step': fs['finish_step'],
+                'supplier': fs['supplier'],
+                'supplier_name': fs['supplier_name'])
         wo.save()
     return
