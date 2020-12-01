@@ -21,8 +21,8 @@ def get_columns():
         {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
         {"label": _("Item"), "fieldname": "item", "fieldtype": "Link", "options": "Item", "width": 150},
         {"label": _("Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 100},
-        {"label": _("Qty full"), "fieldname": "qty_full", "fieldtype": "Data", "width": 100},
         {"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 100},
+        {"label": _("Qty full"), "fieldname": "qty_full", "fieldtype": "Data", "width": 100},
         {"label": _("Anmerkung"), "fieldname": "anmerkung", "fieldtype": "Data", "width": 100},
     ]
 
