@@ -200,16 +200,16 @@ def get_data():
             "icon": "octicon octicon-repo",
             "items": [
                    {
-                       "type": "doctype",
-                       "name": "Kassa",
-                       "label": _("Kassa"),
-                       "description": _("Kassa")
+                       "type": "page",
+                       "name": "bank_wizard",
+                       "label": _("Bank Wizard"),
+                       "description": _("Bank Wizard")
                    },
                    {
                        "type": "doctype",
-                       "name": "Buchhaltungsperiode",
-                       "label": _("Buchhaltungsperiode"),
-                       "description": _("Buchhaltungsperiode")
+                       "name": "Payment Proposal",
+                       "label": _("Payment Proposal"),
+                       "description": _("Payment Proposal")
                    },
                    {
                        "type": "doctype",
@@ -219,21 +219,32 @@ def get_data():
                    },
                    {
                        "type": "doctype",
-                       "name": "Direct Debit Proposal",
-                       "label": _("Direct Debit Proposal"),
-                       "description": _("Direct Debit Proposal")
+                       "name": "AT VAT Declaration",
+                       "label": _("AT VAT Declaration"),
+                       "description": _("AT VAT Declaration")
                    },
                    {
-                       "type": "doctype",
-                       "name": "Payment Proposal",
-                       "label": _("Payment Proposal"),
-                       "description": _("Payment Proposal")
+                       "type": "report",
+                       "name": "Kontrolle MwSt AT",
+                       "label": _("Kontrolle MwSt AT"),
+                       "doctype": "Sales Invoice",
+                       "is_query_report": True
                    },
                    {
-                       "type": "page",
-                       "name": "bank_wizard",
-                       "label": _("Bank Wizard"),
-                       "description": _("Bank Wizard")
+                       "type": "report",
+                       "doctype": "Sales Invoice",
+                       "name": "Summary Message",
+                       "label": _("Summary Message"),
+                       "description": _("Summary Message"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Purchase Invoice",
+                       "name": "Intrastat",
+                       "label": _("Intrastat"),
+                       "description": _("Intrastat"),
+                       "is_query_report": True
                    }
             ]
         },
