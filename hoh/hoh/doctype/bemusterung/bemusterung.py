@@ -102,18 +102,16 @@ class Bemusterung(Document):
         # fetch all items
         for i in self.items:
             item = frappe.get_doc("Item", i.item_code)
-            # proceed only with components that have a composition and not with Pailleten (based on foil)
-            if item.komposition and not item.item_group == "Folie":
+            # proceed only with components that have a composition and not with Pailleten (based on foil) and exclude support materials
+            if item.komposition and not (item.item_group == "Folie" or item.item_group == "Hilfsstoffe"):
                 multiplier = (i.qty * item.weight_per_unit or 1)
                 total_multiplier += multiplier
                 # aggregate contents
                 for c in item.komposition:
-                    # exclude support materials, the will leave the product in finish
-                    if c.material not in ['AC', 'AB', 'VL']:
-                        if c.material in composition:
-                            composition[c.material] = composition[c.material] + c.anteil * multiplier
-                        else:
-                            composition[c.material] = c.anteil * multiplier
+                    if c.material in composition:
+                        composition[c.material] = composition[c.material] + c.anteil * multiplier
+                    else:
+                        composition[c.material] = c.anteil * multiplier
         # store total weight
         self.gewicht = ((total_multiplier or 0) / 1000)
         # normalise contents
