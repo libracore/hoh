@@ -20,28 +20,32 @@
    "fieldtype": "Float",
    "label": "Maschinenstunden",
    "precision": "2",
-   "read_only": 1
+   "read_only": 1,
+   "allow_on_submit": 1
   },
   {
    "columns": 2,
    "fieldname": "remarks",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Bemerkungen"
+   "label": "Bemerkungen",
+   "allow_on_submit": 1
   },
   {
    "columns": 2,
    "fieldname": "start",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "Start"
+   "label": "Start",
+   "allow_on_submit": 1
   },
   {
    "columns": 2,
    "fieldname": "end",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "End"
+   "label": "End",
+   "allow_on_submit": 1
   },
   {
    "columns": 2,
@@ -49,7 +53,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Activity",
-   "options": "Activity Type"
+   "options": "Activity Type",
+   "allow_on_submit": 1
   },
   {
    "columns": 2,
@@ -57,7 +62,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Employee",
-   "options": "Employee"
+   "options": "Employee",
+   "allow_on_submit": 1
   },
   {
    "fieldname": "column_main",
