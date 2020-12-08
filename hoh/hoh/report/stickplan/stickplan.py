@@ -125,7 +125,7 @@ def update_material_status():
         wo.set_available_qty()
         wo.save()
         # complete details if missing
-        if not wo.stoffe:
+        if not wo.stoff:
             complete_work_order_details(wo.name)
     return
 
