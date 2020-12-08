@@ -337,7 +337,7 @@
    "parenttype": null,
    "property": "default_print_format",
    "property_type": "Data",
-   "value": "HOH Fertigungsauftrag"
+   "value": "Ausgangsrechnung"
   },
   {
    "_assign": null,
