@@ -30,7 +30,7 @@ def get_data(filters):
     sql_query = """SELECT
          `tabWork Order`.`name` AS `work_order`,
          IFNULL(`tabWork Order`.`sales_order`, "-") AS `sales_order`,
-         "Ausrüsten" AS `status`, 
+         IF(`tabWork Order`.`status` = "In Process", "In Process", "Ausrüsten") AS `status`, 
          IFNULL(`tabSales Order`.`customer`, "-") AS `customer`,
          IFNULL(`tabSales Order`.`customer_name`, "-") AS `customer_name`,
          `tabSales Order`.`delivery_Date` AS `delivery_date`,
