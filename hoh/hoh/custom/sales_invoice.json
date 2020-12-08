@@ -337,7 +337,7 @@
    "parenttype": null,
    "property": "default_print_format",
    "property_type": "Data",
-   "value": "Ausgangsrechnung"
+   "value": "Sales Invoice"
   },
   {
    "_assign": null,

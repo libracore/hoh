@@ -285,7 +285,7 @@
    "parenttype": null,
    "property": "default_print_format",
    "property_type": "Data",
-   "value": "Kundenauftrag"
+   "value": "Sales Order"
   }
  ],
  "sync_on_migrate": 1
