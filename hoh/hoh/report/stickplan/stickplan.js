@@ -49,6 +49,7 @@ frappe.query_reports["Stickplan"] = {
                 "method": "hoh.hoh.report.stickplan.stickplan.update_material_status",
                 "callback": function(response) {
                     frappe.show_alert( __("Updated") );
+                    frappe.query_report.refresh();
                 }
             });
         });

@@ -97,10 +97,11 @@ def get_data(filters):
          (`tabWork Order`.`qty` / 9.1) * `tabDessin`.`gesamtmeter` AS `ktm_total`,
          (((`tabWork Order`.`qty` / 9.1) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
          ((((`tabWork Order`.`qty` / 9.1) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
-         (SELECT 
-          IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
-          FROM `tabWork Order Item` AS `tWOI`
-          WHERE `tWOI`.`parent` = `tabWork Order`.`name`) AS `ready`
+         IF (`tabWork Order`.`status` = 'In Process', '-', 
+          (SELECT 
+           IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
+           FROM `tabWork Order Item` AS `tWOI`
+           WHERE `tWOI`.`parent` = `tabWork Order`.`name`)) AS `ready`
         FROM `tabWork Order`
         LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
         LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
@@ -120,6 +121,7 @@ def get_data(filters):
 @frappe.whitelist()
 def update_material_status():
     data = get_data(filters={'stickmaschine': None, 'from_date': None, 'to_date': None})
+    frappe.log_error("{0}".format(data))
     for entry in data:
         wo = frappe.get_doc("Work Order", entry['work_order'])
         wo.set_available_qty()

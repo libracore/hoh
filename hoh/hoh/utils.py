@@ -105,7 +105,7 @@ def compile_details(bemusterung):
 def complete_work_order_details(work_order):
     wo = frappe.get_doc("Work Order", work_order)
     if wo.production_item:
-        details = compile_details(bemusterung)
+        details = compile_details(wo.production_item)
         wo.garne = details['garne']
         wo.stoffe = details['stoffe']
         wo.pailletten = details['pailletten']

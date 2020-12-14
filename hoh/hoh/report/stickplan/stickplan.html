@@ -1,0 +1,52 @@
+<meta name="pdfkit-orientation" content="Landscape"/>
+  
+<table Style="width: 100%;">
+    <tr>
+        <td><h1>Stickplan ({%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %})</h1></td>
+        <td style="text-align: right; ">
+            <img alt="Logo" src="/files/logo_hoh_einzeln.jpg" style="height: 50px !important; width: auto !important; ">
+        </td>
+    </tr>
+</table>
+
+<table style="width: 100%; font-size: 10px; border-top: 1px solid black; ">
+    {% for (var i=0, l=data.length-1; i<l; i++) { %}
+    <tr>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Work Order") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].work_order %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Bemusterung") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;"><b>{%= data[i].item %}</b></td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Stickmaschine") %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].stickmaschine %}</td>
+    </tr>
+    <tr>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Menge") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].qty %} {%= data[i].stock_uom %} ({%= data[i].qty_full %})</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Stickrapport") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].stickrapport %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Delivery Date") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= frappe.datetime.str_to_user(data[i].end_date) %}</td>
+    </tr>
+    <tr>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Start") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= frappe.datetime.str_to_user(data[i].start_date) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Remarks") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=3>{%= data[i].anmerkung %}</td>
+    </tr>   
+    <tr style="border-bottom: 1px solid silver; ">
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">
+            {%= __("Sales Order") %}:<br>
+            {%= __("Customer") %}:</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">
+            {%= data[i].sales_order %}<br>
+            {%= data[i].customer %} ({%= data[i].customer_name %})</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=4>
+            {%= data[i].stoff %}<br>
+            {%= data[i].garn %}<br>
+            {%= data[i].pailletten %}<br>
+            {%= data[i].monofil %}<br>
+            {%= data[i].bobinen %}
+        </td>
+    </tr>
+    {% } %}
+</table>
