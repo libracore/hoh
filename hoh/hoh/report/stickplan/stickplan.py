@@ -82,7 +82,8 @@ def get_data(filters):
          (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
             FROM `tabSales Order Item`
             WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
-              AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty_full`,
+              AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`
+            LIMIT 1) AS `qty_full`,
          `tabWork Order`.`stock_uom` AS `uom`,
          `tabDessin`.`stickrapport` AS `stickrapport`,
          `tabWork Order`.`stoff` AS `stoff`,
