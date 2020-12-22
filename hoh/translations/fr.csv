@@ -5,3 +5,4 @@ DocType: Sales Order,Quantity,Metres Ttl.
 DocType: Sales Order,Rate,Prix m/lin
 DocType: Sales Order,Net total,Total Montant net
 DocType: Sales Order,Grand total,Total Commande TTC
+DocType: Sales Order,Tax ID,Identifiant fiscal
