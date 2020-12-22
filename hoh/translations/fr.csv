@@ -1,0 +1,7 @@
+DocType: Sales Order,Österreich,Autriche
+DocType: Sales Order,Austria,Autriche
+DocType: Sales Order,Count,Pièce(s)
+DocType: Sales Order,Quantity,Metres Ttl.
+DocType: Sales Order,Rate,Prix m/lin
+DocType: Sales Order,Net total,Total Montant net
+DocType: Sales Order,Grand total,Total Commande TTC
