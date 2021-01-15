@@ -125,7 +125,7 @@ class Bemusterung(Document):
         composition[max(composition, key=lambda key: composition[key])] = composition[max(composition, key=lambda key: composition[key])] - (sum_p - 100)
         # update composition
         self.komposition = []
-        for key, value in composition.items():
+        for key, value in sorted(composition.items(), key=lambda kv: kv[1], reverse=True):
             row = self.append('komposition', {
                 'anteil': value,
                 'material': key

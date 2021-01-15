@@ -217,6 +217,12 @@ def get_data():
                        "label": _("Payment Reminder"),
                        "description": _("Payment Reminder")
                    },
+				   {
+					   "type": "report",
+					   "name": "General Ledger",
+					   "doctype": "GL Entry",
+					   "is_query_report": True,
+				   },
                    {
                        "type": "doctype",
                        "name": "AT VAT Declaration",
