@@ -74,6 +74,24 @@ def get_work_order_label_data(selected_items):
                     WHERE `tabWork Order`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
+
+def get_delivery_note_label_data(selected_delivery_notes):
+    sql_query = """SELECT
+                       `tabDelivery Note`.`customer_name` AS `customer_name`,
+                       `tabAddress`.`address_line1` AS `address_line1`,
+                       `tabAddress`.`address_line2` AS `address_line2`,
+                       `tabAddress`.`address_line3` AS `address_line3`,
+                       `tabAddress`.`zusatzbezeichnung` AS `zusatzbezeichnung`,
+                       `tabAddress`.`pincode` AS `pincode`,
+                       `tabAddress`.`city` AS `city`,
+                       `tabAddress`.`country` AS `country`,
+                       `tabDelivery Note`.`name` AS `delivery_note`,
+                       `tabDelivery Note`.`po_no` AS `po_no`
+                    FROM `tabDelivery Note`
+                    LEFT JOIN `tabAddress` ON `tabAddress`.`name` = `tabDelivery Note`.`shipping_address_name`
+                    WHERE `tabDelivery Note`.`name` IN ({selected_delivery_notes});""".format(selected_delivery_notes=selected_delivery_notes)
+
+    return frappe.db.sql(sql_query, as_dict=True)
     
 @frappe.whitelist()
 def get_label(selected_items):
@@ -133,6 +151,28 @@ def get_work_order_label(selected_items):
     }
     # prepare content
     content = frappe.render_template('hoh/templates/labels/work_order_label.html', data)
+    # create pdf
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"
+
+@frappe.whitelist()
+def get_delivery_note_label(selected_delivery_notes):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.work_order_label_printer:
+        frappe.throw( _("Please define a work order label printer under HOH Settings.") )
+    label_printer = settings.work_order_label_printer
+    # get raw data
+    data = { 
+        'delivery_notes': get_delivery_note_label_data(selected_delivery_notes),
+        'date': datetime.today().strftime('%d.%m.%Y')
+    }
+    # prepare content
+    content = frappe.render_template('hoh/templates/labels/delivery_note_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
