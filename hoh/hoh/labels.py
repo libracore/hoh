@@ -18,13 +18,26 @@ def get_label_data(selected_items):
                        `tabBemusterung`.`minimalmenge` AS `minimalmenge`,
                        `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
                        `tabBemusterung`.`rate` AS `preis`,
-                       (SELECT GROUP_CONCAT(CONCAT("<img src='", `tabPflegesymbol`.`image`, "'>"))
+                       (SELECT GROUP_CONCAT(CONCAT("<img src='",
+                        (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
+                         `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
+                         ORDER BY `tabPflegesymbol`.`sort` DESC)
                         FROM `tabItem Pflegesymbol` 
                         LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
-                        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung") AS `pflegesymbole`,
+                        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
+                       ) AS `pflegesymbole`,
                        (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`))
                         FROM `tabItem Komposition`
-                        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung") AS `material`,
+                        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
+                       ) AS `material`,
+                       (SELECT GROUP_CONCAT(`item_name`)
+                        FROM `tabBemusterung Artikel`
+                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
+                       ) AS `stoffe`,
+                       (SELECT GROUP_CONCAT(`item_name`)
+                        FROM `tabBemusterung Artikel`
+                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Pailletten"
+                       ) AS `pailletten`,
                        IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
                     FROM `tabBemusterung`
                     LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`

@@ -8,7 +8,8 @@
  "field_order": [
   "typ",
   "titel",
-  "image"
+  "image",
+  "sort"
  ],
  "fields": [
   {
@@ -32,10 +33,16 @@
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "hidden": 1
+  },
+  {
+   "description": "Sort key for care symbols; higher comes first. ",
+   "fieldname": "sort",
+   "fieldtype": "Int",
+   "label": "Sort"
   }
  ],
  "image_field": "image",
- "modified": "2020-10-20 20:38:06.332005",
+ "modified": "2021-01-25 20:04:12.729893",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Pflegesymbol",
