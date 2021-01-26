@@ -6,8 +6,8 @@
             {% if items[i].stoffe %}{{ items[i].stoffe }}<br>{% endif %}
             {% if items[i].pailletten %}{{ items[i].pailletten }}<br>{% endif %}
             {{ items[i].pflegesymbole or "n/a" }}<br>
-            {% if items[i].stoffbreite_von > 0 and items[i].stoffbreite_bis > 0 %}
-                {{ _("Width") }}: {{ items[i].stoffbreite_von or 0 }}..{{ items[i].stoffbreite_bis or 0 }} cm<br>
+            {% if items[i].fertigbreite_von > 0 and items[i].fertigbreite_bis > 0 %}
+                {{ _("Width") }}: {{ items[i].fertigbreite_von or 0 }}..{{ items[i].fertigbreite_bis or 0 }} cm<br>
             {% endif %}
             {% if items[i].material %}{{ items[i].material }}<br>{% endif %}
             <table style="width: 100%; ">
