@@ -1,11 +1,13 @@
 {
+ "allow_rename": 1,
  "autoname": "field:title",
  "creation": "2020-03-09 20:28:49.344432",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "title",
+  "description"
  ],
  "fields": [
   {
@@ -15,9 +17,17 @@
    "label": "Title",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description",
+   "reqd": 0,
+   "unique": 0
   }
  ],
- "modified": "2020-03-10 21:06:13.319993",
+ "modified": "2021-01-26 14:06:13.319993",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Material",
