@@ -5,7 +5,8 @@
  "engine": "InnoDB",
  "field_order": [
   "pflegesymbol",
-  "typ"
+  "typ",
+  "url"
  ],
  "fields": [
   {
@@ -22,10 +23,17 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Typ"
+  },
+  {
+   "fetch_from": "pflegesymbol.image",
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "URL"
   }
  ],
  "istable": 1,
- "modified": "2020-03-09 20:46:49.580209",
+ "modified": "2021-01-28 21:57:27.863339",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Item Pflegesymbol",
