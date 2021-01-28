@@ -46,7 +46,12 @@
   "produktkategorien",
   "prio",
   "section_finish",
-  "finish_steps"
+  "finish_steps",
+  "section_details",
+  "d_stoffe",
+  "d_pailletten",
+  "d_applikationen",
+  "d_prints"
  ],
  "fields": [
   {
@@ -300,10 +305,36 @@
    "fieldtype": "Table",
    "label": "Finish Step",
    "options": "Bemusterung Finish Step"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Details"
+  },
+  {
+   "fieldname": "d_stoffe",
+   "fieldtype": "Data",
+   "label": "Stoffe"
+  },
+  {
+   "fieldname": "d_pailletten",
+   "fieldtype": "Data",
+   "label": "Pailletten"
+  },
+  {
+   "fieldname": "d_applikationen",
+   "fieldtype": "Data",
+   "label": "Applikationen"
+  },
+  {
+   "fieldname": "d_prints",
+   "fieldtype": "Data",
+   "label": "Prints"
   }
  ],
  "image_field": "image",
- "modified": "2020-11-24 21:20:38.102509",
+ "modified": "2021-01-28 17:31:18.890878",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",

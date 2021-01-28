@@ -18,6 +18,27 @@ class Bemusterung(Document):
         #    frappe.throw( _("Diese Dessin/Farb-Kombination existiert bereits in {0}.".format(
         #        same_color_dessins[0]['name'])) )
         return
+    
+    def before_save(self):
+        # update specification lines
+        stoffe = []
+        pailletten = []
+        applikationen = []
+        prints = []
+        for m in self.items:
+            if m.item_group in ['Stoffe', 'Hilfsstoffe']:
+                stoffe.append(m.item_name)
+            elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
+                pailletten.append(m.item_name)
+            elif m.item_group in ['Steine', 'Applikationen']:
+                applikationen.append(m.item_name)
+            elif m.item_group in ['Print']:
+                prints.append(m.item_name)
+        self.d_stoffe = " + ".join(stoffe)
+        self.d_pailletten = " + ".join(pailletten)
+        self.d_applikationen = " + ".join(applikationen)
+        self.d_prints = " + ".join(prints)
+        return
         
     def create_item(self):
         # create new item
@@ -43,7 +64,11 @@ class Bemusterung(Document):
             'weight_uom': 'g',
             'weight_per_unit': (self.gewicht * 1000),
             'gewicht': (self.gewicht * 1000),
-            'is_sales_item': 1
+            'is_sales_item': 1,
+            'd_stoffe': self.d_stoffe,
+            'd_pailletten': self.d_pailletten,
+            'd_applikationen': self.d_applikationen,
+            'd_prints': self.d_prints
         })
         for k in self.komposition:
             row = new_item.append('komposition', {
