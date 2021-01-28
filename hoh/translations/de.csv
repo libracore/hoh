@@ -28,3 +28,7 @@ Report: Bestellbestand,To order,Zu bestellen
 Report: Stickplan,Work Order List,Liste der Arbeitsaufträge
 Report: Stickplan,Update Material,Material aktualisieren
 DocType: Finish Step,Finish Step,Ausrüstungsschritt
+Report: Stickplan,Apply to complete sales order,Auf den gesamten Auftrag anwenden
+Report: Stickplan,Earlier,Früher
+Report: Stickplan,Earlier Date,Früheres Datum
+Report: Stickplan,Later Date,Späteres Datum
