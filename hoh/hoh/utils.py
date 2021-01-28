@@ -1,8 +1,8 @@
-# Copyright (c) 2019-2020, libracore and contributors
+# Copyright (c) 2019-2021, libracore and contributors
 # For license information, please see license.txt
 
 import frappe
-from frappe import _
+from frappe import _, get_print
 
 @frappe.whitelist()
 def get_batch_info(item_code):
@@ -122,4 +122,15 @@ def complete_work_order_details(work_order):
                 'remarks': fs['remarks']
             })
         wo.save()
+    return
+
+def write_local_pdf(doctype, docname, print_format, target, language=None):
+    # set language
+    if language:
+        frappe.local.lang = language
+    # get pdf output
+    pdf = get_print(doctype=doctype, name=docname, print_format=print_format, as_pdf=True)
+    # save file
+    with open(target, 'wb') as f:
+        f.write(pdf)
     return
