@@ -9,17 +9,30 @@ frappe.ui.form.on('Work Order', {
             }).addClass("btn-primary");
         }
         if (frm.doc.docstatus < 2) {
-            var datestamp = frappe.datetime.now_date() + " " + frappe.datetime.now_time();
             if ((frm.doc.nutzungen.length > 0) && (!frm.doc.nutzungen[frm.doc.nutzungen.length - 1].end)) {
                 frm.add_custom_button(__('Zeiterfassung beenden'), function() {
-                    frappe.model.set_value(frm.doc.nutzungen[frm.doc.nutzungen.length - 1].doctype, frm.doc.nutzungen[frm.doc.nutzungen.length - 1].name, 'end', datestamp);
-                    cur_frm.save_or_update();
+                    frappe.call({
+                        "method": "hoh.hoh.utils.set_wo_timetracking",
+                        "args": {
+                            "work_order": frm.doc.name
+                        },
+                        "callback": function(response) {
+                            console.log("done");
+                            cur_frm.reload_doc();
+                        }
+                    });
                 }).addClass("btn-warning");
             } else {
                 frm.add_custom_button(__('Zeit erfassen'), function() {
-                    var child = cur_frm.add_child('nutzungen');
-                    frappe.model.set_value(child.doctype, child.name, 'start', datestamp);
-                    cur_frm.save_or_update();
+                    frappe.call({
+                        "method": "hoh.hoh.utils.set_wo_timetracking",
+                        "args": {
+                            "work_order": frm.doc.name
+                        },
+                        "callback": function(response) {
+                            cur_frm.reload_doc();
+                        }
+                    });
                 }).addClass("btn-warning");
             }
         }

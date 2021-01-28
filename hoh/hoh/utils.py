@@ -3,6 +3,7 @@
 
 import frappe
 from frappe import _, get_print
+from datetime import datetime
 
 @frappe.whitelist()
 def get_batch_info(item_code):
@@ -133,4 +134,16 @@ def write_local_pdf(doctype, docname, print_format, target, language=None):
     # save file
     with open(target, 'wb') as f:
         f.write(pdf)
+    return
+
+@frappe.whitelist()
+def set_wo_timetracking(work_order):
+    wo = frappe.get_doc("Work Order", work_order)
+    if wo.nutzungen and (len(wo.nutzungen) > 0) and (not wo.nutzungen[-1].end):
+        wo.nutzungen[-1].end = datetime.now()
+    else:
+        row = wo.append('nutzungen', {
+            'start': datetime.now()
+        })
+    wo.save()
     return
