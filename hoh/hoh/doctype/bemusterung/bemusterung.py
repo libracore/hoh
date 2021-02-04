@@ -58,6 +58,11 @@ class Bemusterung(Document):
             row = new_item.append('stickmaschine', {
                 'stickmaschine': s.stickmaschine
             })
+        # set default warehouse
+        row = new_item.append('item_defaults', {
+                'default_warehouse': "Fertigerzeugnisse - HOH"
+            })
+        # insert
         item = new_item.insert()
         # create new item price record
         price_list = frappe.get_value("Selling Settings", "Selling Settings", "selling_price_list")
