@@ -17,7 +17,7 @@ def execute(filters=None):
 def get_columns():
     return [
         {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
-		{"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
+        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
         {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 80},
         {"label": _("Item"), "fieldname": "item", "fieldtype": "Link", "options": "Item", "width": 150},
@@ -42,7 +42,7 @@ def get_columns():
         {"label": _("Ktm ges."), "fieldname": "ktm_total", "fieldtype": "Int", "width": 75},
         {"label": _("h"), "fieldname": "h_total", "fieldtype": "Float", "precision": 1, "width": 50},
         {"label": _("Schicht"), "fieldname": "schicht", "fieldtype": "Float", "precision": 1, "width": 50},
-		{"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
+        {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine",  "width": 100},
     ]
 
 def get_data(filters):
@@ -58,8 +58,8 @@ def get_data(filters):
         conditions += """ AND (`tabWork Order`.`planned_start_date` >= '{from_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(from_date=filters['from_date'])
     if 'to_date' in filters and filters['to_date']:
         conditions += """ AND (`tabWork Order`.`planned_start_date` <= '{to_date}' OR `tabWork Order`.`planned_start_date` IS NULL)""".format(to_date=filters['to_date'])
-    if 'item_code' in filters and filters['item_code']:
-        conditions += """ AND `tabWork Order`.`production_item` = '{item_code}'""".format(item_code=filters['item_code'])
+    if 'item' in filters and filters['item']:
+        conditions += """ AND `tabWork Order`.`production_item` LIKE '%{item}%'""".format(item=filters['item'])
     if 'sales_order' in filters and filters['sales_order']:
         conditions += """ AND `tabWork Order`.`sales_order` = '{sales_order}'""".format(sales_order=filters['sales_order'])
     # get shift hours

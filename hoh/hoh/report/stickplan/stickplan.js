@@ -31,9 +31,9 @@ frappe.query_reports["Stickplan"] = {
             "options": "Sales Order"
         },
         {
-            "fieldname":"item_code",
+            "fieldname":"item",
             "label": __("Item"),
-            "fieldtype": "Link",
+            "fieldtype": "Data",
             "options": "Item"
         }
     ],
