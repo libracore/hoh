@@ -18,6 +18,27 @@ class Bemusterung(Document):
         #    frappe.throw( _("Diese Dessin/Farb-Kombination existiert bereits in {0}.".format(
         #        same_color_dessins[0]['name'])) )
         return
+    
+    def before_save(self):
+        # update specification lines
+        stoffe = []
+        pailletten = []
+        applikationen = []
+        prints = []
+        for m in self.items:
+            if m.item_group in ['Stoffe', 'Hilfsstoffe']:
+                stoffe.append(m.item_name)
+            elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
+                pailletten.append(m.item_name)
+            elif m.item_group in ['Steine', 'Applikationen']:
+                applikationen.append(m.item_name)
+            elif m.item_group in ['Print']:
+                prints.append(m.item_name)
+        self.d_stoffe = " + ".join(stoffe)
+        self.d_pailletten = " + ".join(pailletten)
+        self.d_applikationen = " + ".join(applikationen)
+        self.d_prints = " + ".join(prints)
+        return
         
     def create_item(self):
         # create new item
@@ -43,7 +64,11 @@ class Bemusterung(Document):
             'weight_uom': 'g',
             'weight_per_unit': (self.gewicht * 1000),
             'gewicht': (self.gewicht * 1000),
-            'is_sales_item': 1
+            'is_sales_item': 1,
+            'd_stoffe': self.d_stoffe,
+            'd_pailletten': self.d_pailletten,
+            'd_applikationen': self.d_applikationen,
+            'd_prints': self.d_prints
         })
         for k in self.komposition:
             row = new_item.append('komposition', {
@@ -101,9 +126,11 @@ class Bemusterung(Document):
         # return item code
         return item.name
     
-    def calculate_composition(self):
+    def calculate_composition(self, debug=False):
         composition = {}
         total_multiplier = 0
+        if debug:
+            print("Compontent parts:")
         # fetch all items
         for i in self.items:
             item = frappe.get_doc("Item", i.item_code)
@@ -117,11 +144,25 @@ class Bemusterung(Document):
                         composition[c.material] = composition[c.material] + c.anteil * multiplier
                     else:
                         composition[c.material] = c.anteil * multiplier
+                    if debug:
+                        print("Adding {q}x{m} ({qty}x{w}) of {c} from {i} ({g})".format(
+                            q=c.anteil, m=multiplier, c=c.material, i=i.item_code, g=item.item_group,
+                            qty=i.qty, w=(item.weight_per_unit or 1)))
+            else:
+                if debug:
+                    if not item.komposition:
+                        print("Item {0} ({1}) has no composition".format(i.item_code, item.item_group))
+                    else:
+                        print("Item {0} ({1}) is auxiliary (Folie/Hilfsstoffe)".format(i.item_code, item.item_group))
         # store total weight
         self.gewicht = ((total_multiplier or 0) / 1000)
         # normalise contents
+        if debug:
+            print("Raw composition")
         for key, value in composition.items():
             composition[key] = round(value / total_multiplier)
+            if debug:
+                print("{0}: {1} ({2} %)".format(key, value, composition[key]))
         # assure that sum is 100%
         sum_p = 0
         for key, value in composition.items():
@@ -136,3 +177,16 @@ class Bemusterung(Document):
                 'material': key
             })
         return
+
+"""
+This is a troubleshooting function for the composition calulcation that allows tracing
+
+Use from console with
+ $ bench execute hoh.hoh.doctype.bemusterung.bemusterung.debug_composition --kwargs "{'bemusterung': '37572GU.LU TS2'}"
+"""
+def debug_composition(bemusterung):
+    doc = frappe.get_doc("Bemusterung", bemusterung)
+    print("Composition calculation trace for {0}".format(bemusterung))
+    doc.calculate_composition(debug=True)
+    print("Composition trace end")
+    return

@@ -1,0 +1,17 @@
+{% for i in range(0, delivery_notes|len) %}
+<table style="width: 100mm; height: 40mm; {% if i < (delivery_notes|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
+    <tr>
+        <td style="margin-top: 0px; "></td>
+        <td style="margin-top: 0px; "><b>{{ delivery_notes[i].customer_name }}</b><br>
+        {{ _("Delivery Note") }}: {{ delivery_notes[i].delivery_note }}
+        {%- if delivery_notes[i].po_no %}, {{ delivery_notes[i].po_no }}{% endif %} ({{ date }})<br>
+        <p style="font-size: 10px; ">{% if delivery_notes[i].zusatzbezeichnung %}{{ delivery_notes[i].zusatzbezeichnung }}<br>{% endif -%}
+        {{ delivery_notes[i].address_line1 }}<br>
+        {% if delivery_notes[i].address_line2 %}{{ delivery_notes[i].address_line2 }}<br>{% endif -%}
+        {% if delivery_notes[i].address_line3 %}{{ delivery_notes[i].address_line3 }}<br>{% endif -%}
+        {% if delivery_notes[i].pincode %}{{ delivery_notes[i].pincode }} {% endif -%}{{ delivery_notes[i].city }}<br>
+        {{ delivery_notes[i].country }}</p>
+        </td>
+    </tr>
+</table>
+{% endfor %}
