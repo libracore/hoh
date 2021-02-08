@@ -13,7 +13,7 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("User"), "fieldname": "user", "fieldtype": "Data", "width": 150},
+        {"label": _("Sales Person"), "fieldname": "sales_person", "fieldtype": "Link", "options": "Sales Person", "width": 150},
         {"label": _("Sales Invoice"), "fieldname": "sales_invoice", "fieldtype": "Link", "options": "Sales Invoice", "width": 150},
         {"label": _("Net Amount"), "fieldname": "net_amount", "fieldtype": "Currency", "width": 120},
         {"label": _(""), "fieldname": "platzhalter", "fieldtype": "Data", "width": 50}
@@ -23,16 +23,26 @@ def get_data(filters):
     data = []
     from_date = getdate(filters.from_date)
     to_date = getdate(filters.to_date)
-    sinvs = frappe.db.sql("""SELECT `name`, `base_net_total`, `posting_date`, `owner` FROM `tabSales Invoice` WHERE `owner` = '{user}' AND `posting_date` BETWEEN '{from_date}' AND '{to_date}'""".format(user=filters.owner, from_date=from_date, to_date=to_date), as_dict=True)
+    sinvs = frappe.db.sql("""SELECT 
+    `tabSales Invoice`.`name` AS `name`, 
+    `tabSales Invoice`.`base_net_total` AS `base_net_total`, 
+    `tabSales Invoice`.`posting_date` AS `posting_date`,
+    `tabSales Team`.`sales_person` AS `sales_person`
+    FROM 
+    `tabSales Invoice` 
+    LEFT JOIN
+    `tabSales Team` ON `tabSales Invoice`.`name` = `tabSales Team`.`parent`
+    WHERE 
+    `tabSales Team`.`sales_person` = '{sales_person}' AND `tabSales Invoice`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'""".format(sales_person=filters.sales_person, from_date=from_date, to_date=to_date), as_dict=True)
     sum_base_net_total = 0
     sum_deduction = 0
     for sinv in sinvs:
         _data = []
-        _data.append(filters.owner)
+        _data.append(filters.sales_person)
         _data.append(sinv.name)
         _data.append(sinv.base_net_total)
         sum_base_net_total += sinv.base_net_total
-        deduction = frappe.db.sql("""SELECT SUM(`debit`) AS `debit` FROM `tabGL Entry` WHERE `voucher_no` = '{sinv}' AND `account` = '7300 - Transporte durch Dritte - HOH'""".format(sinv=sinv.name), as_dict=True)
+        deduction = frappe.db.sql("""SELECT SUM(`debit`) AS `debit` FROM `tabGL Entry` WHERE `account` = '7300 - Transporte durch Dritte - HOH' AND `tabGL Entry`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'""".format(sinv=sinv.name, from_date=from_date, to_date=to_date), as_dict=True)
         if len(deduction) > 0:
             if deduction[0].debit:
                 sum_deduction += float(deduction[0].debit)

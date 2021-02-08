@@ -369,6 +369,22 @@ def get_data():
                        "label": _("Detail Warenbewegung"),
                        "description": _("Detail Warenbewegung"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Sales Order",
+                       "name": "Sales Analytics",
+                       "label": _("Sales Analytics"),
+                       "description": _("Sales Analytics"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Sales Invoice",
+                       "name": "Abrechnung Vertriebsmitarbeiter",
+                       "label": _("Abrechnung Vertriebsmitarbeiter"),
+                       "description": _("Abrechnung Vertriebsmitarbeiter"),
+                       "is_query_report": True
                    }
             ]
         }
