@@ -1,4 +1,4 @@
-# Copyright (c) 2020, libracore and contributors
+# Copyright (c) 2020-2021, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -7,7 +7,7 @@ from frappe import _
 from datetime import datetime
 from erpnextswiss.erpnextswiss.doctype.label_printer.label_printer import create_pdf
 
-def get_label_data(selected_items):
+def get_price_label_data(bemusterung):
     sql_query = """SELECT
                        `tabBemusterung`.`item` AS `item`,
                        `tabBemusterung`.`name` AS `name`,
@@ -15,7 +15,7 @@ def get_label_data(selected_items):
                        `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
                        `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
                        `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
-                       `tabBemusterung`.`minimalmenge` AS `minimalmenge`,
+                       `tabBemusterung`.`gewicht` AS `gewicht`,
                        `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
                        `tabBemusterung`.`rate` AS `preis`,
                        (SELECT GROUP_CONCAT(CONCAT("<img src='",
@@ -26,7 +26,50 @@ def get_label_data(selected_items):
                         LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
                         WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
                        ) AS `pflegesymbole`,
-                       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`))
+                       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
+                        FROM `tabItem Komposition`
+                        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
+                       ) AS `material`,
+                       (SELECT GROUP_CONCAT(`item_name`)
+                        FROM `tabBemusterung Artikel`
+                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
+                       ) AS `stoffe`,
+                       (SELECT GROUP_CONCAT(`item_name`)
+                        FROM `tabBemusterung Artikel`
+                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Pailletten"
+                       ) AS `pailletten`,
+                       IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+                    FROM `tabBemusterung`
+                    LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
+                    LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
+                   WHERE `tabBemusterung`.`name` = '{bemusterung}';""".format(bemusterung=bemusterung)
+
+    return frappe.db.sql(sql_query, as_dict=True)
+
+def get_bemusterung_label_data(selected_items):
+    sql_query = """SELECT
+                       `tabBemusterung`.`item` AS `item`,
+                       `tabBemusterung`.`name` AS `name`,
+                       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
+                       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
+                       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
+                       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
+                       `tabBemusterung`.`gewicht` AS `gewicht`,
+                       `tabBemusterung`.`d_stoffe` AS `d_stoffe`,
+                       `tabBemusterung`.`d_pailletten` AS `d_pailletten`,
+                       `tabBemusterung`.`d_applikationen` AS `d_applikationen`,
+                       `tabBemusterung`.`d_prints` AS `d_prints`,
+                       `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
+                       `tabBemusterung`.`rate` AS `preis`,
+                       (SELECT GROUP_CONCAT(CONCAT("<img src='",
+                        (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
+                         `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
+                         ORDER BY `tabPflegesymbol`.`sort` DESC)
+                        FROM `tabItem Pflegesymbol` 
+                        LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
+                        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
+                       ) AS `pflegesymbole`,
+                       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
                         FROM `tabItem Komposition`
                         WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
                        ) AS `material`,
@@ -45,7 +88,7 @@ def get_label_data(selected_items):
                    WHERE `tabBemusterung`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
-
+    
 def get_item_label_data(selected_items):
     sql_query = """SELECT
                        `tabItem`.`item_code` AS `item_code`,
@@ -94,16 +137,20 @@ def get_delivery_note_label_data(selected_delivery_notes):
     return frappe.db.sql(sql_query, as_dict=True)
     
 @frappe.whitelist()
-def get_label(selected_items):
+def get_price_label(musterkarte):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
     if not settings.label_printer_prices:
         frappe.throw( _("Please define a label printer for price labels under HOH Settings.") )
     label_printer = settings.label_printer_prices
     # get raw data
+    mk = frappe.get_doc("Musterkarte", musterkarte)
     data = { 
-        'items': get_label_data(selected_items),
-        'date': datetime.today().strftime('%d.%m.%Y')
+        'items': get_price_label_data(mk.muster[0].bemusterung),
+        'date': datetime.today().strftime('%d.%m.%Y'),
+        'rates': mk.preise,
+        'title': mk.muster[0].bemusterung.split(" ")[0],
+        'currency': mk.currency
     }
     # prepare content
     content = frappe.render_template('hoh/templates/labels/price_label.html', data)
@@ -193,6 +240,30 @@ def get_sales_order_label(sales_order):
     # prepare content
     content = frappe.render_template('hoh/templates/labels/sales_order_label.html', so.as_dict())
     # create pdf
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"
+
+@frappe.whitelist()
+def get_bemusterung_label(selected_items):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.item_label_printer:
+        frappe.throw( _("Please define an item label printer under HOH Settings.") )
+    label_printer = settings.bemusterung_label_printer
+    # get raw data
+    data = { 
+        'items': get_bemusterung_label_data(selected_items),
+        'date': datetime.today().strftime('%d.%m.%Y')
+    }
+    # prepare content
+    content = frappe.render_template('hoh/templates/labels/bemusterung_label.html', data)
+    # create pdf
+    if not label_printer:
+        frappe.throw( _("Please set a printer under HOH settings") )
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
     # return download

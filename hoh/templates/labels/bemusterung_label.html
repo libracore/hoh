@@ -1,0 +1,14 @@
+{% for i in range(0, items|len) %}
+<table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
+    <tr>
+        <td style="margin-top: 0px; "></td>
+        <td style="margin-top: 0px; "><p style="font-size: 10px; ">
+            <b>{{ items[i].name }}</b><br>
+            {{ items[i].d_stoffe }}<br>
+            {{ items[i].d_pailletten }}<br>
+            {{ items[i].d_applikationen }}<br>
+            {{ items[i].d_prints }}
+        </td>
+    </tr>
+</table>
+{% endfor %}

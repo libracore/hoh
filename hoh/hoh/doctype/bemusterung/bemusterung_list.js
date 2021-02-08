@@ -1,13 +1,13 @@
-// Copyright (c) 2020, libracore and contributors
+// Copyright (c) 2020-2021, libracore and contributors
 // For license information, please see license.txt
 
 frappe.listview_settings['Bemusterung'] = {
     onload: function(listview) {
-		listview.page.add_menu_item(__("Create Label"), function() {
+        /* listview.page.add_menu_item(__("Create Label"), function() {
             var selected = listview.get_checked_items();
             create_label(selected);
-		});
-	}
+        }); */
+    }
 };
 
 function create_label(selected) {

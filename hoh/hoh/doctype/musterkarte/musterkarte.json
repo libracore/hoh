@@ -9,9 +9,9 @@
   "dessin",
   "section_muster",
   "muster",
-  "section_details",
+  "section_preise",
   "currency",
-  "rate"
+  "preise"
  ],
  "fields": [
   {
@@ -39,12 +39,8 @@
    "fieldname": "muster",
    "fieldtype": "Table",
    "label": "Muster",
-   "options": "Musterkarte Muster"
-  },
-  {
-   "fieldname": "section_details",
-   "fieldtype": "Section Break",
-   "label": "Details"
+   "options": "Musterkarte Muster",
+   "reqd": 1
   },
   {
    "fieldname": "currency",
@@ -53,13 +49,18 @@
    "options": "Currency"
   },
   {
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "label": "Preis",
-   "options": "currency"
+   "fieldname": "section_preise",
+   "fieldtype": "Section Break",
+   "label": "Preise"
+  },
+  {
+   "fieldname": "preise",
+   "fieldtype": "Table",
+   "label": "Preise",
+   "options": "Musterkarte Preis"
   }
  ],
- "modified": "2020-03-19 17:36:25.026608",
+ "modified": "2021-02-08 23:02:52.253387",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Musterkarte",
@@ -74,6 +75,28 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
    "share": 1,
    "write": 1
   }
