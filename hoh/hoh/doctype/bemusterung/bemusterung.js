@@ -1,4 +1,4 @@
-// Copyright (c) 2020, libracore and contributors
+// Copyright (c) 2020-2021, libracore and contributors
 // For license information, please see license.txt
 
 frappe.ui.form.on('Bemusterung', {
@@ -59,6 +59,15 @@ frappe.ui.form.on('Bemusterung', {
                cur_frm.dirty();
             }
         });
+    },
+    validate: function(frm) {
+        // check that remaining material is 0..1
+        for (var i = 0; i < frm.doc.items.length; i++) {
+            if ((frm.doc.items[i].remaining_material < 0) || (frm.doc.items[i].remaining_material > 1)) {
+                frappe.msgprint( __("Invalid remaining material in row {1}: {2} should be between 0 and 1.").replace("{1}", (i+1)).replace("{2}", frm.doc.items[i].remaining_material) );
+                frappe.validated=false;
+            }
+        }
     }
 });
 

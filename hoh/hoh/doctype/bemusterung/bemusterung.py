@@ -140,14 +140,15 @@ class Bemusterung(Document):
                 total_multiplier += multiplier
                 # aggregate contents
                 for c in item.komposition:
+                    new_part = i.remaining_material * c.anteil * multiplier
                     if c.material in composition:
-                        composition[c.material] = composition[c.material] + c.anteil * multiplier
+                        composition[c.material] = composition[c.material] + new_part
                     else:
-                        composition[c.material] = c.anteil * multiplier
+                        composition[c.material] = new_part
                     if debug:
-                        print("Adding {q}x{m} ({qty}x{w}) of {c} from {i} ({g})".format(
+                        print("Adding {f}x{q}x{m} ({qty}x{w}) of {c} from {i} ({g})".format(
                             q=c.anteil, m=multiplier, c=c.material, i=i.item_code, g=item.item_group,
-                            qty=i.qty, w=(item.weight_per_unit or 1)))
+                            qty=i.qty, w=(item.weight_per_unit or 1), f=i.remaining_material))
             else:
                 if debug:
                     if not item.komposition:
