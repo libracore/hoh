@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2021-02-04 09:28:38.073444",
+ "modified": "2021-02-05 14:33:34.204900",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Abrechnung Vertriebsmitarbeiter",
@@ -17,5 +17,9 @@
  "ref_doctype": "Sales Invoice",
  "report_name": "Abrechnung Vertriebsmitarbeiter",
  "report_type": "Script Report",
- "roles": []
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
 }
