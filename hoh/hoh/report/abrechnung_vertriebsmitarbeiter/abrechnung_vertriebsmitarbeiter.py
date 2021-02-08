@@ -13,10 +13,8 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("Sales Person"), "fieldname": "sales_person", "fieldtype": "Link", "options": "Sales Person", "width": 150},
-        {"label": _("Sales Invoice"), "fieldname": "sales_invoice", "fieldtype": "Link", "options": "Sales Invoice", "width": 150},
-        {"label": _("Net Amount"), "fieldname": "net_amount", "fieldtype": "Currency", "width": 120},
-        {"label": _(""), "fieldname": "platzhalter", "fieldtype": "Data", "width": 50}
+        {"label": _(""), "fieldname": "platzhalter", "fieldtype": "Data", "width": 150},
+        {"label": _("Net Amount"), "fieldname": "net_amount", "fieldtype": "Currency", "width": 120}
     ]
 
 def get_data(filters):
@@ -37,40 +35,30 @@ def get_data(filters):
     sum_base_net_total = 0
     sum_deduction = 0
     for sinv in sinvs:
-        _data = []
-        _data.append(filters.sales_person)
-        _data.append(sinv.name)
-        _data.append(sinv.base_net_total)
         sum_base_net_total += sinv.base_net_total
         deduction = frappe.db.sql("""SELECT SUM(`debit`) AS `debit` FROM `tabGL Entry` WHERE `account` = '7300 - Transporte durch Dritte - HOH' AND `tabGL Entry`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'""".format(sinv=sinv.name, from_date=from_date, to_date=to_date), as_dict=True)
         if len(deduction) > 0:
             if deduction[0].debit:
                 sum_deduction += float(deduction[0].debit)
-        _data.append("")
-        data.append(_data)
-        
+
     _data = []
     _data.append("Nettoumsatz Total")
-    _data.append("")
     _data.append(sum_base_net_total)
     _data.append("")
     data.append(_data)
     _data = []
     _data.append("Transportkosten Total")
-    _data.append("")
     _data.append(sum_deduction)
     _data.append("")
     data.append(_data)
     _data = []
     _data.append("Zwischensumme")
-    _data.append("")
     zwischensumme = sum_base_net_total - sum_deduction
     _data.append(zwischensumme)
     _data.append("")
     data.append(_data)
     _data = []
     _data.append("Kommission")
-    _data.append("")
     kommission = zwischensumme * 0.03
     _data.append(kommission)
     _data.append("")
