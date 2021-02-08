@@ -180,3 +180,22 @@ def get_delivery_note_label(selected_delivery_notes):
     frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
     frappe.local.response.filecontent = pdf
     frappe.local.response.type = "download"
+
+@frappe.whitelist()
+def get_sales_order_label(sales_order):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.work_order_label_printer:
+        frappe.throw( _("Please define a work order label printer under HOH Settings.") )
+    label_printer = settings.work_order_label_printer
+    # get raw data
+    so = frappe.get_doc("Sales Order", sales_order)
+    # prepare content
+    content = frappe.render_template('hoh/templates/labels/sales_order_label.html', so.as_dict())
+    # create pdf
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"
