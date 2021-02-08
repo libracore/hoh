@@ -161,6 +161,9 @@ class Bemusterung(Document):
             print("Raw composition")
         for key, value in composition.items():
             composition[key] = round(value / total_multiplier)
+            # minimum fraction is 1%
+            if composition[key] < 1:
+                composition[key] = 1
             if debug:
                 print("{0}: {1} ({2} %)".format(key, value, composition[key]))
         # assure that sum is 100%

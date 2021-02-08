@@ -56,6 +56,7 @@ frappe.ui.form.on('Bemusterung', {
             callback: function(response) {
                frappe.show_alert( __("Done!") );
                refresh_field(['komposition', 'gewicht']);
+               cur_frm.dirty();
             }
         });
     }
