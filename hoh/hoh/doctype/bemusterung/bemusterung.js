@@ -186,6 +186,10 @@ function nadelrechner(frm, input, output, target=null, g_per_m=1, g_per_uom=1, u
                 frappe.msgprint("Unbekannter Rapport");
             }
             output = input * needle_per_m * g_per_m / g_per_uom;
+            // assure output is not smaller than 0.001 (minimum qty)
+            if (output < 0.001) {
+                output = 0.001;
+            }
             // if there is a target, fill value
             if (target) {
                 frappe.model.set_value(target.cdt, target.cdn, target.field, output);
