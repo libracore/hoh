@@ -41,14 +41,26 @@ def get_data(filters):
       WHERE `account` = '7300 - Transporte durch Dritte - HOH' 
         AND `tabGL Entry`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
     """.format(from_date=from_date, to_date=to_date), as_dict=True)
-    deductions = deduction[0]['debit'] or 0
+    deductions = (-1) * (deduction[0]['debit'] or 0)
     data.append({
         'platzhalter': _("Transportkosten Total"),
         'net_amount': deductions
     })
 
+    # get transport deduction
+    deduction2 = frappe.db.sql("""SELECT SUM(`debit`) AS `debit` 
+      FROM `tabGL Entry` 
+      WHERE `account` LIKE '7790%' 
+        AND `tabGL Entry`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
+    """.format(from_date=from_date, to_date=to_date), as_dict=True)
+    deductions2 = (-1) * (deduction[0]['debit'] or 0)
+    data.append({
+        'platzhalter': _("Bankgebühren"),
+        'net_amount': deductions2
+    })
+    
     # intermediate sum
-    intermediate = net_revenue - deductions
+    intermediate = net_revenue + deductions + deductions2
     data.append({
         'platzhalter': _("Zwischensumme"),
         'net_amount': intermediate
