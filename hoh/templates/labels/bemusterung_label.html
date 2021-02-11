@@ -4,10 +4,10 @@
         <td style="margin-top: 0px; "></td>
         <td style="margin-top: 0px; "><p style="font-size: 10px; ">
             <b>{{ items[i].name }}</b><br>
-            {{ items[i].d_stoffe }}<br>
-            {{ items[i].d_pailletten }}<br>
-            {{ items[i].d_applikationen }}<br>
-            {{ items[i].d_prints }}
+            {% if items[i].d_stoffe and items[i].d_stoffe|len > 0 %}{{ items[i].d_stoffe }}<br>{% endif %}
+            {% if items[i].d_pailletten and items[i].d_pailletten|len > 0 %}{{ items[i].d_pailletten }}<br>{% endif %}
+            {% if items[i].d_applikationen and items[i].d_applikationen|len > 0 %}{{ items[i].d_applikationen }}<br>{% endif %}
+            {% if items[i].d_prints and items[i].d_prints|len > 0 %}{{ items[i].d_prints }}{% endif %}
         </td>
     </tr>
 </table>
