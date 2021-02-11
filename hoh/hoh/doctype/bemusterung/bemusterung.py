@@ -27,7 +27,23 @@ class Bemusterung(Document):
         prints = []
         for m in self.items:
             if m.item_group in ['Stoffe', 'Hilfsstoffe']:
-                stoffe.append(m.item_name)
+                if self.panneau:
+                    # in case of panneau, add fabric fractions
+                    fraction = "1/1"
+                    if m.remaining_material <= 0.20:
+                        raction = "1/5"
+                    elif m.remaining_material <= 0.25:
+                        fraction = "1/4"
+                    elif m.remaining_material <= 0.35:
+                        fraction = "1/3"
+                    elif m.remaining_material <= 0.55:
+                        fraction = "1/2"
+                    elif m.remaining_material <= 0.7:
+                        fraction = "2/3"
+                    stoffe.append("{0} {1}".format(fraction, m.item_name))
+                else:
+                    # normal case
+                    stoffe.append(m.item_name)
             elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
                 pailletten.append(m.item_name)
             elif m.item_group in ['Steine', 'Applikationen']:

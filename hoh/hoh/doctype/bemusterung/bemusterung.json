@@ -17,6 +17,7 @@
   "bezeichnung",
   "item",
   "kollektion",
+  "panneau",
   "section_bom",
   "items",
   "section_specs",
@@ -331,10 +332,16 @@
    "fieldname": "d_prints",
    "fieldtype": "Data",
    "label": "Prints"
+  },
+  {
+   "default": "0",
+   "fieldname": "panneau",
+   "fieldtype": "Check",
+   "label": "Panneau"
   }
  ],
  "image_field": "image",
- "modified": "2021-01-28 17:31:18.890878",
+ "modified": "2021-02-11 21:10:48.376661",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
