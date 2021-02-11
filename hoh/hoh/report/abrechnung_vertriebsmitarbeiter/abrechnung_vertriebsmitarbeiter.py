@@ -53,7 +53,7 @@ def get_data(filters):
       WHERE `account` LIKE '7790%' 
         AND `tabGL Entry`.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
     """.format(from_date=from_date, to_date=to_date), as_dict=True)
-    deductions2 = (-1) * (deduction[0]['debit'] or 0)
+    deductions2 = (-1) * (deduction2[0]['debit'] or 0)
     data.append({
         'platzhalter': _("Bankgebühren"),
         'net_amount': deductions2
