@@ -216,8 +216,16 @@ def get_delivery_note_label(selected_delivery_notes):
     # get raw data
     data = { 
         'delivery_notes': get_delivery_note_label_data(selected_delivery_notes),
-        'date': datetime.today().strftime('%d.%m.%Y')
+        'date': datetime.today().strftime('%d.%m.%Y'),
+        'details': [],
+        'detail_count': 0
     }
+    # enrich item data
+    for dn in data['delivery_notes']:
+        dn_doc = frappe.get_doc("Delivery Note", dn['delivery_note'])
+        data['details'].append(dn_doc.as_dict())
+        for i in dn_doc.items:
+            data['detail_count'] += i.anzahl
     # prepare content
     content = frappe.render_template('hoh/templates/labels/delivery_note_label.html', data)
     # create pdf

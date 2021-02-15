@@ -1,5 +1,5 @@
 {% for i in range(0, delivery_notes|len) %}
-<table style="width: 100mm; height: 40mm; {% if i < (delivery_notes|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
+<table style="width: 100mm; height: 40mm; page-break-after: always; font-size: 12px; ">
     <tr>
         <td style="margin-top: 0px; "></td>
         <td style="margin-top: 0px; "><b>{{ delivery_notes[i].customer_name }}</b><br>
@@ -14,4 +14,32 @@
         </td>
     </tr>
 </table>
+{% endfor %}
+<!-- add detail labels -->
+{% set vars = {'counter': 0} %}
+{% for d in details %}<!-- per delivery note -->
+  {% for i in d['items'] %}<!-- per item position -->
+    {% for c in range(0, i['anzahl']|int) %}<!-- per unit -->
+
+{% if vars.update({'counter': vars.counter + 1}) %}{% endif %}
+<table style="width: 100mm; height: 40mm; {% if vars.counter < (detail_count) %}page-break-after: always;{% endif %} font-size: 12px; ">
+    <tr>
+        <td style="margin-top: 0px; "></td>
+        <td style="margin-top: 0px; "><b>{{ d.customer_name }}</b><br>
+        {{ _("Delivery Note") }}: {{ d.name }}
+        {%- if d.po_no %}, {{ d.po_no }}{% endif %} ({{ vars.counter }}/{{ detail_count|int}})<br>
+        <p style="font-size: 10px; ">
+            <b>{{ i.item_code }}: {{ i.item_name }}</b><br>
+            {% if i.d_stoffe %}{{ i.d_stoffe }}<br>{% endif %}
+            {% if i.d_pailletten %}{{ i.d_pailletten }}<br>{% endif %}
+            {% if i.d_applikationen %}{{ i.d_applikationen }}<br>{% endif %}
+            {% if i.d_prints %}{{ i.d_prints }}<br>{% endif %}
+            {{ _("Qty") }}: 1x{{ i.verkaufseinheit }} {{ i.uom }}<br>
+            Made in Austria
+        </td>
+    </tr>
+</table>
+
+    {% endfor %}
+  {% endfor %}
 {% endfor %}
