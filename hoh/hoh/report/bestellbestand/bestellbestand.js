@@ -27,5 +27,11 @@ frappe.query_reports["Bestellbestand"] = {
             fieldtype: "Link",
             options: "Supplier"
         }
-    ]
+    ],
+    "onload": (report) => {
+        report.page.add_inner_button(__('Item Timeline'), function () {
+           frappe.set_route("query-report", "Item Timeline");
+        })
+    }
 };
+

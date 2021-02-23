@@ -37,3 +37,5 @@ DocType: Bemusterung,Remaining Material,Verbleibender Stoffanteil
 DocType: Bemusterung,Valuation,Bewertung
 DocType: Bemusterung,Invalid remaining material in row {1}: {2} should be between 0 and 1.,Ungültiges verbleibendes Material in Zeile {1}: Wert {2} muss zwischen 0 und 1 liegen.
 DocType: Musterkarte,Musterkarte,Lasche
+Report Item Timeline,Item Timeline,Artikelzeitachse
+Report Item Timeline,Timeline,Zeitachse
