@@ -1,0 +1,20 @@
+<div style="padding-top: 4px; font-size: 20px;">HOH - HOFERHECHT STICKEREIEN</div><br>
+{% for i in range(0, items|len) %}
+<table style="width: 120mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
+    <tr>
+        <td style="margin-top: 0px; width: 80%; font-size: 14px; ">
+            <b>{% if items[i].item_code %}{{ items[i].item_code }}{% endif %} <br>
+            {% if items[i].item_name %}{{ items[i].item_name }}{% endif %}</b><br>
+            {% if items[i].d_stoffe %}{{ items[i].d_stoffe }}{% endif %}<br>
+            {% if items[i].d_pailletten %}{{ items[i].d_pailletten }}{% endif %}<br>
+            {% if items[i].d_applikationen %}{{ items[i].d_applikationen }}{% endif %}<br>
+            {% if items[i].d_prints %}{{ items[i].d_prints }}{% endif %}<br>
+            {{ _("Qty") }}: 1 x 5 yds<br>
+            Made in Austria
+        </td>
+        <td style="width: 20%;">
+            <img src="https://data.libracore.ch/phpqrcode/api/qrcode.php?content={{ items[i].item_code }}&ecc=H&size=6&frame=2" style="height: 30mm !important; width: 30mm !important; margin: 0px !important; padding: 0px !important;" >
+        </td>
+    </tr>
+</table>
+{% endfor %}

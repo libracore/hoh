@@ -94,7 +94,11 @@ def get_item_label_data(selected_items):
                        `tabItem`.`item_code` AS `item_code`,
                        `tabItem`.`item_name` AS `item_name`,
                        `tabItem`.`item_group` AS `item_group`,
-                       `tabItem`.`stock_uom` AS `stock_uom`
+                       `tabItem`.`stock_uom` AS `stock_uom`,
+                       `tabItem`.`d_stoffe` AS `d_stoffe`,
+                       `tabItem`.`d_pailletten` AS `d_pailletten`,
+                       `tabItem`.`d_applikationen` AS `d_applikationen`, 
+                       `tabItem`.`d_prints` AS `d_prints`
                     FROM `tabItem`
                     WHERE `tabItem`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
@@ -166,16 +170,20 @@ def get_price_label(musterkarte):
 def get_item_label(selected_items):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.item_label_printer:
-        frappe.throw( _("Please define an item label printer under HOH Settings.") )
-    label_printer = settings.item_label_printer
+    if not settings.item_label_printer or not settings.work_order_label_printer:
+        frappe.throw( _("Please define an item label printer and a work order label printer under HOH Settings.") )
     # get raw data
     data = { 
         'items': get_item_label_data(selected_items),
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
-    content = frappe.render_template('hoh/templates/labels/item_label.html', data)
+    if len(data['items']) > 0 and data['items'][0]['item_group'] == 'Stickereien':
+        content = frappe.render_template('hoh/templates/labels/item_label_sequin.html', data)
+        label_printer = settings.work_order_label_printer
+    else:
+        content = frappe.render_template('hoh/templates/labels/item_label.html', data)
+        label_printer = settings.item_label_printer
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
