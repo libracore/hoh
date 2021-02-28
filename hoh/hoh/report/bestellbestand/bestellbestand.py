@@ -43,7 +43,7 @@ def get_data(filters):
         item_code_filter = """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters['item_group'])
     if 'supplier' in filters:
         item_code_filter = """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters['supplier'])
-    primary_warehouse = frappe.get_value("HOH Settings", "HOH Settings", "primary_warehouse")
+    # primary_warehouse = frappe.get_value("HOH Settings", "HOH Settings", "primary_warehouse")
     
     sql_query = """SELECT 
                     `tabBin`.`item_code` AS `item_code`,
@@ -51,20 +51,21 @@ def get_data(filters):
                     `tabItem`.`item_group` AS `item_group`,
                     `tabItem`.`stock_uom` AS `stock_uom`,
                     `tabItem`.`safety_stock` AS `safety_stock`,
-                    `tabBin`.`actual_qty` AS `actual_qty`,
-                    `tabBin`.`planned_qty` AS `planned_qty`,
-                    `tabBin`.`ordered_qty` AS `ordered_qty`,
-                    (`tabBin`.`reserved_qty` + `tabBin`.`reserved_qty_for_production` + `tabBin`.`reserved_qty_for_sub_contract`) AS `reserved_qty`,
-                    `tabBin`.`projected_qty` AS `projected_qty`,
+                    SUM(`tabBin`.`actual_qty`) AS `actual_qty`,
+                    SUM(`tabBin`.`planned_qty`) AS `planned_qty`,
+                    SUM(`tabBin`.`ordered_qty`) AS `ordered_qty`,
+                    (SUM(`tabBin`.`reserved_qty`) + SUM(`tabBin`.`reserved_qty_for_production`) + SUM(`tabBin`.`reserved_qty_for_sub_contract`)) AS `reserved_qty`,
+                    SUM(`tabBin`.`projected_qty`) AS `projected_qty`,
                     `tabItem Default`.`default_supplier` AS `supplier`,
-                    (`tabItem`.`safety_stock` - `tabBin`.`projected_qty`) AS `to_order`
+                    (`tabItem`.`safety_stock` - SUM(`tabBin`.`projected_qty`)) AS `to_order`
                 FROM `tabBin`
                 LEFT JOIN `tabItem` ON `tabBin`.`item_code` = `tabItem`.`name`
                 LEFT JOIN `tabItem Default` ON `tabItem`.`name` = `tabItem Default`.`parent`
-            WHERE `tabBin`.`warehouse` = '{warehouse}'
-              AND `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
-              AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter};""".format(
-              item_code_filter=item_code_filter, warehouse=primary_warehouse)
+            WHERE 
+              `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
+              AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter}
+            GROUP BY `tabBin`.`warehouse`;""".format(
+              item_code_filter=item_code_filter)
     
     data = frappe.db.sql(sql_query, as_dict=True)
     

@@ -22,6 +22,7 @@ def get_columns():
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
         {"label": _("Datum Kundenlieferung"), "fieldname": "delivery_date", "fieldtype": "Date", "width": 140},
         {"label": _("Type"), "fieldname": "type", "fieldtype": "Data", "width": 100},
+        {"label": _("Customer"), "fieldname": "customer_name", "fieldtype": "Data", "width": 100}
     ]
 
 def get_data(filters):
@@ -40,7 +41,8 @@ def get_data(filters):
             ((-1) * `tabSales Order Item`.`qty`) AS `qty`,
             `tabSales Order`.`name` AS `sales_order`,
             "" AS `work_order`,
-            "Endprodukt" AS `type`
+            "Endprodukt" AS `type`,
+            `tabSales Order`.`customer_name` AS `customer_name`
           FROM `tabSales Order Item`
           LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabSales Order Item`.`parent`
           WHERE `tabSales Order Item`.`item_code` = '{item_code}'
@@ -52,7 +54,8 @@ def get_data(filters):
             ((-1) * `tabWork Order Item`.`required_qty`) AS `qty`,
             `tabWork Order`.`sales_order` AS `sales_order`,
             `tabWork Order`.`name` AS `work_order`,
-            "Rohmaterial" AS `type`
+            "Rohmaterial" AS `type`,
+            `tabSales Order`.`customer_name` AS `customer_name`
            FROM `tabWork Order Item`
            LEFT JOIN `tabWork Order` ON `tabWork Order`.`name` = `tabWork Order Item`.`parent`
            LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
@@ -65,7 +68,8 @@ def get_data(filters):
             `tabWork Order`.`qty` AS `qty`,
             `tabWork Order`.`sales_order` AS `sales_order`,
             `tabWork Order`.`name` AS `work_order`,
-            "Endprodukt" AS `type`
+            "Endprodukt" AS `type`,
+            `tabSales Order`.`customer_name` AS `customer_name`
            FROM `tabWork Order`
            LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
            WHERE `tabWork Order`.`production_item` = '{item_code}'
