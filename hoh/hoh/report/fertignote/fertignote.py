@@ -15,7 +15,6 @@ def get_columns():
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 100},
         {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
         {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 120},
-        {"label": _("Materialstatus"), "fieldname": "ready", "fieldtype": "Data", "width": 120},
         {"label": _("Customer"), "fieldname": "customer", "fieldtype": "Link", "options": "Customer", "width": 80},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
         {"label": _("Kundenlieferdatum"), "fieldname": "delivery_date", "fieldtype": "Date",  "width": 90},
@@ -87,7 +86,7 @@ def get_data(filters):
         WHERE 
           `tabWork Order`.`stickmaschine` LIKE "{stickmaschine}"
           AND `tabWork Order`.`docstatus` < 2
-          AND `tabWork Order`.`status` = "Completed"
+          AND `tabWork Order`.`status` IN ("Completed", "Stopped")
           AND `tabWork Order`.`planned_start_date` >= '{from_date}'
           AND `tabWork Order`.`planned_start_date` <= '{to_date}'
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`expected_delivery_date` ASC;

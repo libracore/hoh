@@ -110,7 +110,7 @@ def get_data(filters):
         LEFT JOIN `tabStickmaschine` ON `tabWork Order`.`stickmaschine` = `tabStickmaschine`.`name`
         WHERE 
           `tabWork Order`.`docstatus` < 2
-          AND `tabWork Order`.`status` != "Completed"
+          AND `tabWork Order`.`status` NOT IN ("Completed", "Stopped")
           {conditions}
         ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
       """.format(conditions=conditions, hours_per_shift=hours_per_shift)
