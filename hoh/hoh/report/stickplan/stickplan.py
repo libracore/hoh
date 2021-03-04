@@ -188,17 +188,18 @@ def replan_work_order(work_order, sales_order, maschine, target_date, all_sales_
         all_wos = frappe.get_all("Work Order", filters=[['sales_order', '=', sales_order], ['docstatus', '<', 2]], 
             fields=['name'], order_by='planned_start_date')
         for wo in all_wos:
-            replan(wo['name'], target_date)
+            replan(wo['name'], target_date, maschine)
             target_date = target_date + timedelta(seconds=1)
     else:
         # single work order
-        replan(work_order, target_date)
+        replan(work_order, target_date, maschine)
     plan_machine(maschine)
     frappe.db.commit()
     return
     
-def replan(work_order, target_date):
+def replan(work_order, target_date, maschine):
     wo = frappe.get_doc("Work Order", work_order)
     wo.planned_start_date = target_date
+    wo.stickmaschine = maschine
     wo.save()
     return

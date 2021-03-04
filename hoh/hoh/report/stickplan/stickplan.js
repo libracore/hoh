@@ -1,4 +1,4 @@
-// Copyright (c) 2020, libracore and contributors
+// Copyright (c) 2020-2021, libracore and contributors
 // For license information, please see license.txt
 /* eslint-disable */
 
@@ -96,7 +96,7 @@ function show_planning_dialog(wo) {
             {'fieldname': 'sales_order', 'fieldtype': 'Link', 'options': 'Sales Order', 
              'label': __('Sales Order'), 'read_only': 1, 'default': wo.sales_order},
             {'fieldname': 'maschine', 'fieldtype': 'Link', 'options': 'Stickmaschine', 
-             'label': __('Stickmaschine'), 'read_only': 1, 'default': wo.stickmaschine},
+             'label': __('Stickmaschine'), 'read_only': 0, 'default': wo.stickmaschine},
             {'fieldname': 'start_date', 'fieldtype': 'Datetime', 'default': wo.planned_start_date,
              'label': __('Start Date')  },
             {'fieldname': 'earlier_date', 'fieldtype': 'Datetime', 'default': wo.previous_date,
