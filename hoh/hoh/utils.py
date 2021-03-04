@@ -141,6 +141,13 @@ def set_wo_timetracking(work_order):
     wo = frappe.get_doc("Work Order", work_order)
     if wo.nutzungen and (len(wo.nutzungen) > 0) and (not wo.nutzungen[-1].end):
         wo.nutzungen[-1].end = datetime.now()
+        hours = round(((wo.nutzungen[-1].end - wo.nutzungen[-1].start).total_seconds() / 3600), 2)
+        wo.nutzungen[-1].maschinenstunden = hours
+        # update total hours
+        total_hours = 0
+        for n in wo.nutzungen:
+            total_hours += n.maschinenstunden
+        wo.summe_maschinenstunden = total_hours
     else:
         row = wo.append('nutzungen', {
             'start': datetime.now()

@@ -100,9 +100,14 @@ class Bemusterung(Document):
                 'stickmaschine': s.stickmaschine
             })
         # set default warehouse
-        row = new_item.append('item_defaults', {
-                'default_warehouse': "Fertigerzeugnisse - HOH"
-            })
+        if "Nigeria" in (self.kollektion or ""):
+            row = new_item.append('item_defaults', {
+                    'default_warehouse': "Africa Shop- HOH"
+                })
+        else:
+            row = new_item.append('item_defaults', {
+                    'default_warehouse': "Fertigerzeugnisse - HOH"
+                })
         # insert
         item = new_item.insert()
         # create new item price record
