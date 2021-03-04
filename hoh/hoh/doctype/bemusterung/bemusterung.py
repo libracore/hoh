@@ -102,7 +102,7 @@ class Bemusterung(Document):
         # set default warehouse
         if "Nigeria" in (self.kollektion or ""):
             row = new_item.append('item_defaults', {
-                    'default_warehouse': "Africa Shop- HOH"
+                    'default_warehouse': "Africa Shop - HOH"
                 })
         else:
             row = new_item.append('item_defaults', {
