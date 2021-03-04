@@ -64,7 +64,7 @@ def get_data(filters):
             WHERE 
               `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
               AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter}
-            GROUP BY `tabBin`.`warehouse`;""".format(
+            GROUP BY `tabBin`.`item_code`;""".format(
               item_code_filter=item_code_filter)
     
     data = frappe.db.sql(sql_query, as_dict=True)
