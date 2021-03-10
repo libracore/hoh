@@ -54,7 +54,7 @@ def get_data(filters):
         LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
         WHERE 
           `tabWork Order`.`docstatus` < 2
-          AND `tabWork Order`.`status` IN ("In Process", "Completed")
+          AND `tabWork Order`.`status` IN ("In Process", "Completed", "Stopped")
           AND `tabWork Order`.`ausruestung_fertig` = 0
         ORDER BY `tabWork Order`.`expected_delivery_date` ASC;
       """

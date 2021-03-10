@@ -1,7 +1,7 @@
 frappe.ui.form.on('Work Order', {
     refresh: function(frm) {
         // button to complete finishing
-        if ((frm.doc.status === "Completed") && (frm.doc.ausruestung_fertig === 0)) {
+        if (((frm.doc.status === "Completed") || (frm.doc.status === "Stopped")) && (frm.doc.ausruestung_fertig === 0)) {
             frm.page.set_indicator(__('Ausrüsten'), 'orange');
             frm.add_custom_button(__('Ausrüstung fertig'), function() {
                 cur_frm.set_value("ausruestung_fertig", 1);
