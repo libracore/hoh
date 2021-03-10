@@ -25,6 +25,7 @@ frappe.ui.form.on('Musterkarte', {
     dessin: function(frm) {
         if ((!frm.doc.title) && (frm.doc.dessin)) {
             cur_frm.set_value('title', frm.doc.dessin);
+            get_variants(frm) ;
         }
     }
 });
