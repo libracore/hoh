@@ -112,7 +112,7 @@ def get_data(filters):
           `tabWork Order`.`docstatus` < 2
           AND `tabWork Order`.`status` NOT IN ("Completed", "Stopped")
           {conditions}
-        ORDER BY `tabDessin`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
+        ORDER BY `tabWork Order`.`stickmaschine` ASC, `tabWork Order`.`planned_start_date` ASC, `tabWork Order`.`expected_delivery_date` ASC;
       """.format(conditions=conditions, hours_per_shift=hours_per_shift)
     
     data = frappe.db.sql(sql_query, as_dict=1)
@@ -133,8 +133,10 @@ def update_material_status():
     return
 
 @frappe.whitelist()
-def plan_machine(machine):
+def plan_machine(machine, debug=False):
     data = get_data(filters={'stickmaschine': machine, 'from_date': None, 'to_date': None})
+    if debug:
+        print("Maschine planning debug for {0}".format(machine))
     now = datetime.now()
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
     last_start = now
@@ -150,7 +152,12 @@ def plan_machine(machine):
             if wo.planned_start_date < (earliest_start):
                 wo.planned_start_date = earliest_start
         last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
+        if debug:
+            print("{wo}: planned start at {start} (last_start: {last})".format(
+                wo=wo.name, start=wo.planned_start_date, last=last_start))
         wo.save()
+    if debug:
+        print("done")
     return
 
 """ This function returns planning date for a work order """
