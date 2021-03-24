@@ -3,15 +3,17 @@
     <tr>
         <td style="margin-top: 0px; "></td>
         <td style="margin-top: 0px; "><b>{{ title }}</b><br>
+            {% if items[i].stoffbreite_von > 0 and items[i].stoffbreite_von > 0 %}
+                {{ _("Farbic Width") }}: {{ items[i].stoffbreite_von or 0 }} / {{ items[i].stoffbreite_von or 0 }} cm<br>{% endif %}
             {% if items[i].fertigbreite_von > 0 and items[i].fertigbreite_bis > 0 %}
-                {{ _("Width") }}: {{ items[i].fertigbreite_von or 0 }}..{{ items[i].fertigbreite_bis or 0 }} cm<br>
+                {{ _("Embroidered Width") }}: {{ items[i].fertigbreite_von or 0 }} / {{ items[i].fertigbreite_bis or 0 }} cm<br>
             {% endif %}
             {{ items[i].gewicht or "n/a" }} g/m<br>
             {{ items[i].pflegesymbole or "n/a" }}<br>
             {% if items[i].material %}{{ items[i].material }}<br>{% endif %}
             <table style="width: 100%; ">
                 <tr>
-                    <td style="text-align: left; margin: 0px; width: 50%; ">{{ date }}</td>
+                    <td style="text-align: left; margin: 0px !important; width: 50%; ">{{ date }}</td>
                     <td style="text-align: right; margin: 0px; width: 50%; ">
                         {% for p in rates %}
                             {{ p.option }}: {{ p.rate }} {{ currency }}/lfm<br>

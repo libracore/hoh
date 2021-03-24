@@ -1100,8 +1100,8 @@
    "role": "Finish",
    "set_user_permissions": 0,
    "share": 0,
-   "submit": 0,
-   "write": 0
+   "submit": 1,
+   "write": 1
   }
  ],
  "doctype": "Work Order",
