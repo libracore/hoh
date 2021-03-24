@@ -50,6 +50,7 @@ def get_bemusterung_label_data(selected_items):
     sql_query = """SELECT
                        `tabBemusterung`.`item` AS `item`,
                        `tabBemusterung`.`name` AS `name`,
+                       `tabBemusterung`.`bezeichnung` AS `bezeichnung`,
                        `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
                        `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
                        `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,

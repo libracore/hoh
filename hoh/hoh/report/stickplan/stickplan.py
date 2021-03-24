@@ -17,7 +17,7 @@ def execute(filters=None):
 def get_columns():
     return [
         {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
-        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
+        {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 90},
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
         {"label": _("Status"), "fieldname": "status", "fieldtype": "Data", "width": 80},
         {"label": _("Item"), "fieldname": "item", "fieldtype": "Link", "options": "Item", "width": 150},
