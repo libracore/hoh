@@ -16,7 +16,7 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
+        {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 110},
         {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 90},        
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
@@ -116,6 +116,15 @@ def get_data(filters):
     
     data = frappe.db.sql(sql_query, as_dict=1)
 
+    # compute indent
+    previous_so = None
+    for row in data:
+        if row['sales_order'] == previous_so:
+            row['indent'] = 1
+        else:
+            row['indent'] = 0
+        previous_so = row['sales_order']
+    
     return data
 
 @frappe.whitelist()

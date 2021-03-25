@@ -53,7 +53,8 @@ frappe.query_reports["Stickplan"] = {
                 }
             });
         });
-    }
+    },
+    "initial_depth": 0
 };
 
 /* add event listener for double clicks to move up */
