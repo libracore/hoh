@@ -14,7 +14,11 @@
   "section_kalkulation",
   "entwicklungskostensatz",
   "section_planning",
-  "work_order_spacing"
+  "holiday_list",
+  "work_order_spacing",
+  "column_planning",
+  "work_start",
+  "work_end"
  ],
  "fields": [
   {
@@ -79,10 +83,34 @@
    "fieldtype": "Link",
    "label": "Grundartikeletiketten-Drucker",
    "options": "Label Printer"
+  },
+  {
+   "fieldname": "column_planning",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "holiday_list",
+   "fieldtype": "Link",
+   "label": "Holiday List",
+   "options": "Holiday List"
+  },
+  {
+   "default": "5",
+   "description": "In h (0..24)",
+   "fieldname": "work_start",
+   "fieldtype": "Int",
+   "label": "Work Start"
+  },
+  {
+   "default": "21",
+   "description": "In h (0..24)",
+   "fieldname": "work_end",
+   "fieldtype": "Int",
+   "label": "Work End"
   }
  ],
  "issingle": 1,
- "modified": "2021-02-08 23:18:00.769317",
+ "modified": "2021-03-26 13:09:06.650135",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "HOH Settings",
