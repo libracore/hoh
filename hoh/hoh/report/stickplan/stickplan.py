@@ -265,5 +265,5 @@ def get_holidays(holiday_list):
     data = frappe.db.sql(sql_query, as_dict=True)
     dates = []
     for d in data:
-        dates.append(d['holiday_date'])
+        dates.append(d['holiday_date'].strftime("%Y-%m-%d"))
     return dates
