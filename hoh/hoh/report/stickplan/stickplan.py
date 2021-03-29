@@ -261,7 +261,7 @@ def compute_end_datetime(start, duration_h, debug=False):
     return end
 
 def get_holidays(holiday_list):
-    sql_query = """SELECT `holiday_date` FROM `tabHoliday` WHERE `parent` = "{h}";"""
+    sql_query = """SELECT `holiday_date` FROM `tabHoliday` WHERE `parent` = "{h}";""".format(h=holiday_list)
     data = frappe.db.sql(sql_query, as_dict=True)
     dates = []
     for d in data:
