@@ -1,4 +1,4 @@
-# Copyright (c) 2020, libracore and contributors
+# Copyright (c) 2020-2021, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -16,7 +16,7 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 100},
+        {"label": _("Work Order"), "fieldname": "work_order", "fieldtype": "Link", "options": "Work Order", "width": 110},
         {"label": _("Start Date"), "fieldname": "start_date", "fieldtype": "Datetime", "width": 140},
         {"label": _("Sales Order"), "fieldname": "sales_order", "fieldtype": "Link", "options": "Sales Order", "width": 90},        
         {"label": _("Customer name"), "fieldname": "customer_name", "fieldtype": "Data", "width": 150},
@@ -116,6 +116,15 @@ def get_data(filters):
     
     data = frappe.db.sql(sql_query, as_dict=1)
 
+    # compute indent
+    previous_so = None
+    for row in data:
+        if row['sales_order'] == previous_so:
+            row['indent'] = 1
+        else:
+            row['indent'] = 0
+        previous_so = row['sales_order']
+    
     return data
 
 @frappe.whitelist()
@@ -147,10 +156,11 @@ def plan_machine(machine, debug=False):
                 wo.planned_start_date = now
         else:
             # other rows: at least (duration + break)
-            earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 1))
+            earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 0))
             if wo.planned_start_date < (earliest_start):
                 wo.planned_start_date = earliest_start
-        last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
+        #last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
+        last_start = compute_end_datetime(start=wo.planned_start_date, duration_h=data[i]['h_total'])  # earliest start of next work order during working hours
         if debug:
             print("{wo}: planned start at {start} (last_start: {last})".format(
                 wo=wo.name, start=wo.planned_start_date, last=last_start))
@@ -209,3 +219,51 @@ def replan(work_order, target_date, maschine):
     wo.stickmaschine = maschine
     wo.save()
     return
+
+def compute_end_datetime(start, duration_h, debug=False):
+    # config
+    config = frappe.get_doc("HOH Settings", "HOH Settings")
+    work_start = {'hour': config.work_start, 'minute': 0}
+    work_end = {'hour': config.work_end, 'minute': 0}
+    hours_per_day = (datetime(2000,1,1,work_end['hour'],work_end['minute']) -
+        datetime(2000,1,1,work_start['hour'],work_start['minute'])).seconds / 3600
+    
+    holidays = get_holidays(config.holiday_list)
+
+    remaining_h = duration_h
+    current_day = start
+    end = start
+    while (remaining_h > 0):
+        if debug:
+            print("new day {d} (remaining {r} h".format(d=current_day, r=remaining_h))
+        # check if current day is a working day
+        if "{y:04}-{m:02}-{d:02}".format(y=current_day.year, m=current_day.month,
+            d=current_day.day) in holidays:
+            current_day = current_day + timedelta(days=1)
+            if debug:
+                print("holiday")
+            continue
+        # when is end of work on current day
+        end_of_work = datetime(year=current_day.year,
+            month=current_day.month, day=current_day.day,
+            hour=work_end['hour'], minute=work_end['minute'])
+        # how long until the end of the current day
+        hours_today = (end_of_work - current_day).seconds / 3600
+        # if less hours required than available --> finish
+        if (remaining_h <= hours_today):
+            end = current_day + timedelta(hours=remaining_h)
+            remaining_h = 0
+        else:
+            # go to next day
+            remaining_h = remaining_h - hours_today
+            current_day = (end_of_work - timedelta(hours=hours_per_day) +
+               timedelta(days=1))
+    return end
+
+def get_holidays(holiday_list):
+    sql_query = """SELECT `holiday_date` FROM `tabHoliday` WHERE `parent` = "{h}";""".format(h=holiday_list)
+    data = frappe.db.sql(sql_query, as_dict=True)
+    dates = []
+    for d in data:
+        dates.append(d['holiday_date'].strftime("%Y-%m-%d"))
+    return dates
