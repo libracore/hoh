@@ -217,12 +217,12 @@ def get_data():
                        "label": _("Payment Reminder"),
                        "description": _("Payment Reminder")
                    },
-				   {
-					   "type": "report",
-					   "name": "General Ledger",
-					   "doctype": "GL Entry",
-					   "is_query_report": True,
-				   },
+                   {
+                       "type": "report",
+                       "name": "General Ledger",
+                       "doctype": "GL Entry",
+                       "is_query_report": True,
+                   },
                    {
                        "type": "doctype",
                        "name": "AT VAT Declaration",
@@ -354,6 +354,22 @@ def get_data():
             "label": _("Auswertungen"),
             "icon": "fa fa-chart",
             "items": [
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Stock Age Valuation",
+                       "label": _("Stock Age Valuation"),
+                       "description": _("Stock Age Valuation"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Item",
+                       "name": "Numeric Stock Summary",
+                       "label": _("Numeric Stock Summary"),
+                       "description": _("Numeric Stock Summary"),
+                       "is_query_report": True
+                   },
                    {
                        "type": "report",
                        "doctype": "Item",

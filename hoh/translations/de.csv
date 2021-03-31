@@ -39,3 +39,6 @@ DocType: Bemusterung,Invalid remaining material in row {1}: {2} should be betwee
 DocType: Musterkarte,Musterkarte,Lasche
 Report Item Timeline,Item Timeline,Artikelzeitachse
 Report Item Timeline,Timeline,Zeitachse
+Report Stock Age Valuation,Stock Age Valuation,Gängigkeit
+Report Stock Age Valuation,Reduced Value,Reduzierter Wert
+Report Numeric Stock Summary,Numeric Stock Summary,Lagerliste
