@@ -42,9 +42,9 @@ def get_data(filters):
     if 'item_name' in filters:
         item_code_filter += """ AND `tabItem`.`item_name` LIKE '%{item_name}%'""".format(item_name=filters['item_name'])
     if 'item_group' in filters:
-        item_code_filter = """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters['item_group'])
+        item_code_filter += """ AND `tabItem`.`item_group` = '{item_group}'""".format(item_group=filters['item_group'])
     if 'supplier' in filters:
-        item_code_filter = """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters['supplier'])
+        item_code_filter += """ AND `tabItem Default`.`default_supplier` = '{supplier}'""".format(supplier=filters['supplier'])
     # primary_warehouse = frappe.get_value("HOH Settings", "HOH Settings", "primary_warehouse")
     
     sql_query = """SELECT 
@@ -64,7 +64,7 @@ def get_data(filters):
                 WHERE {item_code_filter}
             ORDER BY `tabBin`.`item_code`, `tabBin`.`warehouse`;""".format(
               item_code_filter=item_code_filter)
-    
+
     data = frappe.db.sql(sql_query, as_dict=True)
     
     return data
