@@ -118,13 +118,22 @@ def get_data(filters):
 
     # compute indent
     previous_so = None
+    row_idx = 0
+    header_row_idx = 0
     for row in data:
         if row['sales_order'] == previous_so:
             row['indent'] = 1
         else:
             row['indent'] = 0
+            header_row_idx = row_idx
         previous_so = row['sales_order']
-    
+        row_idx += 1
+        
+        # mark material status
+        if "NOK" in row['ready']:
+            if "background" not in data[header_row_idx]['ready']:
+                data[header_row_idx]['ready'] = "<span style='background-color: yellow; '>{0}</span>".format(
+                    data[header_row_idx]['ready'])
     return data
 
 @frappe.whitelist()
