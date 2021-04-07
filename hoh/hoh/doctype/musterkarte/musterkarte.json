@@ -29,8 +29,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Dessin",
-   "options": "Dessin",
-   "reqd": 1
+   "options": "Dessin"
   },
   {
    "fieldname": "section_muster",
@@ -41,8 +40,7 @@
    "fieldname": "muster",
    "fieldtype": "Table",
    "label": "Muster",
-   "options": "Musterkarte Muster",
-   "reqd": 1
+   "options": "Musterkarte Muster"
   },
   {
    "fieldname": "currency",
@@ -70,11 +68,10 @@
    "fieldname": "stoffe",
    "fieldtype": "Table",
    "label": "Stoffe",
-   "options": "Musterkarte Stoffe",
-   "reqd": 1
+   "options": "Musterkarte Stoffe"
   }
  ],
- "modified": "2021-04-07 10:08:46.319717",
+ "modified": "2021-04-07 14:50:09.194209",
  "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Musterkarte",

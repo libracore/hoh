@@ -1,0 +1,29 @@
+{
+ "creation": "2021-04-07 08:12:01.214920",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "stoffe"
+ ],
+ "fields": [
+  {
+   "fieldname": "stoffe",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Stoffe",
+   "options": "Item",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2021-04-07 15:55:17.720817",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Musterkarte Stoffe",
+ "owner": "nicole.gret@libracore.com",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
