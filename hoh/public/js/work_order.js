@@ -49,12 +49,14 @@ frappe.ui.form.on('Work Order', {
         }
         // calculate total machine hours
         var machine_hours = 0;
-        for (var i = 0; i < frm.doc.nutzungen.length; i++) {
-            if ((frm.doc.nutzungen[i].end) && (frm.doc.nutzungen[i].start)) {
-                var duration = (new Date(frm.doc.nutzungen[i].end) - new Date(frm.doc.nutzungen[i].start)) / 3600000;
-                frappe.model.set_value(frm.doc.nutzungen[i].doctype, frm.doc.nutzungen[i].name, 'maschinenstunden', duration);
+        if (frm.doc.nutzungen) {
+            for (var i = 0; i < frm.doc.nutzungen.length; i++) {
+                if ((frm.doc.nutzungen[i].end) && (frm.doc.nutzungen[i].start)) {
+                    var duration = (new Date(frm.doc.nutzungen[i].end) - new Date(frm.doc.nutzungen[i].start)) / 3600000;
+                    frappe.model.set_value(frm.doc.nutzungen[i].doctype, frm.doc.nutzungen[i].name, 'maschinenstunden', duration);
+                }
+                machine_hours += frm.doc.nutzungen[i].maschinenstunden;
             }
-            machine_hours += frm.doc.nutzungen[i].maschinenstunden;
         }
         cur_frm.set_value('summe_maschinenstunden', machine_hours);
     }
