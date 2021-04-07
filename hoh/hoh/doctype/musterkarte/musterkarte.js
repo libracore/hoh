@@ -11,6 +11,14 @@ frappe.ui.form.on('Musterkarte', {
                     }
                 }
             };
+        frm.fields_dict.stoffe.grid.get_field('stoffe').get_query =
+            function() {
+                return {
+                    filters: {
+                        "item_group": 'Stoffe'
+                    }
+                }
+            };
         
         if ((frm.doc.__islocal) && (!frm.doc.muster) && (frm.doc.dessin)) {
             // initialise all variants
@@ -67,6 +75,9 @@ function create_label(frm) {
     var selected_items = [];
     for (var i = 0; i < frm.doc.muster.length; i++) {
         selected_items.push(frm.doc.muster[i].bemusterung);
+    }
+    for (var i = 0; i < frm.doc.stoffe.length; i++) {
+        selected_items.push(frm.doc.stoffe[i].stoffe);
     }
     url = "/api/method/hoh.hoh.labels.get_bemusterung_label"  
             + "?selected_items='" + selected_items.join("','") + "'";

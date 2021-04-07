@@ -48,45 +48,81 @@ def get_price_label_data(bemusterung):
 
 def get_bemusterung_label_data(selected_items):
     sql_query = """SELECT
-                       `tabBemusterung`.`item` AS `item`,
-                       `tabBemusterung`.`name` AS `name`,
-                       `tabBemusterung`.`bezeichnung` AS `bezeichnung`,
-                       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
-                       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
-                       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
-                       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
-                       `tabBemusterung`.`gewicht` AS `gewicht`,
-                       `tabBemusterung`.`d_stoffe` AS `d_stoffe`,
-                       `tabBemusterung`.`d_pailletten` AS `d_pailletten`,
-                       `tabBemusterung`.`d_applikationen` AS `d_applikationen`,
-                       `tabBemusterung`.`d_prints` AS `d_prints`,
-                       `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
-                       `tabBemusterung`.`rate` AS `preis`,
-                       (SELECT GROUP_CONCAT(CONCAT("<img src='",
-                        (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
-                         `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
-                         ORDER BY `tabPflegesymbol`.`sort` DESC)
-                        FROM `tabItem Pflegesymbol` 
-                        LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
-                        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
-                       ) AS `pflegesymbole`,
-                       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
-                        FROM `tabItem Komposition`
-                        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
-                       ) AS `material`,
-                       (SELECT GROUP_CONCAT(`item_name`)
-                        FROM `tabBemusterung Artikel`
-                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
-                       ) AS `stoffe`,
-                       (SELECT GROUP_CONCAT(`item_name`)
-                        FROM `tabBemusterung Artikel`
-                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Pailletten"
-                       ) AS `pailletten`,
-                       IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
-                    FROM `tabBemusterung`
-                    LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
-                    LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
-                   WHERE `tabBemusterung`.`name` IN ({selected_items});""".format(selected_items=selected_items)
+       `tabBemusterung`.`item` AS `item`,
+       `tabBemusterung`.`name` AS `name`,
+       `tabBemusterung`.`bezeichnung` AS `bezeichnung`,
+       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
+       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
+       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
+       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
+       `tabBemusterung`.`gewicht` AS `gewicht`,
+       `tabBemusterung`.`d_stoffe` AS `d_stoffe`,
+       `tabBemusterung`.`d_pailletten` AS `d_pailletten`,
+       `tabBemusterung`.`d_applikationen` AS `d_applikationen`,
+       `tabBemusterung`.`d_prints` AS `d_prints`,
+       `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
+       `tabBemusterung`.`rate` AS `preis`,
+       "muster" AS `source_type`,
+       (SELECT GROUP_CONCAT(CONCAT("<img src='",
+        (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
+         `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
+         ORDER BY `tabPflegesymbol`.`sort` DESC)
+        FROM `tabItem Pflegesymbol` 
+        LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
+        WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
+       ) AS `pflegesymbole`,
+       (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
+        FROM `tabItem Komposition`
+        WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
+       ) AS `material`,
+       (SELECT GROUP_CONCAT(`item_name`)
+        FROM `tabBemusterung Artikel`
+        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
+       ) AS `stoffe`,
+       (SELECT GROUP_CONCAT(`item_name`)
+        FROM `tabBemusterung Artikel`
+        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Pailletten"
+       ) AS `pailletten`,
+       IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+    FROM `tabBemusterung`
+    LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
+    LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
+   WHERE `tabBemusterung`.`name` IN ({selected_items})
+   
+UNION SELECT
+		   `tabItem`.`name` AS `item`,
+		   `tabItem`.`item_code` AS `name`,
+		   `tabItem`.`item_name` AS `bezeichnung`,
+		   `tabItem`.`stoffbreite_von` AS `stoffbreite_von`,
+		   `tabItem`.`stoffbreite_bis` AS `stoffbreite_bis`,
+		   `tabItem`.`fertigbreite_von` AS `fertigbreite_von`,
+		   `tabItem`.`fertigbreite_bis` AS `fertigbreite_bis`,
+		   `tabItem`.`gewicht` AS `gewicht`,
+		   "" AS `d_stoffe`,
+		   "" AS `d_pailletten`,
+		   "" AS `d_applikationen`,
+		   "" AS `d_prints`,
+		   "" AS `preisgruppe`,
+		   "" AS `preis`,
+           "stoff" AS `source_type`,
+		   (SELECT GROUP_CONCAT(CONCAT("<img src='",
+			(SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
+			 `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
+			 ORDER BY `tabPflegesymbol`.`sort` DESC)
+			FROM `tabItem Pflegesymbol` 
+			LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
+			WHERE `tabItem`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Item"
+		   ) AS `pflegesymbole`,
+		   (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
+			FROM `tabItem Komposition`
+			WHERE `tabItem`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Item"
+		   ) AS `material`,
+		   "" AS `stoffe`,
+		   "" AS `pailletten`,
+		   IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+		FROM `tabItem`
+		LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
+	   WHERE `tabItem`.`name` IN ({selected_items}) AND `tabItem`.`item_group` = "Stoffe";""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
     

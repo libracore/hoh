@@ -9,6 +9,8 @@
   "dessin",
   "section_muster",
   "muster",
+  "section_fabrics",
+  "stoffe",
   "section_preise",
   "currency",
   "preise"
@@ -58,10 +60,22 @@
    "fieldtype": "Table",
    "label": "Preise",
    "options": "Musterkarte Preis"
+  },
+  {
+   "fieldname": "section_fabrics",
+   "fieldtype": "Section Break",
+   "label": "Stoffe"
+  },
+  {
+   "fieldname": "stoffe",
+   "fieldtype": "Table",
+   "label": "Stoffe",
+   "options": "Musterkarte Stoffe",
+   "reqd": 1
   }
  ],
- "modified": "2021-02-08 23:02:52.253387",
- "modified_by": "Administrator",
+ "modified": "2021-04-07 10:08:46.319717",
+ "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Musterkarte",
  "owner": "Administrator",
