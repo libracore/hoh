@@ -401,6 +401,14 @@ def get_data():
                        "label": _("Abrechnung Vertriebsmitarbeiter"),
                        "description": _("Abrechnung Vertriebsmitarbeiter"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Bin",
+                       "name": "Stock by Sales Price",
+                       "label": _("Stock by Sales Price"),
+                       "description": _("Stock by Sales Price"),
+                       "is_query_report": True
                    }
             ]
         }
