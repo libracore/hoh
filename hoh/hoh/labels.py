@@ -42,7 +42,36 @@ def get_price_label_data(bemusterung):
                     FROM `tabBemusterung`
                     LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabBemusterung`.`name`
                     LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabBemusterung`.`name` AND `tabItem Price`.`selling` = 1)
-                   WHERE `tabBemusterung`.`name` = '{bemusterung}';""".format(bemusterung=bemusterung)
+                   WHERE `tabBemusterung`.`name` = '{bemusterung}'
+                   
+UNION SELECT
+                   `tabItem`.`name` AS `item`,
+                   `tabItem`.`item_name` AS `name`,
+                   `tabItem`.`stoffbreite_von` AS `stoffbreite_von`,
+                   `tabItem`.`stoffbreite_bis` AS `stoffbreite_bis`,
+                   0 AS `fertigbreite_von`,
+                   0 AS `fertigbreite_bis`,
+                   `tabItem`.`gewicht` AS `gewicht`,
+                   "" AS `preisgruppe`,
+                   "" AS `preis`,
+                   (SELECT GROUP_CONCAT(CONCAT("<img src='",
+                    (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
+                     `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
+                     ORDER BY `tabPflegesymbol`.`sort` DESC)
+                    FROM `tabItem Pflegesymbol` 
+                    LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
+                    WHERE `tabItem`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Item"
+                   ) AS `pflegesymbole`,
+                   (SELECT GROUP_CONCAT(CONCAT(ROUND(`tabItem Komposition`.`anteil`, 0), "% ", `tabItem Komposition`.`material`) ORDER BY `idx` ASC)
+                    FROM `tabItem Komposition`
+                    WHERE `tabItem`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Item"
+                   ) AS `material`,
+                   "" AS `stoffe`,
+                   "" AS `pailletten`,
+                   IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
+                FROM `tabItem`
+                LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
+               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` = "Stoffe";""".format(bemusterung=bemusterung)
 
     return frappe.db.sql(sql_query, as_dict=True)
 
@@ -186,11 +215,19 @@ def get_price_label(musterkarte):
     label_printer = settings.label_printer_prices
     # get raw data
     mk = frappe.get_doc("Musterkarte", musterkarte)
+    if len(mk.muster) > 0:
+        title = mk.muster[0].bemusterung.split(" ")[0]
+        source = mk.muster[0].bemusterung
+    else:
+        # fetch title from fabric
+        fabric_item = frappe.get_doc("Item", mk.stoffe[0].stoffe)
+        title = fabric_item.item_name
+        source = fabric_item.item_code
     data = { 
-        'items': get_price_label_data(mk.muster[0].bemusterung),
+        'items': get_price_label_data(source),
         'date': datetime.today().strftime('%d.%m.%Y'),
         'rates': mk.preise,
-        'title': mk.muster[0].bemusterung.split(" ")[0],
+        'title': title,
         'currency': mk.currency
     }
     # prepare content

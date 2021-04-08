@@ -29,7 +29,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Dessin",
-   "options": "Dessin"
+   "options": "Dessin",
+   "reqd": 1
   },
   {
    "fieldname": "section_muster",
@@ -71,7 +72,7 @@
    "options": "Musterkarte Stoffe"
   }
  ],
- "modified": "2021-04-07 14:50:09.194209",
+ "modified": "2021-04-08 14:59:44.989933",
  "modified_by": "nicole.gret@libracore.com",
  "module": "hoh",
  "name": "Musterkarte",

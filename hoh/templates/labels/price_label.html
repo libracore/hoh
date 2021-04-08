@@ -8,7 +8,7 @@
             {% if items[i].fertigbreite_von > 0 and items[i].fertigbreite_bis > 0 %}
                 {{ _("Embroidered Width") }}: {{ items[i].fertigbreite_von or 0 }} / {{ items[i].fertigbreite_bis or 0 }} cm<br>
             {% endif %}
-            {{ ((items[i].gewicht or "n/a")*1000)|int }} g/lfm<br>
+            {{ ((items[i].gewicht*1000)|int or "n/a") }} g/lfm<br>
             {{ items[i].pflegesymbole or "n/a" }}<br>
             {% if items[i].material %}{{ items[i].material }}<br>{% endif %}
             <table style="width: 100%; ">
