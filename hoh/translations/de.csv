@@ -43,3 +43,14 @@ Report Stock Age Valuation,Stock Age Valuation,Gängigkeit
 Report Stock Age Valuation,Reduced Value,Reduzierter Wert
 Report Numeric Stock Summary,Numeric Stock Summary,Lagerliste
 Report Stock by Sales Price,Stock by Sales Price,Lager zu Verkaufspreis
+Doctype: Kommissionsabrechnung,From date,Von Datum
+Doctype: Kommissionsabrechnung,To date,Bis Datum
+Doctype: Kommissionsabrechnung,Paid amount,Bezahlter Betrag
+Doctype: Kommissionsabrechnung,Freight charges,Frachtgebühren
+Doctype: Kommissionsabrechnung,Commission fraction,Kommissionsanteil
+Doctype: Kommissionsabrechnung,This is the fraction of the net amount without taxes and freight charges,Anteil des Nettobetrages ohne Steuern und Frachtgebühren
+Doctype: Kommissionsabrechnung,Commission rate,Kommissionssatz
+Doctype: Kommissionsabrechnung,Outstanding amount,Ausstehender Betrag
+Doctype: Kommissionsabrechnung,Total payments,Summe Zahlungen
+Doctype: Kommissionsabrechnung,Total commission,Summe Kommission
+Doctype: Kommissionsabrechnung,Total outstanding,Summe ausstehend

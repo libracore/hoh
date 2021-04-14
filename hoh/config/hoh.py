@@ -403,6 +403,12 @@ def get_data():
                        "is_query_report": True
                    },
                    {
+                       "type": "doctype",
+                       "name": "Kommissionsabrechnung",
+                       "label": _("Kommissionsabrechnung"),
+                       "description": _("Kommissionsabrechnung")
+                   },
+                   {
                        "type": "report",
                        "doctype": "Bin",
                        "name": "Stock by Sales Price",
