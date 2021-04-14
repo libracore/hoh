@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from datetime import datetime
 
 class Kommissionsabrechnung(Document):
     def get_payments(self):
@@ -109,6 +110,27 @@ class Kommissionsabrechnung(Document):
         for r in self.receivables:
             total_outstanding += r.outstanding_amount
         self.total_outstanding = total_outstanding
+        return
+        
+    def on_submit(self):
+        # create purchase invoice
+        config = frappe.get_doc("HOH Settings", "HOH Settigns")
+        supplier = frappe.get_doc("Supplier", self.supplier)
+        new_pinv = frappe.get_doc({
+            "doctype": "Purchase Invoice",
+            "supplier": self.supplier,
+            "bill_no": self.name,
+            "bill_date": datetime.now(),
+            "taxes_and_charges": supplier.default_purchase_tax_template
+        })
+        new_pinv.append("items", {
+            'item_code': config.commission_item,
+            'qty': 1,
+            'rate': self.total_commission
+        })
+        new_pinv.insert()
+        self.purchase_invoice = new_pinv.name
+        self.save()
         return
     
 @frappe.whitelist()

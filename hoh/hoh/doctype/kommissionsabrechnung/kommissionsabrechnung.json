@@ -9,6 +9,7 @@
   "title",
   "sales_partner",
   "supplier",
+  "purchase_invoice",
   "column_main",
   "from_date",
   "to_date",
@@ -91,6 +92,7 @@
    "label": "Totals"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_commission",
    "fieldtype": "Currency",
    "label": "Total commission",
@@ -101,6 +103,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_outstanding",
    "fieldtype": "Currency",
    "label": "Total outstanding",
@@ -113,14 +116,23 @@
    "unique": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_payments",
    "fieldtype": "Currency",
    "label": "Total payments",
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2021-04-14 15:30:41.659874",
+ "modified": "2021-04-14 16:12:49.477214",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Kommissionsabrechnung",
