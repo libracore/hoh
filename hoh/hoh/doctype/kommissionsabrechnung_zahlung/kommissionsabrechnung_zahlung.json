@@ -29,7 +29,7 @@
   },
   {
    "fieldname": "sales_invoice",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Sales Invoice",
    "options": "Sales Invoice",
@@ -108,7 +108,7 @@
   }
  ],
  "istable": 1,
- "modified": "2021-04-14 15:07:05.343853",
+ "modified": "2021-04-15 16:38:16.406581",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Kommissionsabrechnung Zahlung",

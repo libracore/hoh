@@ -10,7 +10,7 @@ from datetime import datetime
 class Kommissionsabrechnung(Document):
     def get_payments(self):
         sql_query = """SELECT 
-             `sinv`.`name`,
+             `sinv`.`name` AS `sinv`,
              `sinv`.`customer`,
              `sinv`.`customer_name`,
              `sinv`.`base_net_total`,
@@ -21,7 +21,7 @@ class Kommissionsabrechnung(Document):
              (1 - ((`sinv`.`total_taxes_and_charges` + `sinv`.`base_freight`) / `sinv`.`base_grand_total`)) AS `commission_fraction`,
              `commission_rate`,
              `tabPayment Entry Reference`.`allocated_amount`,
-             `tabPayment Entry`.`name`,
+             `tabPayment Entry`.`name` AS `pe`,
              `tabPayment Entry`.`posting_date`
             FROM
             (SELECT 
@@ -50,7 +50,7 @@ class Kommissionsabrechnung(Document):
         for p in payments:
             self.append('payments', {
                 'date': p['posting_date'],
-                'sales_invoice': p['name'],
+                'sales_invoice': p['sinv'],
                 'customer': p['customer'],
                 'customer_name': p['customer_name'],
                 'paid_amount': p['allocated_amount'],
