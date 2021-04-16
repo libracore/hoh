@@ -1,16 +1,16 @@
 {% for i in range(0, items|len) %}
 <table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
     <tr>
-        <td style="margin-top: 0px; "></td>
         <td style="margin-top: 0px; "><b>{{ title }}</b><br>
             {% if items[i].stoffbreite_von > 0 and items[i].stoffbreite_von > 0 %}
                 {{ _("Fabric Width") }}: {{ items[i].stoffbreite_von or 0 }} / {{ items[i].stoffbreite_von or 0 }} cm<br>{% endif %}
             {% if items[i].fertigbreite_von > 0 and items[i].fertigbreite_bis > 0 %}
                 {{ _("Embroidered Width") }}: {{ items[i].fertigbreite_von or 0 }} / {{ items[i].fertigbreite_bis or 0 }} cm<br>
             {% endif %}
-            {{ ((items[i].gewicht*1000)|int or "n/a") }} g/lfm<br>
-            {{ items[i].pflegesymbole or "n/a" }}<br>
             {% if items[i].material %}{{ items[i].material }}<br>{% endif %}
+            {% if items[i].source_type == 'muster' %}{{ ((items[i].gewicht*1000)|int or "n/a") }} g/lfm<br>
+            {% else %}{{ ((items[i].gewicht)|int or "n/a") }} g/lfm<br>{% endif %}
+            {{ items[i].pflegesymbole or "n/a" }}<br>
             <table style="width: 100%; ">
                 <tr>
                     <td style="text-align: left; margin: 0px !important; width: 50%; font-size: 11px;"></td>

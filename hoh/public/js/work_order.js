@@ -44,21 +44,19 @@ frappe.ui.form.on('Work Order', {
         }
     },
     before_save: function(frm) {
+        console.log("before_save");
         if (!frm.doc.stoff) {
             fetch_item_details(frm);
         }
-        // calculate total machine hours
-        var machine_hours = 0;
-        if (frm.doc.nutzungen) {
-            for (var i = 0; i < frm.doc.nutzungen.length; i++) {
-                if ((frm.doc.nutzungen[i].end) && (frm.doc.nutzungen[i].start)) {
-                    var duration = (new Date(frm.doc.nutzungen[i].end) - new Date(frm.doc.nutzungen[i].start)) / 3600000;
-                    frappe.model.set_value(frm.doc.nutzungen[i].doctype, frm.doc.nutzungen[i].name, 'maschinenstunden', duration);
-                }
-                machine_hours += frm.doc.nutzungen[i].maschinenstunden;
-            }
-        }
-        cur_frm.set_value('summe_maschinenstunden', machine_hours);
+    }
+});
+
+frappe.ui.form.on('Work Order Nutzung', {
+    end: function(frm, cdt, cdn) {
+        calculate_machine_hours(frm);
+    },
+    start: function(frm, cdt, cdn) {
+        calculate_machine_hours(frm);
     }
 });
 
@@ -96,4 +94,19 @@ function fetch_item_details(frm) {
             cur_frm.refresh();
         }
     });
+}
+
+function calculate_machine_hours(frm) {
+    // calculate total machine hours
+    var machine_hours = 0;
+    if (frm.doc.nutzungen) {
+        for (var i = 0; i < frm.doc.nutzungen.length; i++) {
+            if ((frm.doc.nutzungen[i].end) && (frm.doc.nutzungen[i].start)) {
+                var duration = (new Date(frm.doc.nutzungen[i].end) - new Date(frm.doc.nutzungen[i].start)) / 3600000;
+                frappe.model.set_value(frm.doc.nutzungen[i].doctype, frm.doc.nutzungen[i].name, 'maschinenstunden', duration);
+            }
+            machine_hours += frm.doc.nutzungen[i].maschinenstunden;
+        }
+    }
+    cur_frm.set_value('summe_maschinenstunden', machine_hours);
 }

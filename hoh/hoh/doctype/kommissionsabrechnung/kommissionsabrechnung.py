@@ -12,6 +12,7 @@ class Kommissionsabrechnung(Document):
         sql_query = """SELECT 
              `sinv`.`name` AS `sinv`,
              `sinv`.`customer`,
+             `sinv`.`posting_date` AS `invoice_date`,
              `sinv`.`customer_name`,
              `sinv`.`base_net_total`,
              `sinv`.`total_taxes_and_charges`,
@@ -31,6 +32,7 @@ class Kommissionsabrechnung(Document):
              `base_net_total`,
              `total_taxes_and_charges`,
              `base_grand_total`,
+             `posting_date`,
              (SELECT IFNULL(SUM(`base_amount`), 0)
               FROM `tabSales Invoice Item` 
               WHERE `tabSales Invoice Item`.`parent` = `tabSales Invoice`.`name`
@@ -50,6 +52,7 @@ class Kommissionsabrechnung(Document):
         for p in payments:
             self.append('payments', {
                 'date': p['posting_date'],
+                'invoice_date': p['invoice_date'],
                 'sales_invoice': p['sinv'],
                 'customer': p['customer'],
                 'customer_name': p['customer_name'],

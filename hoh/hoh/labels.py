@@ -18,6 +18,7 @@ def get_price_label_data(bemusterung):
                        `tabBemusterung`.`gewicht` AS `gewicht`,
                        `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
                        `tabBemusterung`.`rate` AS `preis`,
+                       "muster" AS `source_type`,
                        (SELECT GROUP_CONCAT(CONCAT("<img src='",
                         (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
                          `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
@@ -54,6 +55,7 @@ UNION SELECT
                    `tabItem`.`gewicht` AS `gewicht`,
                    "" AS `preisgruppe`,
                    "" AS `preis`,
+                   "stoff" AS `source_type`,
                    (SELECT GROUP_CONCAT(CONCAT("<img src='",
                     (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
                      `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
@@ -221,7 +223,7 @@ def get_price_label(musterkarte):
     else:
         # fetch title from fabric
         fabric_item = frappe.get_doc("Item", mk.stoffe[0].stoffe)
-        title = fabric_item.item_name
+        title = mk.title
         source = fabric_item.item_code
     data = { 
         'items': get_price_label_data(source),
