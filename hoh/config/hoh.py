@@ -415,6 +415,14 @@ def get_data():
                        "label": _("Stock by Sales Price"),
                        "description": _("Stock by Sales Price"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Dessin",
+                       "name": "Development Analysis",
+                       "label": _("Development Analysis"),
+                       "description": _("Development Analysis"),
+                       "is_query_report": True
                    }
             ]
         }
