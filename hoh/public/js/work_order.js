@@ -41,12 +41,19 @@ frappe.ui.form.on('Work Order', {
         // change on production item --> fetch related data fields
         if (frm.doc.production_item) {
             fetch_item_details(frm);
+            // restore sales order
+            cur_frm.set_value("sales_order", frm.doc.sales_order_store);
         }
     },
     before_save: function(frm) {
-        console.log("before_save");
         if (!frm.doc.stoff) {
             fetch_item_details(frm);
+        }
+        if ((frm.doc.sales_order) && (!frm.doc.sales_order_store)) {
+            // store sales order
+            cur_frm.set_value("sales_order_store", frm.doc.sales_order);
+        } else if ((!frm.doc.sales_order) && (frm.doc.sales_order_store)) {
+            cur_frm.set_value("sales_order", frm.doc.sales_order_store);
         }
     }
 });
