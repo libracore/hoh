@@ -423,6 +423,14 @@ def get_data():
                        "label": _("Development Analysis"),
                        "description": _("Development Analysis"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Sales Invoice Item",
+                       "name": "Artikelhistorie",
+                       "label": _("Artikelhistorie"),
+                       "description": _("Artikelhistorie"),
+                       "is_query_report": True
                    }
             ]
         }
