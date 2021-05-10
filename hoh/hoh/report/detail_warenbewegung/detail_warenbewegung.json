@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2020-11-24 21:25:54.461822",
+ "modified": "2021-05-10 11:28:04.155570",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Detail Warenbewegung",
@@ -19,28 +19,10 @@
  "report_type": "Script Report",
  "roles": [
   {
-   "role": "Item Manager"
+   "role": "Accounts Manager"
   },
   {
-   "role": "Stock Manager"
-  },
-  {
-   "role": "Stock User"
-  },
-  {
-   "role": "Sales User"
-  },
-  {
-   "role": "Purchase User"
-  },
-  {
-   "role": "Maintenance User"
-  },
-  {
-   "role": "Accounts User"
-  },
-  {
-   "role": "Manufacturing User"
+   "role": "System Manager"
   }
  ]
 }

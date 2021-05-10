@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2021-03-31 16:42:20.352198",
+ "modified": "2021-05-10 11:38:27.947811",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Stock Age Valuation",
@@ -19,13 +19,10 @@
  "report_type": "Script Report",
  "roles": [
   {
-   "role": "Sales User"
+   "role": "Accounts Manager"
   },
   {
-   "role": "Purchase User"
-  },
-  {
-   "role": "Stock User"
+   "role": "System Manager"
   }
  ]
 }

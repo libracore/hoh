@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2021-04-19 11:12:22.711004",
+ "modified": "2021-05-10 11:20:55.994805",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Development Analysis",
@@ -19,19 +19,10 @@
  "report_type": "Script Report",
  "roles": [
   {
-   "role": "Item Manager"
+   "role": "Accounts Manager"
   },
   {
    "role": "System Manager"
-  },
-  {
-   "role": "All"
-  },
-  {
-   "role": "Puncherei"
-  },
-  {
-   "role": "Stickerei Basis"
   }
  ]
 }

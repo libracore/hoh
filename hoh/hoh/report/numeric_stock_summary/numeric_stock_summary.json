@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2021-03-31 20:54:23.196666",
+ "modified": "2021-05-10 11:18:43.223761",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Numeric Stock Summary",
@@ -22,10 +22,16 @@
    "role": "Sales User"
   },
   {
-   "role": "Purchase User"
+   "role": "Item Manager"
   },
   {
-   "role": "Stock User"
+   "role": "Manufacturing User"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Accounts Manager"
   }
  ]
 }

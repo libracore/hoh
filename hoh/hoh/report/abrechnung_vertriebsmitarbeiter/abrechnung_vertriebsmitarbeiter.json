@@ -8,7 +8,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Commercial",
- "modified": "2021-02-05 14:33:34.204900",
+ "modified": "2021-05-10 11:19:36.996310",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Abrechnung Vertriebsmitarbeiter",
@@ -20,6 +20,9 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Accounts Manager"
   }
  ]
 }
