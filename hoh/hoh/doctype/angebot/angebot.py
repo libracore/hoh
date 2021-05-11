@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.website.website_generator import WebsiteGenerator
 from frappe import _
+from frappe.model.naming import set_name_by_naming_series
 
 class Angebot(WebsiteGenerator):
     website = frappe._dict(
@@ -23,6 +24,10 @@ class Angebot(WebsiteGenerator):
     #    })
     #    
     #    return context
+    
+    def autoname(self):
+        set_name_by_naming_series(self)
+        return
         
 # enable list view sidebar
 def get_list_context(context=None):

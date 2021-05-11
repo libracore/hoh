@@ -29,9 +29,6 @@ frappe.ui.form.on('Angebot', {
             });
         }
 	},
-    customer_name: function(frm) {
-        cur_frm.set_value('title', frm.doc.customer_name);
-    },
     currency: function(frm) {
         if (frm.doc.currency == "EUR") {
             cur_frm.set_value('exchange_rate', 1);

@@ -6,7 +6,6 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "title",
   "customer",
   "customer_name",
   "tax_id",
@@ -43,7 +42,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
-   "label": "Naming series",
+   "label": "Naming Series",
    "options": "OF-.#####",
    "reqd": 1
   },
@@ -111,14 +110,6 @@
    "fieldtype": "Link",
    "label": "Customer contact",
    "options": "Contact"
-  },
-  {
-   "default": "OF-.#####",
-   "fieldname": "title",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Title",
-   "reqd": 1
   },
   {
    "fieldname": "net_total",
@@ -234,7 +225,7 @@
  "has_web_view": 1,
  "is_published_field": "show_in_website",
  "is_submittable": 1,
- "modified": "2020-06-15 11:23:53.000069",
+ "modified": "2021-05-11 17:29:58.447483",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Angebot",
@@ -270,6 +261,6 @@
  "route": "/angebot",
  "sort_field": "modified",
  "sort_order": "DESC",
- "title_field": "title",
+ "title_field": "customer_name",
  "track_changes": 1
 }
