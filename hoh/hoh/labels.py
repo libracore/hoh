@@ -208,6 +208,27 @@ def get_delivery_note_label_data(selected_delivery_notes):
 
     return frappe.db.sql(sql_query, as_dict=True)
     
+def get_angebot_label_data(selected_quotation):
+    sql_query = """SELECT
+                       `tabBemusterung`.`item` AS `item`,
+                       `tabBemusterung`.`name` AS `name`,
+                       `tabBemusterung`.`bezeichnung` AS `bezeichnung`,
+                       `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
+                       `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
+                       `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
+                       `tabBemusterung`.`fertigbreite_bis` AS `fertigbreite_bis`,
+                       `tabBemusterung`.`gewicht` AS `gewicht`,
+                       `tabBemusterung`.`d_stoffe` AS `d_stoffe`,
+                       `tabBemusterung`.`d_pailletten` AS `d_pailletten`,
+                       `tabBemusterung`.`d_applikationen` AS `d_applikationen`,
+                       `tabBemusterung`.`d_prints` AS `d_prints`
+                    FROM `tabAngebot Muster`
+                    LEFT JOIN `tabAngebot` ON `tabAngebot Muster`.`parent` = `tabAngebot`.`name`
+                    LEFT JOIN `tabBemusterung` ON `tabAngebot Muster`.`bemusterung` = `tabBemusterung`.`name`
+                    WHERE `tabAngebot Muster`.`parent` IN ({selected_quotation});""".format(selected_quotation=selected_quotation)
+
+    return frappe.db.sql(sql_query, as_dict=True)
+    
 @frappe.whitelist()
 def get_price_label(musterkarte):
     # get label printer
@@ -356,6 +377,27 @@ def get_bemusterung_label(selected_items):
     # create pdf
     if not label_printer:
         frappe.throw( _("Please set a printer under HOH settings") )
+    printer = frappe.get_doc("Label Printer", label_printer)
+    pdf = create_pdf(printer, content)
+    # return download
+    frappe.local.response.filename = "{name}.pdf".format(name=label_printer.replace(" ", "-").replace("/", "-"))
+    frappe.local.response.filecontent = pdf
+    frappe.local.response.type = "download"
+
+@frappe.whitelist()
+def get_angebot_label(selected_quotation):
+    # get label printer
+    settings = frappe.get_doc("HOH Settings", "HOH Settings")
+    if not settings.bemusterung_label_printer:
+        frappe.throw( _("Please define a bemusterung label printer under HOH Settings.") )
+    # get raw data
+    data = { 
+        'items': get_angebot_label_data(selected_quotation)
+    }
+    # prepare content
+    content = frappe.render_template('hoh/templates/labels/bemusterung_label.html', data)
+    label_printer = settings.bemusterung_label_printer
+    # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
     # return download
