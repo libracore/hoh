@@ -27,6 +27,9 @@ frappe.ui.form.on('Angebot', {
             frm.add_custom_button(__("Artikel von Kollektion"), function() {
                 load_collection(frm);
             });
+            frm.add_custom_button(__("Artikel von Dessin"), function() {
+                load_dessin(frm);
+            });
         }
 	},
     currency: function(frm) {
@@ -193,5 +196,50 @@ function load_collection(frm) {
         },
         'Artikel von Kollektion',
         'Hinzufügen'
+    );
+}
+
+function load_dessin(frm) {
+    frappe.prompt([
+        {'fieldname': 'dessin', 'fieldtype': 'Link', 'label': 'Dessin', 'options': 'Dessin', 'reqd': 1} 
+    ],
+    function(values){
+        frappe.call({
+            'method': 'frappe.client.get_list',
+            'args': {
+                'doctype': 'Bemusterung',
+                'filters': {'dessin': values.dessin'},
+                'fields': ["name"]
+            },
+            'callback': function(response) {
+                var bemusterungen = response.message;
+                var fields = [];
+                for (var i = 0; i < bemusterungen.length; i++) {
+                    fields.push({'fieldname': 'c' + i, 'fieldtype': 'Check', 'label': bemusterungen[i].name});
+                    if (i === int(bemusterungen.length/2)) {
+                        fields.push({'fieldname': 'column_' + i, 'fieldtype': 'Column Break'});
+                    }
+                }
+                frappe.prompt(
+                    fields,
+                    function(v){
+                        // insert production steps
+                        for (var j = 0; j < bemusterungen.length; j++) {
+                            if (v[('c' + j)] === 1) {
+                                var child = cur_frm.add_child('muster');
+                                frappe.model.set_value(child.doctype, child.name, 'bemusterung', bemusterungen[j].name);
+                                frappe.model.set_value(child.doctype, child.name, 'qty', 1);
+                            }
+                        }
+                        cur_frm.refresh_field('muster');
+                    },
+                    __('Artikel laden'),
+                    'OK'
+                );
+            }
+        });
+    },
+    __('Dessin laden'),
+    'OK'
     );
 }
