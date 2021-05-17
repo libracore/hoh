@@ -9,6 +9,7 @@
   "column_main",
   "activity_type",
   "employee",
+  "schicht",
   "remarks",
   "section_calculation",
   "maschinenstunden"
@@ -75,10 +76,19 @@
    "fieldname": "section_calculation",
    "fieldtype": "Section Break",
    "label": "Calculation"
+  },
+  {
+   "fetch_from": "employee.schicht",
+   "fieldname": "schicht",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Schicht",
+   "options": "Schicht",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2020-12-14 12:15:54.003609",
+ "modified": "2021-05-17 10:31:59.011411",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Work Order Nutzung",
