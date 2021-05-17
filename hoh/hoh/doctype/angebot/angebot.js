@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Angebot', {
-	refresh: function(frm) {
+    refresh: function(frm) {
         cur_frm.fields_dict['customer_address'].get_query = function(doc) {
             return {
                 filters: {
@@ -31,7 +31,7 @@ frappe.ui.form.on('Angebot', {
                 load_dessin(frm);
             });
         }
-	},
+    },
     currency: function(frm) {
         if (frm.doc.currency == "EUR") {
             cur_frm.set_value('exchange_rate', 1);
@@ -42,9 +42,9 @@ frappe.ui.form.on('Angebot', {
 });
 
 frappe.ui.form.on('Angebot Muster', {
-	qty: function(frm, cdt, cdn) {
+    qty: function(frm, cdt, cdn) {
         update_row_amount(frm, cdt, cdn)
-	},
+    },
     rate: function(frm, cdt, cdn) {
         var base_rate = frappe.model.get_value(cdt, cdn, 'rate') / frm.doc.exchange_rate;
         frappe.model.set_value(cdt, cdn, "base_rate", base_rate);
@@ -208,34 +208,39 @@ function load_dessin(frm) {
             'method': 'frappe.client.get_list',
             'args': {
                 'doctype': 'Bemusterung',
-                'filters': {'dessin': values.dessin'},
-                'fields': ["name"]
+                'filters': {'dessin': values.dessin},
+                'fields': ["name", "rate"]
             },
             'callback': function(response) {
                 var bemusterungen = response.message;
-                var fields = [];
-                for (var i = 0; i < bemusterungen.length; i++) {
-                    fields.push({'fieldname': 'c' + i, 'fieldtype': 'Check', 'label': bemusterungen[i].name});
-                    if (i === int(bemusterungen.length/2)) {
-                        fields.push({'fieldname': 'column_' + i, 'fieldtype': 'Column Break'});
-                    }
-                }
-                frappe.prompt(
-                    fields,
-                    function(v){
-                        // insert production steps
-                        for (var j = 0; j < bemusterungen.length; j++) {
-                            if (v[('c' + j)] === 1) {
-                                var child = cur_frm.add_child('muster');
-                                frappe.model.set_value(child.doctype, child.name, 'bemusterung', bemusterungen[j].name);
-                                frappe.model.set_value(child.doctype, child.name, 'qty', 1);
-                            }
+                if (bemusterungen.length > 0) {
+                    var fields = [];
+                    var half = Math.round(bemusterungen.length/2);
+                    for (var i = 0; i < bemusterungen.length; i++) {
+                        fields.push({'fieldname': 'c' + i, 'fieldtype': 'Check', 'label': bemusterungen[i].name});
+                        if (i === half) {
+                            fields.push({'fieldname': 'column_' + i, 'fieldtype': 'Column Break'});
                         }
-                        cur_frm.refresh_field('muster');
-                    },
-                    __('Artikel laden'),
-                    'OK'
-                );
+                    }
+                    frappe.prompt(
+                        fields,
+                        function(v){
+                            // insert production steps
+                            for (var j = 0; j < bemusterungen.length; j++) {
+                                if (v[('c' + j)] === 1) {
+                                    var child = cur_frm.add_child('muster');
+                                    frappe.model.set_value(child.doctype, child.name, 'bemusterung', bemusterungen[j].name);
+                                    frappe.model.set_value(child.doctype, child.name, 'rate', bemusterungen[j].rate);
+                                }
+                            }
+                            cur_frm.refresh_field('muster');
+                        },
+                        __('Artikel laden'),
+                        'OK'
+                    );
+                } else {
+                    frappe.msgprint( __("Leider keine Artikel in diesem Dessin") );
+                }
             }
         });
     },
