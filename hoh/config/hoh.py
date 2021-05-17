@@ -372,6 +372,14 @@ def get_data():
                    },
                    {
                        "type": "report",
+                       "doctype": "GL Entry",
+                       "name": "Kennzahlen",
+                       "label": _("Kennzahlen"),
+                       "description": _("Kennzahlen"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
                        "doctype": "Item",
                        "name": "Statistik Warenbewegung",
                        "label": _("Statistik Warenbewegung"),

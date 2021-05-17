@@ -20,7 +20,9 @@
   "work_start",
   "work_end",
   "section_commission",
-  "commission_item"
+  "commission_item",
+  "section_kennzahlen",
+  "liquidity_accounts"
  ],
  "fields": [
   {
@@ -120,10 +122,21 @@
    "fieldtype": "Link",
    "label": "Kommissionsartikel",
    "options": "Item"
+  },
+  {
+   "fieldname": "section_kennzahlen",
+   "fieldtype": "Section Break",
+   "label": "Kennzahlen"
+  },
+  {
+   "fieldname": "liquidity_accounts",
+   "fieldtype": "Table",
+   "label": "Liquidity accounts",
+   "options": "Kennzahlen Account"
   }
  ],
  "issingle": 1,
- "modified": "2021-04-14 16:04:02.765210",
+ "modified": "2021-05-17 22:17:32.305311",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "HOH Settings",
