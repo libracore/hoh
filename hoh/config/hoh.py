@@ -320,6 +320,12 @@ def get_data():
                    },
                    {
                        "type": "doctype",
+                       "name": "Schicht",
+                       "label": _("Schicht"),
+                       "description": _("Schicht")
+                   },
+                   {
+                       "type": "doctype",
                        "name": "Stickmaschine",
                        "label": _("Stickmaschine"),
                        "description": _("Stickmaschine")
@@ -368,6 +374,22 @@ def get_data():
                        "name": "Numeric Stock Summary",
                        "label": _("Numeric Stock Summary"),
                        "description": _("Numeric Stock Summary"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Production Planning",
+                       "label": _("Production Planning"),
+                       "description": _("Production Planning"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Production Throughput",
+                       "label": _("Production Throughput"),
+                       "description": _("Production Throughput"),
                        "is_query_report": True
                    },
                    {

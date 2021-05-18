@@ -21,7 +21,7 @@
    "label": "Kurzzeichen"
   }
  ],
- "modified": "2021-05-17 10:35:21.621383",
+ "modified": "2021-05-18 11:44:18.518347",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Schicht",
@@ -48,6 +48,16 @@
    "read": 1,
    "report": 1,
    "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Produktion",
    "share": 1,
    "write": 1
   }

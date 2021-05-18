@@ -12,8 +12,8 @@ def execute(filters):
 
 def get_columns():
     return [
-        {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine", "width": 100},
-        {"label": _("Sum Work Orders"), "fieldname": "sum_work_order", "fieldtype": "Data", "width": 100},
+        {"label": _("Stickmaschine"), "fieldname": "stickmaschine", "fieldtype": "Link", "options": "Stickmaschine", "width": 120},
+        {"label": _("Sum Work Orders"), "fieldname": "sum_work_order", "fieldtype": "Data", "width": 140},
         {"label": _("End Date"), "fieldname": "end_date", "fieldtype": "Date", "width": 100}
     ]
 
