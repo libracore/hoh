@@ -34,6 +34,7 @@ def get_columns(filters):
         {"label": _("Work Orders"), "fieldname": "work_orders", "fieldtype": "Int", "width": 100},
         {"label": _("Ktm"), "fieldname": "ktm", "fieldtype": "Float", "Precision": 1, "width": 100},
         {"label": _("Ktm per h"), "fieldname": "ktm_per_h", "fieldtype": "Float", "Precision": 1, "width": 100},
+        {"label": _("Payment Days"), "fieldname": "payment_speed", "fieldtype": "Float", "Precision": 1, "width": 100},
         {"label": _(""), "fieldname": "blank", "fieldtype": "Data", "width": 10}
     ]
     return columns
@@ -155,7 +156,8 @@ def get_data(filters):
             'development_costs': development_costs[0]['development_costs'],
             'work_orders': new_work_orders[0]['work_orders'],
             'ktm': ktm[0]['ktm'],
-            'ktm_per_h': ktm_per_h[0]['ktm_per_h']
+            'ktm_per_h': ktm_per_h[0]['ktm_per_h'],
+            'payment_speed' : payment_speed[0]['payment_speed']
         })
     
     return data

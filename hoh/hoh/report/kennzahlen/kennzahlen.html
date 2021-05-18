@@ -1,0 +1,63 @@
+<meta name="pdfkit-orientation" content="Landscape"/>
+  
+<table Style="width: 100%;">
+    <tr>
+        <td><h1>Kennzahlen {%= filters.year %} ({%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %})</h1></td>
+        <td style="text-align: right; ">
+            <img alt="Logo" src="/files/logo_hoh_einzeln.jpg" style="height: 50px !important; width: auto !important; ">
+        </td>
+    </tr>
+</table>
+
+<table style="width: 100%; font-size: 9px; border-top: 1px solid black; ">
+    <tr>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Month") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("OP Debitoren") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("OP Kreditoren") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Liquidität") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=6>{%= __("New Orders") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("New Invoices") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Entwicklungs-<br>kosten") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Work Orders") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Ktm") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Ktm per h") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Payment Days") %}</th>
+    </tr>
+    <tr>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Africa ") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Europe ") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Total ") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2></th>
+    </tr>
+    <tr>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
+    </tr>
+    {% for (var i=0, l=data.length-1; i<l; i++) { %}
+    <tr>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].month %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].receivables) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].payables) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].liquidity) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders_africa %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_africa_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders_europe %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_europe_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_invoices %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_invoice_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].development_costs) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].work_orders %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].ktm) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].ktm_per_h) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].payment_speed) %}</td>
+    </tr>
+    {% } %}
+</table>
