@@ -25,7 +25,7 @@ def get_data():
           MAX(`tabWork Order`.`expected_delivery_date`) AS `end_date`
         FROM `tabWork Order`
         WHERE 
-          `tabWork Order`.`docstatus` < 2 AND `tabWork Order`.`status` NOT IN ("Completed", "Stopped")
+          `tabWork Order`.`docstatus` < 2 AND `tabWork Order`.`status` NOT IN ("Completed", "Stopped") AND `tabWork Order`.`stickmaschine` IS NOT NULL
         GROUP BY `tabWork Order`.`stickmaschine`
         ORDER BY `tabWork Order`.`stickmaschine` ASC
         """.format()
