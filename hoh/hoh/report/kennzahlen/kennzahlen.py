@@ -32,6 +32,8 @@ def get_columns(filters):
         {"label": _("New Invoice Volume"), "fieldname": "new_invoice_volume", "fieldtype": "Currency", "width": 100},
         {"label": _("Entwicklungskosten"), "fieldname": "development_costs", "fieldtype": "Currency", "width": 100},
         {"label": _("Work Orders"), "fieldname": "work_orders", "fieldtype": "Int", "width": 100},
+        {"label": _("Ktm"), "fieldname": "ktm", "fieldtype": "Float", "Precision": 1, "width": 100},
+        {"label": _("Ktm per h"), "fieldname": "ktm_per_h", "fieldtype": "Float", "Precision": 1, "width": 100},
         {"label": _(""), "fieldname": "blank", "fieldtype": "Data", "width": 10}
     ]
     return columns
@@ -103,7 +105,40 @@ def get_data(filters):
             WHERE `docstatus` < 2
               AND `planned_start_date` LIKE "{year}-{month:02d}-%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
-        
+        ktm = frappe.db.sql("""
+            SELECT 
+                SUM(IFNULL(((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`), 0)) AS `ktm`
+            FROM `tabWork Order` 
+            LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
+            LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
+            LEFT JOIN `tabStickmaschine` ON `tabStickmaschine`.`name` = `tabWork Order`.`stickmaschine`
+            WHERE `tabWork Order`.`docstatus` < 2
+              AND `planned_start_date` LIKE "{year}-{month:02d}-%"
+        ;""".format(year=filters['year'], month=month), as_dict=True)
+        ktm_per_h = frappe.db.sql("""
+            SELECT 
+                SUM((IFNULL(((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`), 0) /
+                IFNULL(`tabWork Order`.`summe_maschinenstunden`, 0))) AS `ktm_per_h`
+            FROM `tabWork Order` 
+            LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
+            LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
+            LEFT JOIN `tabStickmaschine` ON `tabStickmaschine`.`name` = `tabWork Order`.`stickmaschine`
+            WHERE `tabWork Order`.`docstatus` < 2
+              AND `planned_start_date` LIKE "{year}-{month:02d}-%"
+        ;""".format(year=filters['year'], month=month), as_dict=True)
+        payment_speed = frappe.db.sql("""
+            SELECT 
+                  AVG(DATEDIFF(`tabPayment Entry`.`posting_date`, `tabSales Invoice`.`posting_date`)) AS `payment_speed`
+                FROM `tabPayment Entry Reference`
+                LEFT JOIN `tabPayment Entry` ON `tabPayment Entry`.`name` = `tabPayment Entry Reference`.`parent`
+                LEFT JOIN `tabSales Invoice` ON `tabSales Invoice`.`name` = `tabPayment Entry Reference`.`reference_name`
+                LEFT JOIN `tabCustomer` ON `tabCustomer`.`name` = `tabSales Invoice`.`customer`
+                WHERE `tabPayment Entry Reference`.`reference_doctype` = 'Sales Invoice'
+                  AND `tabSales Invoice`.`docstatus` = 1
+                  AND `tabPayment Entry`.`docstatus` = 1
+                  AND `tabSales Invoice`.`posting_date` LIKE "{year}-{month:02d}-%"
+        ;""".format(year=filters['year'], month=month), as_dict=True)
+         
         data.append({
             'month': "{0} {1}".format(months[(month - 1)], filters['year']),
             'receivables': receivables[0]['receivables'],
@@ -118,7 +153,9 @@ def get_data(filters):
             'new_invoices': new_invoices[0]['orders'],
             'new_invoice_volume': new_invoices[0]['volume'],
             'development_costs': development_costs[0]['development_costs'],
-            'work_orders': new_work_orders[0]['work_orders']
+            'work_orders': new_work_orders[0]['work_orders'],
+            'ktm': ktm[0]['ktm'],
+            'ktm_per_h': ktm_per_h[0]['ktm_per_h']
         })
     
     return data
