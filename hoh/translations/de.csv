@@ -54,4 +54,10 @@ Doctype: Kommissionsabrechnung,Outstanding amount,Ausstehender Betrag
 Doctype: Kommissionsabrechnung,Total payments,Summe Zahlungen
 Doctype: Kommissionsabrechnung,Total commission,Summe Kommission
 Doctype: Kommissionsabrechnung,Total outstanding,Summe ausstehend
+DocType: Kommissionsabrechnung,Outstanding Sales Invoices,Unbezahlte Rechnungen
+DocType: Kommissionsabrechnung,Invoice Nr.,Rechnungsnr.
+DocType: Kommissionsabrechnung,Payments & Commission,Zahlungen und Kommission
+Report: Production Planning,Production Planning,Produktionsplanung
+Report: Production Planning,Sum Work Orders,Anzahl Arbeitsaufträge
+Report: Production Throughput,Production Throughput,Produktionsdurchsatz
 Report Development Analysis,Development Analysis,Entwicklungs- und Punchanalyse

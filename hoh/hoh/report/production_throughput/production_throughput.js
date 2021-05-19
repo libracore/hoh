@@ -1,4 +1,4 @@
-// Copyright (c) 2016, libracore and contributors
+// Copyright (c) 2021, libracore and contributors
 // For license information, please see license.txt
 /* eslint-disable */
 
@@ -15,6 +15,6 @@ frappe.query_reports["Production Throughput"] = {
     "onload": (report) => {
         report.page.add_inner_button(__('Stickplan'), function () {
            window.location.href="/desk#query-report/Stickplan";
-        }, __("Open") );
+        } );
     },
 };
