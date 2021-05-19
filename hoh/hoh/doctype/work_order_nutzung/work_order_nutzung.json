@@ -81,14 +81,14 @@
    "fetch_from": "employee.schicht",
    "fieldname": "schicht",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "label": "Schicht",
    "options": "Schicht",
    "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2021-05-17 11:17:45.741519",
+ "modified": "2021-05-19 09:17:45.741519",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Work Order Nutzung",
