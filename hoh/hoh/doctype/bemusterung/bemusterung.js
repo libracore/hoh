@@ -118,69 +118,71 @@ function nadelrechner(frm, input, output, target=null, g_per_m=1, g_per_uom=1, u
     var d = new frappe.ui.Dialog({
         'fields': [
             {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Select', 'options': '4/4\n8/4\n12/4\n16/4\n20/4\n24/4\n28/4\n32/4\n36/4\n40/4\n44/4\n48/4\n52/4\n56/4\n64/4\n68/4\n72/4\n76/4\n80/4\n84/4\n88/4\n92/4\n96/4\n104/4', 'default': frm.doc.stickrapport},
-            {'fieldname': 'g_per_m', 'label': 'g pro m', 'fieldtype': 'Float', 'default': g_per_m, 'precission': 3},
-            {'fieldname': 'g_per_uom', 'label': 'g pro ' + uom, 'fieldtype': 'Float', 'default': g_per_uom, 'precission': 3},
-            {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input, 'precission': 3},
-            {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output, 'precission': 3}
+            {'fieldname': 'g_per_m', 'label': 'g pro m', 'fieldtype': 'Float', 'default': g_per_m, 'precision': 3},
+            {'fieldname': 'g_per_uom', 'label': 'g pro ' + uom, 'fieldtype': 'Float', 'default': g_per_uom, 'precision': 3},
+            {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input, 'precision': 3},
+            {'fieldname': 'pro_m', 'fieldtype': 'Float', 'label': 'x pro Meter', 'read_only': 1, 'default': output, 'precision': 3}
         ],
         primary_action: function(){
             d.hide();
             // calculate
-            var input = d.get_values().nadel;
-            var g_per_m = d.get_values().g_per_m;
-            var g_per_uom = d.get_values().g_per_uom;
+			var values = d.get_values();
+            var input = values.nadel;
+            var g_per_m = values.g_per_m;
+            var g_per_uom = values.g_per_uom;
+			var stickrapport = values.stickrapport;
             var needle_per_m = 114 / 9.1;
-            if (frm.doc.stickrapport === "4/4") {
+            if (stickrapport === "4/4") {
                 needle_per_m = 342 / 9.1;
-            } else if (frm.doc.stickrapport === "8/4") {
+            } else if (stickrapport === "8/4") {
                 needle_per_m = 171 / 9.1;
-            } else if (frm.doc.stickrapport === "12/4") {
+            } else if (stickrapport === "12/4") {
                 needle_per_m = 114 / 9.1;
-            } else if (frm.doc.stickrapport === "16/4") {
+            } else if (stickrapport === "16/4") {
                 needle_per_m = 86 / 9.1;
-            } else if (frm.doc.stickrapport === "20/4") {
+            } else if (stickrapport === "20/4") {
                 needle_per_m = 69 / 9.1;
-            } else if (frm.doc.stickrapport === "24/4") {
+            } else if (stickrapport === "24/4") {
                 needle_per_m = 57 / 9.1;
-            } else if (frm.doc.stickrapport === "28/4") {
+            } else if (stickrapport === "28/4") {
                 needle_per_m = 49 / 9.1;
-            } else if (frm.doc.stickrapport === "32/4") {
+            } else if (stickrapport === "32/4") {
                 needle_per_m = 43 / 9.1;
-            } else if (frm.doc.stickrapport === "36/4") {
+            } else if (stickrapport === "36/4") {
                 needle_per_m = 38 / 9.1;
-            } else if (frm.doc.stickrapport === "40/4") {
+            } else if (stickrapport === "40/4") {
                 needle_per_m = 35 / 9.1;
-            } else if (frm.doc.stickrapport === "44/4") {
+            } else if (stickrapport === "44/4") {
                 needle_per_m = 31 / 9.1;
-            } else if (frm.doc.stickrapport === "48/4") {
+            } else if (stickrapport === "48/4") {
                 needle_per_m = 29 / 9.1;
-            } else if (frm.doc.stickrapport === "52/4") {
+            } else if (stickrapport === "52/4") {
                 needle_per_m = 26 / 9.1;
-            } else if (frm.doc.stickrapport === "56/4") {
+            } else if (stickrapport === "56/4") {
                 needle_per_m = 24 / 9.1;
-            } else if (frm.doc.stickrapport === "60/4") {
+            } else if (stickrapport === "60/4") {
                 needle_per_m = 22 / 9.1;
-            } else if (frm.doc.stickrapport === "64/4") {
+            } else if (stickrapport === "64/4") {
                 needle_per_m = 21 / 9.1;
-            } else if (frm.doc.stickrapport === "68/4") {
+            } else if (stickrapport === "68/4") {
                 needle_per_m = 20 / 9.1;
-            } else if (frm.doc.stickrapport === "72/4") {
+            } else if (stickrapport === "72/4") {
                 needle_per_m = 19 / 9.1;
-            } else if (frm.doc.stickrapport === "76/4") {
+            } else if (stickrapport === "76/4") {
                 needle_per_m = 18 / 9.1;
-            } else if (frm.doc.stickrapport === "80/4") {
+            } else if (stickrapport === "80/4") {
                 needle_per_m = 17 / 9.1;
-            } else if (frm.doc.stickrapport === "84/4") {
+            } else if (stickrapport === "84/4") {
                 needle_per_m = 16 / 9.1;
-            } else if (frm.doc.stickrapport === "88/4") {
+            } else if (stickrapport === "88/4") {
                 needle_per_m = 15 / 9.1;
-            } else if (frm.doc.stickrapport === "92/4") {
+            } else if (stickrapport === "92/4") {
                 needle_per_m = 14 / 9.1;
-            } else if (frm.doc.stickrapport === "96/4") {
+            } else if (stickrapport === "96/4") {
                 needle_per_m = 14 / 9.1;
-            } else if (frm.doc.stickrapport === "100/4") {
+            } else if (stickrapport === "100/4") {
                 needle_per_m = 13 / 9.1;
-            } else if (frm.doc.stickrapport === "104/4") {
+            } else if (stickrapport === "104/4") {
                 needle_per_m = 13 / 9.1;
             } else {
                 frappe.msgprint("Unbekannter Rapport");
