@@ -3,7 +3,16 @@
 /* eslint-disable */
 
 frappe.query_reports["Production Planning"] = {
-	"filters": [
+    "filters": [
 
-	]
+    ],
+    "onload": (report) => {
+        report.page.add_inner_button(__('Maschine zuweisen'), function ()  {
+           frappe.set_route("List", "Work Order", {
+                "stickmaschine": ["like", "%"], 
+                "docstatus": ["<", 2],
+                "status": ["!=", "Completed"]
+            });
+        });
+    },
 };
