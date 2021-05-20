@@ -41,6 +41,7 @@
   "pflegesymbole",
   "section_remarks",
   "remarks",
+  "show_remark_as_warning",
   "section_online_catalogue",
   "show_online",
   "column_online_catalogue",
@@ -338,10 +339,16 @@
    "fieldname": "panneau",
    "fieldtype": "Check",
    "label": "Panneau"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_remark_as_warning",
+   "fieldtype": "Check",
+   "label": "Bemerkung im Arbeitsauftrag als Warnung anzeigen"
   }
  ],
  "image_field": "image",
- "modified": "2021-02-11 21:10:48.376661",
+ "modified": "2021-05-20 20:16:25.630662",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "Bemusterung",
