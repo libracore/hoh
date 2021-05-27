@@ -12,52 +12,66 @@
 <table style="width: 100%; font-size: 9px; border-top: 1px solid black; ">
     <tr>
         <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Month") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("OP Debitoren") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("OP Kreditoren") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Liquidität") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=6>{%= __("New Orders") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("New Invoices") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Entwicklungs-<br>kosten") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Work Orders") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Ktm") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Ktm per h") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" rowspan=3>{%= __("Payment Days") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: center;" colspan=6>{%= __("New Orders") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: center;" colspan=2>{%= __("New Invoices") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;" rowspan=3>{%= __("OP Debitoren") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;" rowspan=3>{%= __("OP Kreditoren") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;" rowspan=3>{%= __("Liquidität") %}</th>
     </tr>
     <tr>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Africa ") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Europe ") %}</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2>{%= __("Total ") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: center;" colspan=2>{%= __("internal") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: center;" colspan=2>{%= __("African Lace") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: center;" colspan=2>{%= __("Fashion") %}</th>
         <th style="padding-top: 2px !important; padding-bottom: 2px !important;" colspan=2></th>
     </tr>
     <tr>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">#</th>
-        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">EUR</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">#</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">EUR</th>
     </tr>
     {% for (var i=0, l=data.length-1; i<l; i++) { %}
     <tr>
         <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].month %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].receivables) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].payables) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].liquidity) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders_africa %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_africa_volume) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders_europe %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_europe_volume) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_orders %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_order_volume) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].new_invoices %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].new_invoice_volume) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= format_currency(data[i].development_costs) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].work_orders %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].ktm) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].ktm_per_h) %}</td>
-        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= Math.round(data[i].payment_speed) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= data[i].new_orders %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].new_order_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= data[i].new_orders_africa %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].new_order_africa_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= data[i].new_orders_europe %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].new_order_europe_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= data[i].new_invoices %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].new_invoice_volume) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].receivables) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].payables) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].liquidity) %}</td>
+    </tr>
+    {% } %}
+</table>
+
+<!-- <div class="page-break"></div>  -->
+<p><br></p>
+
+<table style="width: 100%; font-size: 9px; border-top: 1px solid black; ">
+    <tr>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= __("Month") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= __("Entwicklungs-<br>kosten") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= __("Work Orders") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= __("Ktm") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= __("Ktm per h") %}</th>
+        <th style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= __("h") %}</th>
+    </tr>
+    {% for (var i=0, l=data.length-1; i<l; i++) { %}
+    <tr>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important;">{%= data[i].month %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= format_currency(data[i].development_costs) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= data[i].work_orders %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= Math.round(data[i].ktm) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= Math.round(data[i].ktm_per_h) %}</td>
+        <td style="padding-top: 2px !important; padding-bottom: 2px !important; text-align: right;">{%= Math.round(data[i].h) %}</td>
     </tr>
     {% } %}
 </table>

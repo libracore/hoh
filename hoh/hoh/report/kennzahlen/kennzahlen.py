@@ -19,22 +19,22 @@ def execute(filters=None):
 def get_columns(filters):
     columns = [
         {"label": _("Month"), "fieldname": "month", "fieldtype": "Data", "width": 100},
+        {"label": _("New Orders internal"), "fieldname": "new_orders", "fieldtype": "Int", "width": 100},
+        {"label": _("New Order internal Volume"), "fieldname": "new_order_volume", "fieldtype": "Currency", "width": 100},
+        {"label": _("New Orders Africa"), "fieldname": "new_orders_africa", "fieldtype": "Int", "width": 100},
+        {"label": _("New Order Africa Volume"), "fieldname": "new_order_africa_volume", "fieldtype": "Currency", "width": 100},
+        {"label": _("New Orders Fashion"), "fieldname": "new_orders_europe", "fieldtype": "Int", "width": 100},
+        {"label": _("New Order Fashion Volume"), "fieldname": "new_order_europe_volume", "fieldtype": "Currency", "width": 100},
+        {"label": _("New Invoices"), "fieldname": "new_invoices", "fieldtype": "Int", "width": 100},
+        {"label": _("New Invoice Volume"), "fieldname": "new_invoice_volume", "fieldtype": "Currency", "width": 100},
         {"label": _("OP Debitoren"), "fieldname": "receivables", "fieldtype": "Currency", "width": 100},
         {"label": _("OP Kreditoren"), "fieldname": "payables", "fieldtype": "Currency", "width": 100},
         {"label": _("Liquidität"), "fieldname": "liquidity", "fieldtype": "Currency", "width": 100},
-        {"label": _("New Orders"), "fieldname": "new_orders", "fieldtype": "Int", "width": 100},
-        {"label": _("New Order Volume"), "fieldname": "new_order_volume", "fieldtype": "Currency", "width": 100},
-        {"label": _("New Orders Africa"), "fieldname": "new_orders_africa", "fieldtype": "Int", "width": 100},
-        {"label": _("New Order Africa Volume"), "fieldname": "new_order_africa_volume", "fieldtype": "Currency", "width": 100},
-        {"label": _("New Orders Europe"), "fieldname": "new_orders_europe", "fieldtype": "Int", "width": 100},
-        {"label": _("New Order Europe Volume"), "fieldname": "new_order_europe_volume", "fieldtype": "Currency", "width": 100},
-        {"label": _("New Invoices"), "fieldname": "new_invoices", "fieldtype": "Int", "width": 100},
-        {"label": _("New Invoice Volume"), "fieldname": "new_invoice_volume", "fieldtype": "Currency", "width": 100},
         {"label": _("Entwicklungskosten"), "fieldname": "development_costs", "fieldtype": "Currency", "width": 100},
         {"label": _("Work Orders"), "fieldname": "work_orders", "fieldtype": "Int", "width": 100},
         {"label": _("Ktm"), "fieldname": "ktm", "fieldtype": "Float", "Precision": 1, "width": 100},
         {"label": _("Ktm per h"), "fieldname": "ktm_per_h", "fieldtype": "Float", "Precision": 1, "width": 100},
-        {"label": _("Payment Days"), "fieldname": "payment_speed", "fieldtype": "Float", "Precision": 1, "width": 100},
+        {"label": _("h total"), "fieldname": "h", "fieldtype": "Float", "Precision": 1, "width": 100},
         {"label": _(""), "fieldname": "blank", "fieldtype": "Data", "width": 10}
     ]
     return columns
@@ -70,23 +70,28 @@ def get_data(filters):
                 IFNULL(SUM(`base_net_total`), 0) As `volume`
             FROM `tabSales Order` 
             WHERE `docstatus` = 1
+              AND `customer` = "C-222999"
               AND `transaction_date` LIKE "{year}-{month:02d}-%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
         new_orders_africa = frappe.db.sql("""
-            SELECT IFNULL(COUNT(`name`), 0) AS `orders`,
-                IFNULL(SUM(`base_net_total`), 0) As `volume`
+            SELECT IFNULL(COUNT(`tabSales Order`.`name`), 0) AS `orders`,
+                IFNULL(SUM(`tabSales Order`.`base_net_total`), 0) As `volume`
             FROM `tabSales Order` 
-            WHERE `docstatus` = 1
-              AND `transaction_date` LIKE "{year}-{month:02d}-%"
-              AND `territory` IN (SELECT `name` FROM `tabTerritory` WHERE `parent` LIKE "%Afrika%" OR `name` LIKE "%Afrika%")
+            LEFT JOIN `tabCustomer` ON `tabCustomer`.`name` = `tabSales Order`.`customer`
+            WHERE `tabSales Order`.`docstatus` = 1
+              AND `tabSales Order`.`transaction_date` LIKE "{year}-{month:02d}-%"
+              AND `tabSales Order`.`customer` != "C-222999"
+              AND `tabCustomer`.`customer_group` LIKE "%Africa%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
         new_orders_europe = frappe.db.sql("""
-            SELECT IFNULL(COUNT(`name`), 0) AS `orders`,
-                IFNULL(SUM(`base_net_total`), 0) As `volume`
+            SELECT IFNULL(COUNT(`tabSales Order`.`name`), 0) AS `orders`,
+                IFNULL(SUM(`tabSales Order`.`base_net_total`), 0) As `volume`
             FROM `tabSales Order` 
-            WHERE `docstatus` = 1
-              AND `transaction_date` LIKE "{year}-{month:02d}-%"
-              AND `territory` IN (SELECT `name` FROM `tabTerritory` WHERE `parent` LIKE "%Europa%" OR `name` LIKE "%Europa%")
+            LEFT JOIN `tabCustomer` ON `tabCustomer`.`name` = `tabSales Order`.`customer`
+            WHERE `tabSales Order`.`docstatus` = 1
+              AND `tabSales Order`.`transaction_date` LIKE "{year}-{month:02d}-%"
+              AND `tabSales Order`.`customer` != "C-222999"
+              AND `tabCustomer`.`customer_group` LIKE "%Mode%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
         new_invoices = frappe.db.sql("""
             SELECT IFNULL(COUNT(`name`), 0) AS `orders`,
@@ -118,8 +123,8 @@ def get_data(filters):
         ;""".format(year=filters['year'], month=month), as_dict=True)
         ktm_per_h = frappe.db.sql("""
             SELECT 
-                SUM((IFNULL(((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`), 0) /
-                IFNULL(`tabWork Order`.`summe_maschinenstunden`, 0))) AS `ktm_per_h`
+                (SUM(IFNULL(((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`), 0)) /
+                SUM(IFNULL(`tabWork Order`.`summe_maschinenstunden`, 0))) AS `ktm_per_h`
             FROM `tabWork Order` 
             LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
             LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
@@ -127,19 +132,13 @@ def get_data(filters):
             WHERE `tabWork Order`.`docstatus` < 2
               AND `planned_start_date` LIKE "{year}-{month:02d}-%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
-        payment_speed = frappe.db.sql("""
+        h = frappe.db.sql("""
             SELECT 
-                  AVG(DATEDIFF(`tabPayment Entry`.`posting_date`, `tabSales Invoice`.`posting_date`)) AS `payment_speed`
-                FROM `tabPayment Entry Reference`
-                LEFT JOIN `tabPayment Entry` ON `tabPayment Entry`.`name` = `tabPayment Entry Reference`.`parent`
-                LEFT JOIN `tabSales Invoice` ON `tabSales Invoice`.`name` = `tabPayment Entry Reference`.`reference_name`
-                LEFT JOIN `tabCustomer` ON `tabCustomer`.`name` = `tabSales Invoice`.`customer`
-                WHERE `tabPayment Entry Reference`.`reference_doctype` = 'Sales Invoice'
-                  AND `tabSales Invoice`.`docstatus` = 1
-                  AND `tabPayment Entry`.`docstatus` = 1
-                  AND `tabSales Invoice`.`posting_date` LIKE "{year}-{month:02d}-%"
+                SUM(IFNULL(`tabWork Order`.`summe_maschinenstunden`, 0)) AS `h_total`
+            FROM `tabWork Order` 
+            WHERE `tabWork Order`.`docstatus` < 2
+              AND `planned_start_date` LIKE "{year}-{month:02d}-%"
         ;""".format(year=filters['year'], month=month), as_dict=True)
-         
         data.append({
             'month': "{0} {1}".format(months[(month - 1)], filters['year']),
             'receivables': receivables[0]['receivables'],
@@ -157,7 +156,50 @@ def get_data(filters):
             'work_orders': new_work_orders[0]['work_orders'],
             'ktm': ktm[0]['ktm'],
             'ktm_per_h': ktm_per_h[0]['ktm_per_h'],
-            'payment_speed' : payment_speed[0]['payment_speed']
+            'h': h[0]['h_total']
         })
+    
+    # compute sums
+    sums = {
+        'month': _("Total"),
+        'receivables': 0,
+        'payables': 0,
+        'liquidity': 0,
+        'new_orders': 0,
+        'new_order_volume': 0,
+        'new_orders_africa': 0,
+        'new_order_africa_volume': 0,
+        'new_orders_europe': 0,
+        'new_order_europe_volume': 0,
+        'new_invoices': 0,
+        'new_invoice_volume': 0,
+        'development_costs': 0,
+        'work_orders': 0,
+        'ktm': 0,
+        'ktm_per_h': 0,
+        'h': 0
+    }
+    for d in data:
+        sums['new_orders'] += d['new_orders'] or 0
+        sums['new_order_volume'] += d['new_order_volume'] or 0
+        sums['new_orders_africa'] += d['new_orders_africa'] or 0
+        sums['new_order_africa_volume'] += d['new_order_africa_volume'] or 0
+        sums['new_orders_europe'] += d['new_orders_europe'] or 0
+        sums['new_order_europe_volume'] += d['new_order_europe_volume'] or 0
+        sums['new_invoices'] += d['new_invoices'] or 0
+        sums['new_invoice_volume'] += d['new_invoice_volume'] or 0
+        sums['development_costs'] += d['development_costs'] or 0
+        sums['work_orders'] += d['work_orders'] or 0
+        sums['ktm'] += d['ktm'] or 0
+        sums['h'] += d['h'] or 0
+        if sums['h'] > 0:
+            sums['ktm_per_h'] = sums['ktm'] / sums['h']
+        else:
+            sums['ktm_per_h'] = 0
+        sums['receivables'] = d['receivables']
+        sums['payables'] = d['payables']
+        sums['liquidity'] = d['liquidity']
+    
+    data.append(sums)
     
     return data
