@@ -154,3 +154,26 @@ def set_wo_timetracking(work_order):
         })
     wo.save()
     return
+
+@frappe.whitelist()
+def update_pinv_to_price_list(pinv):
+    pi = frappe.get_doc("Purchase Invoice", pinv)
+    buying_price_lists = frappe.get_all("Price List", filters={'enabled': 1, 'buying': 1}, fields=['name'])
+    buying_price_list = buying_price_lists[0]['name']
+    for item in pi.items:
+        item_prices = frappe.get_all("Item Price", filters={'item_code': item.item_code, 'buying': 1, 'price_list': buying_price_list}, fields=['name'])
+        if len(item_prices) > 0:
+            item_price = frappe.get_doc("Item Price", item_prices[0]['name'])
+            item_price.price_list_rate = item.rate
+            item_price.save()
+        else:
+            item_price = frappe.get_doc({
+                'doctype': "Item Price",
+                'item_code': item.item_code,
+                'selling': 0,
+                'buying': 1,
+                'price_list_rate': item.rate,
+                'price_list': buying_price_list
+            })
+            item_price.insert()
+    return
