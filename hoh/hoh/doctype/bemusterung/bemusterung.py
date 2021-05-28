@@ -131,9 +131,12 @@ class Bemusterung(Document):
             'uom': new_item.stock_uom
         })
         for i in self.items:
+            qty = i.qty
+            if self.panneau:
+                qty = i.qty * i.remaining_material
             row = new_bom.append('items', {
                 'item_code': i.item_code,
-                'qty': i.qty,
+                'qty': qty,
                 'uom': i.stock_uom,
                 'rate': i.valuation_rate
             })
