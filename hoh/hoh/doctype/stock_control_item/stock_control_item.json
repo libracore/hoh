@@ -1,0 +1,86 @@
+{
+ "creation": "2021-05-31 12:09:41.566432",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "column_main",
+  "item_name",
+  "section_qty",
+  "uom",
+  "qty",
+  "column_qty",
+  "expected_qty",
+  "difference_qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_qty",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "item.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_qty",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expected_qty",
+   "fieldtype": "Float",
+   "label": "Expected Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "difference_qty",
+   "fieldtype": "Float",
+   "label": "Difference Qty",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2021-05-31 12:09:41.566432",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Stock Control Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

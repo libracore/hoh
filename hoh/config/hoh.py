@@ -12,6 +12,18 @@ def get_data():
                        "name": "Customer",
                        "label": _("Customer"),
                        "description": _("Customer")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Angebot",
+                       "label": _("Angebot"),
+                       "description": _("Angebot")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Sales Order",
+                       "label": _("Sales Order"),
+                       "description": _("Sales Order")
                    }
             ]
         },
@@ -138,6 +150,12 @@ def get_data():
                        "label": _("Fertignote"),
                        "description": _("Fertignote"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Stock Control",
+                       "label": _("Stock Control"),
+                       "description": _("Stock Control")
                    }
             ]
         },
