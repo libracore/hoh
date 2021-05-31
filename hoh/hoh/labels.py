@@ -193,17 +193,18 @@ def get_work_order_label_data(selected_items):
 def get_delivery_note_label_data(selected_delivery_notes):
     sql_query = """SELECT
                        `tabDelivery Note`.`customer_name` AS `customer_name`,
-                       `tabAddress`.`address_line1` AS `address_line1`,
-                       `tabAddress`.`address_line2` AS `address_line2`,
-                       `tabAddress`.`address_line3` AS `address_line3`,
-                       `tabAddress`.`zusatzbezeichnung` AS `zusatzbezeichnung`,
-                       `tabAddress`.`pincode` AS `pincode`,
-                       `tabAddress`.`city` AS `city`,
-                       `tabAddress`.`country` AS `country`,
+                       IFNULL(`tA1`.`address_line1`, `tA2`.`address_line1`) AS `address_line1`,
+                       IFNULL(`tA1`.`address_line2`, `tA2`.`address_line2`) AS `address_line2`,
+                       IFNULL(`tA1`.`address_line3`, `tA2`.`address_line3`) AS `address_line3`,
+                       IFNULL(`tA1`.`zusatzbezeichnung`, `tA2`.`zusatzbezeichnung`) AS `zusatzbezeichnung`,
+                       IFNULL(`tA1`.`pincode`, `tA2`.`pincode`) AS `pincode`,
+                       IFNULL(`tA1`.`city`, `tA2`.`city`) AS `city`,
+                       IFNULL(`tA1`.`country`, `tA2`.`country`) AS `country`,
                        `tabDelivery Note`.`name` AS `delivery_note`,
                        `tabDelivery Note`.`po_no` AS `po_no`
                     FROM `tabDelivery Note`
-                    LEFT JOIN `tabAddress` ON `tabAddress`.`name` = `tabDelivery Note`.`shipping_address_name`
+                    LEFT JOIN `tabAddress` AS `tA1` ON `tA1`.`name` = `tabDelivery Note`.`shipping_address_name`
+                    LEFT JOIN `tabAddress` AS `tA2` ON `tA2`.`name` = `tabDelivery Note`.`customer_address`
                     WHERE `tabDelivery Note`.`name` IN ({selected_delivery_notes});""".format(selected_delivery_notes=selected_delivery_notes)
 
     return frappe.db.sql(sql_query, as_dict=True)
