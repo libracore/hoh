@@ -27,7 +27,7 @@ class StockControl(Document):
             elif i.difference_qty < 0:
                 issues.append({
                     'item_code': i.item,
-                    'qty': i.difference_qty
+                    'qty': (-1) * i.difference_qty              # note: invert qty here, as this is coverd by the material issue
                 })
         # create stock entries
         if len(receipts) > 0:
