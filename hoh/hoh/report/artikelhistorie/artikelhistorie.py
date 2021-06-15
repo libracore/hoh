@@ -14,7 +14,7 @@ def execute(filters=None):
 
 def get_columns():
     return [
-        {"label": _("Item Code"), "fieldname": "item_code", "fieldtype": "Link", "options": "Item","width": 110},
+        {"label": _("Item Code"), "fieldname": "item_code", "fieldtype": "Link", "options": "Item","width": 200},
         {"label": _("Item Name"), "fieldname": "item_name", "fieldtype": "Data", "width": 130},
         {"label": _("Qty"), "fieldname": "qty", "fieldtype": "Float", "width": 50},
         {"label": _("UOM"), "fieldname": "uom", "fieldtype": "Data", "width": 50},
