@@ -36,6 +36,10 @@ frappe.ui.form.on('Work Order', {
                 }).addClass("btn-warning");
             }
         }
+        // add label button
+        frm.add_custom_button(__("Etikette erstellen"), function() {
+            create_label(frm);
+        }).addClass("btn-primary");
     },
     production_item: function(frm) {
         // change on production item --> fetch related data fields
@@ -120,29 +124,13 @@ function calculate_machine_hours(frm) {
 
 /* label printing function */
 function create_label(frm) {
-    // html-content of the label - price label
-    var url = "/api/method/hoh.hoh.labels.get_work_order_label"  
-            + "?work_order=" + encodeURIComponent(frm.doc.name);
-    var w = window.open(
-         frappe.urllib.get_full_url(url)
-    );
-    if (!w) {
-        frappe.msgprint(__("Please enable pop-ups")); return;
-    }
-    // content of item detail labels
-    var selected_items = [];
-    for (var i = 0; i < frm.doc.muster.length; i++) {
-        selected_items.push(frm.doc.muster[i].bemusterung);
-    }
-    for (var i = 0; i < frm.doc.stoffe.length; i++) {
-        selected_items.push(frm.doc.stoffe[i].stoffe);
-    }
-    url = "/api/method/hoh.hoh.labels.get_work_order_label"  
-            + "?selected_items='" + selected_items.join("','") + "'";
-    var w2 = window.open(
-         frappe.urllib.get_full_url(url)
-    );
-    if (!w2) {
-        frappe.msgprint(__("Please enable pop-ups")); return;
-    }
+// html-content of the label
+        var url = "/api/method/hoh.hoh.labels.get_work_order_label"  
+                + "?selected_items=" + encodeURIComponent("'" + frm.doc.name + "'");
+        var w = window.open(
+             frappe.urllib.get_full_url(url)
+        );
+        if (!w) {
+            frappe.msgprint(__("Please enable pop-ups")); return;
+        }
 }

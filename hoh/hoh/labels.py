@@ -306,7 +306,7 @@ def get_work_order_label(selected_items):
     # get raw data
     items = get_work_order_label_data(selected_items)
     for i in items:
-        i.url = quote("{host}/desk#Form/Work Order/{item_code}".format(host=settings.label_image_host, item_code=i.production_item), safe=''))
+        i.url = quote("{host}/desk#Form/Work Order/{item_code}".format(host=settings.label_image_host, item_code=i.production_item), safe='')
     data = { 
         'items': items,
         'date': datetime.today().strftime('%d.%m.%Y')
