@@ -182,7 +182,6 @@ def get_work_order_label_data(selected_items):
                        `tabWork Order`.`fg_warehouse` AS `fg_warehouse`,
                        `tabWork Order`.`production_item` AS `production_item`,
                        `tabWork Order`.`stickmaschine` AS `stickmaschine`,
-                       `tabWork Order`.`stoff` AS `stoff`,
                        `tabWork Order`.`pailletten` AS `pailletten`,
                        (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`
@@ -309,7 +308,7 @@ def get_work_order_label(selected_items):
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
-    content = frappe.render_template('hoh/templates/labels/work_order_label.html', data)
+    content = frappe.render_template('hoh/templates/labels/qr_wo_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
