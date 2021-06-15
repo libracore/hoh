@@ -36,6 +36,10 @@ frappe.ui.form.on('Work Order', {
                 }).addClass("btn-warning");
             }
         }
+        // add label button
+        frm.add_custom_button(__("Etikette erstellen"), function() {
+            create_label(frm);
+        }).addClass("btn-primary");
     },
     production_item: function(frm) {
         // change on production item --> fetch related data fields
@@ -116,4 +120,17 @@ function calculate_machine_hours(frm) {
         }
     }
     cur_frm.set_value('summe_maschinenstunden', machine_hours);
+}
+
+/* label printing function */
+function create_label(frm) {
+// html-content of the label
+        var url = "/api/method/hoh.hoh.labels.get_work_order_label"  
+                + "?selected_items=" + encodeURIComponent("'" + frm.doc.name + "'");
+        var w = window.open(
+             frappe.urllib.get_full_url(url)
+        );
+        if (!w) {
+            frappe.msgprint(__("Please enable pop-ups")); return;
+        }
 }

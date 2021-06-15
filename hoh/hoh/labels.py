@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 from datetime import datetime
 from erpnextswiss.erpnextswiss.doctype.label_printer.label_printer import create_pdf
+from urllib.parse import quote
 
 def get_price_label_data(bemusterung):
     sql_query = """SELECT
@@ -177,6 +178,11 @@ def get_work_order_label_data(selected_items):
                        `tabItem`.`item_code` AS `item_code`,
                        `tabItem`.`item_name` AS `item_name`,
                        `tabWork Order`.`stoff` AS `stoff`,
+                       `tabWork Order`.`sales_order` AS `sales_order`,
+                       `tabWork Order`.`name` AS `name`,
+                       `tabWork Order`.`fg_warehouse` AS `fg_warehouse`,
+                       `tabWork Order`.`production_item` AS `production_item`,
+                       `tabWork Order`.`stickmaschine` AS `stickmaschine`,
                        `tabWork Order`.`pailletten` AS `pailletten`,
                        (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`
@@ -298,12 +304,15 @@ def get_work_order_label(selected_items):
         frappe.throw( _("Please define a work order label printer under HOH Settings.") )
     label_printer = settings.work_order_label_printer
     # get raw data
+    items = get_work_order_label_data(selected_items)
+    for i in items:
+        i.url = quote("{host}/desk#Form/Work Order/{item_code}".format(host=settings.label_image_host, item_code=i.production_item), safe='')
     data = { 
-        'items': get_work_order_label_data(selected_items),
+        'items': items,
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
-    content = frappe.render_template('hoh/templates/labels/work_order_label.html', data)
+    content = frappe.render_template('hoh/templates/labels/qr_wo_label.html', data)
     # create pdf
     printer = frappe.get_doc("Label Printer", label_printer)
     pdf = create_pdf(printer, content)
