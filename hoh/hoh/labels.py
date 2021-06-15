@@ -177,6 +177,12 @@ def get_work_order_label_data(selected_items):
                        `tabItem`.`item_code` AS `item_code`,
                        `tabItem`.`item_name` AS `item_name`,
                        `tabWork Order`.`stoff` AS `stoff`,
+                       `tabWork Order`.`sales_order` AS `sales_order`,
+                       `tabWork Order`.`name` AS `name`,
+                       `tabWork Order`.`fg_warehouse` AS `fg_warehouse`,
+                       `tabWork Order`.`production_item` AS `production_item`,
+                       `tabWork Order`.`stickmaschine` AS `stickmaschine`,
+                       `tabWork Order`.`stoff` AS `stoff`,
                        `tabWork Order`.`pailletten` AS `pailletten`,
                        (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`

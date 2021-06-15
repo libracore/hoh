@@ -117,3 +117,32 @@ function calculate_machine_hours(frm) {
     }
     cur_frm.set_value('summe_maschinenstunden', machine_hours);
 }
+
+/* label printing function */
+function create_label(frm) {
+    // html-content of the label - price label
+    var url = "/api/method/hoh.hoh.labels.get_work_order_label"  
+            + "?work_order=" + encodeURIComponent(frm.doc.name);
+    var w = window.open(
+         frappe.urllib.get_full_url(url)
+    );
+    if (!w) {
+        frappe.msgprint(__("Please enable pop-ups")); return;
+    }
+    // content of item detail labels
+    var selected_items = [];
+    for (var i = 0; i < frm.doc.muster.length; i++) {
+        selected_items.push(frm.doc.muster[i].bemusterung);
+    }
+    for (var i = 0; i < frm.doc.stoffe.length; i++) {
+        selected_items.push(frm.doc.stoffe[i].stoffe);
+    }
+    url = "/api/method/hoh.hoh.labels.get_work_order_label"  
+            + "?selected_items='" + selected_items.join("','") + "'";
+    var w2 = window.open(
+         frappe.urllib.get_full_url(url)
+    );
+    if (!w2) {
+        frappe.msgprint(__("Please enable pop-ups")); return;
+    }
+}

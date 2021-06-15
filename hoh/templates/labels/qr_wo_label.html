@@ -1,0 +1,29 @@
+{% for i in range(0, items|len) %}
+<table style="margin: 0px !important; padding: 0px !important; width: 51mm; height: 76mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} ">
+    <tbody>
+        <tr>
+            <td style="width: 50% !important; margin: 0px !important; padding: 0px !important;">
+            <p style="font-size: 12pt !important; margin: 0px !important; padding: 0px !important;">
+           {{ items[i].sales_order }}
+            </td>
+            <td>
+            {{ items[i].fg_warehouse }}
+           </td>
+        <tr>
+            <td colspan: 2>
+            <b>{ items[i].production_item }}</b><br>
+            {{ items[i].stoffe }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+            {{ items[i].name }}<br>
+            {{ items[i].stickmaschine }}
+            </td>
+            <td style="width: 15mm !important; margin: 0px !important; padding: 0px !important; text-align: right;">
+                <img src="https://data.libracore.ch/phpqrcode/api/qrcode.php?content={{ items[i].item_code }}&ecc=H&size=6&frame=2" style="height: 30mm !important; width: 30mm !important; margin: 0px !important; padding: 0px !important; text-align: right;" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endfor %}
