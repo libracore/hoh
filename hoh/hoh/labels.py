@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 from datetime import datetime
 from erpnextswiss.erpnextswiss.doctype.label_printer.label_printer import create_pdf
+from urllib.parse import quote
 
 def get_price_label_data(bemusterung):
     sql_query = """SELECT
@@ -303,8 +304,11 @@ def get_work_order_label(selected_items):
         frappe.throw( _("Please define a work order label printer under HOH Settings.") )
     label_printer = settings.work_order_label_printer
     # get raw data
+    items = get_work_order_label_data(selected_items)
+    for i in items:
+        i.url = quote("{host}/desk#Form/Work Order/{item_code}".format(host=settings.label_image_host, item_code=i.production_item), safe=''))
     data = { 
-        'items': get_work_order_label_data(selected_items),
+        'items': items,
         'date': datetime.today().strftime('%d.%m.%Y')
     }
     # prepare content
