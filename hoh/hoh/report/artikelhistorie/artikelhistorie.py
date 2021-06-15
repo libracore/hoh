@@ -27,11 +27,16 @@ def get_columns():
     ]
 
 def get_data(filters):
-    if not filters.item_code:
-        filters.item_code = "%"
-    if not filters.customer:
-        filters.customer = "%"
-        
+    if not "item_code" in filters:
+        filters['item_code'] = "%"
+    if not "customer" in filters:
+        filters['customer'] = "%"
+    conditions = ""
+    if "from_date" in filters:
+        conditions += """ AND `tabSales Invoice`.`posting_date` >= "{date}" """.format(date=filters['from_date'])
+    if "to_date" in filters:
+        conditions += """ AND `tabSales Invoice`.`posting_date` <= "{date}" """.format(date=filters['to_date'])
+
     # prepare query
     sql_query = """SELECT
         `tabSales Invoice Item`.`item_name` AS `item_name`,
@@ -50,8 +55,9 @@ def get_data(filters):
         WHERE `tabSales Invoice`.`docstatus` = 1
             AND `tabSales Invoice`.`customer` LIKE '{customer}'
             AND `tabSales Invoice Item`.`item_code` LIKE '{item_code}'
+            {conditions}
         ORDER BY `tabSales Invoice Item`.`item_code` ASC, `tabSales Invoice`.`posting_date` ASC;
-      """.format(customer=filters.customer, item_code=filters.item_code)
-    
+      """.format(customer=filters['customer'], item_code=filters['item_code'], conditions=conditions)
+
     data = frappe.db.sql(sql_query, as_dict=1)
     return data

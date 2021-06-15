@@ -16,6 +16,19 @@ frappe.query_reports["Artikelhistorie"] = {
             "fieldtype": "Link",
             "options": "Customer",
             "width": "60px"
+        },
+        {
+            "fieldname":"from_date",
+            "label": __("From Date"),
+            "fieldtype": "Date",
+            "default": frappe.datetime.add_months(frappe.datetime.get_today(), -12),
+            "width": "60px"
+        },
+        {
+            "fieldname":"to_date",
+            "label": __("To Date"),
+            "fieldtype": "Date",
+            "width": "60px"
         }
     ],
 };
