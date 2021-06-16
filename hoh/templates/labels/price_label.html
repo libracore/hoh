@@ -3,7 +3,7 @@
     <tr>
         <td style="margin-top: 0px; "><b>{{ title }}</b><br>
             {% if items[i].stoffbreite_von > 0 and items[i].stoffbreite_von > 0 %}
-                {{ _("Fabric Width") }}: {{ items[i].stoffbreite_von or 0 }} / {{ items[i].stoffbreite_von or 0 }} cm<br>{% endif %}
+                {{ _("Fabric Width") }}: {{ items[i].stoffbreite_von or 0 }} / {{ items[i].stoffbreite_bis or 0 }} cm<br>{% endif %}
             {% if items[i].fertigbreite_von > 0 and items[i].fertigbreite_bis > 0 %}
                 {{ _("Embroidered Width") }}: {{ items[i].fertigbreite_von or 0 }} / {{ items[i].fertigbreite_bis or 0 }} cm<br>
             {% endif %}

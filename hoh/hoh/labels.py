@@ -20,10 +20,10 @@ def get_price_label_data(bemusterung):
                        `tabBemusterung`.`preisgruppe` AS `preisgruppe`,
                        `tabBemusterung`.`rate` AS `preis`,
                        "muster" AS `source_type`,
-                       (SELECT GROUP_CONCAT(CONCAT("<img src='",
+                       (SELECT REPLACE(GROUP_CONCAT(CONCAT("<img src='",
                         (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
                          `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
-                         ORDER BY `tabPflegesymbol`.`sort` DESC)
+                         ORDER BY `tabPflegesymbol`.`sort` DESC), ",", "&nbsp;")
                         FROM `tabItem Pflegesymbol` 
                         LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
                         WHERE `tabBemusterung`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Bemusterung"
@@ -57,10 +57,10 @@ UNION SELECT
                    "" AS `preisgruppe`,
                    "" AS `preis`,
                    "stoff" AS `source_type`,
-                   (SELECT GROUP_CONCAT(CONCAT("<img src='",
+                   (SELECT REPLACE(GROUP_CONCAT(CONCAT("<img src='",
                     (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
                      `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
-                     ORDER BY `tabPflegesymbol`.`sort` DESC)
+                     ORDER BY `tabPflegesymbol`.`sort` DESC), ",", "&nbsp;")
                     FROM `tabItem Pflegesymbol` 
                     LEFT JOIN `tabPflegesymbol` ON `tabPflegesymbol`.`name` = `tabItem Pflegesymbol`.`pflegesymbol`
                     WHERE `tabItem`.`name` = `tabItem Pflegesymbol`.`parent` AND `tabItem Pflegesymbol`.`parenttype` = "Item"
@@ -75,7 +75,7 @@ UNION SELECT
                 FROM `tabItem`
                 LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
                WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` = "Stoffe";""".format(bemusterung=bemusterung)
-
+    
     return frappe.db.sql(sql_query, as_dict=True)
 
 def get_bemusterung_label_data(selected_items):
