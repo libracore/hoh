@@ -105,13 +105,13 @@ class Kommissionsabrechnung(Document):
         total_commission = 0
         total_payments = 0
         for p in self.payments:
-            total_commission += p.commission
-            total_payments += p.allocated_amount
+            total_commission += p.commission or 0
+            total_payments += p.allocated_amount or 0
         total_outstanding = 0
         self.total_commission = total_commission
         self.total_payments = total_payments
         for r in self.receivables:
-            total_outstanding += r.outstanding_amount
+            total_outstanding += r.outstanding_amount or 0
         self.total_outstanding = total_outstanding
         return
         
