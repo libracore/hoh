@@ -62,3 +62,12 @@ Report: Production Planning,Sum Work Orders,Anzahl Arbeitsaufträge
 Report: Production Throughput,Production Throughput,Produktionsdurchsatz
 Report Development Analysis,Development Analysis,Entwicklungs- und Punchanalyse
 DocType: Stock Control,Stock Control,Lagerprüfung
+DocType: HOH Settings,HOH Settings,HOH-Einstellungen
+DocType: HOH Settings,Primary warehouse,Hauptlager
+DocType: HOH Settings,Label image host,Bild-Host
+DocType: HOH Settings,Planning,Planung
+DocType: HOH Settings,Holiday List,Urlaubsliste
+DocType: HOH Settings,Work Start,Arbeitsbeginn
+DocType: HOH Settings,Work order spacing,Abstand zwischen Arbeitsaufträgen
+DocType: HOH Settings,Work End,Arbeitsende
+DocType: HOH Settings,Liquidity accounts,Liquiditätskonten

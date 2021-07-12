@@ -300,9 +300,9 @@ def get_item_label(selected_items):
 def get_work_order_label(selected_items):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.work_order_label_printer:
+    if not settings.item_label_printer:
         frappe.throw( _("Please define a work order label printer under HOH Settings.") )
-    label_printer = settings.work_order_label_printer
+    label_printer = settings.item_label_printer
     # get raw data
     items = get_work_order_label_data(selected_items)
     for i in items:
