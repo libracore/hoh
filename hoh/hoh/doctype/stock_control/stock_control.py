@@ -12,7 +12,7 @@ class StockControl(Document):
         if stock and len(stock) > 0:
             return stock[0]['actual_qty']
         else:
-            return None
+            return 0
     
     def on_submit(self):
         # collect item differences
