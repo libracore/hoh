@@ -274,8 +274,8 @@ def get_price_label(musterkarte):
 def get_item_label(selected_items):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.item_label_printer or not settings.work_order_label_printer:
-        frappe.throw( _("Please define an item label printer and a work order label printer under HOH Settings.") )
+    if not settings.item_label_printer or not settings.delivery_note_label_printer:
+        frappe.throw( _("Please define an item label printer and a delivery note label printer under HOH Settings.") )
     # get raw data
     data = { 
         'items': get_item_label_data(selected_items),
@@ -284,7 +284,7 @@ def get_item_label(selected_items):
     # prepare content
     if len(data['items']) > 0 and data['items'][0]['item_group'] == 'Stickereien':
         content = frappe.render_template('hoh/templates/labels/item_label_sequin.html', data)
-        label_printer = settings.work_order_label_printer
+        label_printer = settings.delivery_note_label_printer
     else:
         content = frappe.render_template('hoh/templates/labels/item_label.html', data)
         label_printer = settings.item_label_printer
@@ -300,9 +300,9 @@ def get_item_label(selected_items):
 def get_work_order_label(selected_items):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.item_label_printer:
+    if not settings.work_order_label_printer:
         frappe.throw( _("Please define a work order label printer under HOH Settings.") )
-    label_printer = settings.item_label_printer
+    label_printer = settings.work_order_label_printer
     # get raw data
     items = get_work_order_label_data(selected_items)
     for i in items:
@@ -325,9 +325,9 @@ def get_work_order_label(selected_items):
 def get_delivery_note_label(selected_delivery_notes):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.work_order_label_printer:
-        frappe.throw( _("Please define a work order label printer under HOH Settings.") )
-    label_printer = settings.work_order_label_printer
+    if not settings.delivery_note_label_printer:
+        frappe.throw( _("Please define a delivery note label printer under HOH Settings.") )
+    label_printer = settings.delivery_note_label_printer
     # get raw data
     data = { 
         'delivery_notes': get_delivery_note_label_data(selected_delivery_notes),
@@ -355,9 +355,9 @@ def get_delivery_note_label(selected_delivery_notes):
 def get_sales_order_label(sales_order):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.work_order_label_printer:
-        frappe.throw( _("Please define a work order label printer under HOH Settings.") )
-    label_printer = settings.work_order_label_printer
+    if not settings.delviery_note_label_printer:
+        frappe.throw( _("Please define a delivery note label printer under HOH Settings.") )
+    label_printer = settings.delviery_note_label_printer
     # get raw data
     so = frappe.get_doc("Sales Order", sales_order)
     # prepare content
@@ -374,8 +374,8 @@ def get_sales_order_label(sales_order):
 def get_bemusterung_label(selected_items):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.item_label_printer:
-        frappe.throw( _("Please define an item label printer under HOH Settings.") )
+    if not settings.bemusterung_label_printer:
+        frappe.throw( _("Please define an bemusterung label printer under HOH Settings.") )
     label_printer = settings.bemusterung_label_printer
     # get raw data
     data = { 

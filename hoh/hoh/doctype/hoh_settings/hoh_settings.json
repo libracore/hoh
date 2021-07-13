@@ -8,6 +8,7 @@
   "bemusterung_label_printer",
   "item_label_printer",
   "work_order_label_printer",
+  "delivery_note_label_printer",
   "column_general",
   "primary_warehouse",
   "label_image_host",
@@ -73,7 +74,7 @@
   {
    "fieldname": "work_order_label_printer",
    "fieldtype": "Link",
-   "label": "Versandetikett-Drucker",
+   "label": "Sticknoten-Drucker",
    "options": "Label Printer"
   },
   {
@@ -133,10 +134,16 @@
    "fieldtype": "Table",
    "label": "Liquidity accounts",
    "options": "Kennzahlen Account"
+  },
+  {
+   "fieldname": "delivery_note_label_printer",
+   "fieldtype": "Link",
+   "label": "Versandetikett-Drucker",
+   "options": "Label Printer"
   }
  ],
  "issingle": 1,
- "modified": "2021-05-17 22:17:32.305311",
+ "modified": "2021-07-13 22:29:17.351835",
  "modified_by": "Administrator",
  "module": "hoh",
  "name": "HOH Settings",
