@@ -355,9 +355,9 @@ def get_delivery_note_label(selected_delivery_notes):
 def get_sales_order_label(sales_order):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.delviery_note_label_printer:
+    if not settings.delivery_note_label_printer:
         frappe.throw( _("Please define a delivery note label printer under HOH Settings.") )
-    label_printer = settings.delviery_note_label_printer
+    label_printer = settings.delivery_note_label_printer
     # get raw data
     so = frappe.get_doc("Sales Order", sales_order)
     # prepare content
