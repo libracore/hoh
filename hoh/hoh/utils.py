@@ -195,7 +195,7 @@ def update_bemusterung_weight_from_item(date=None, debug=False):
     if items and len(items) > 0:
         for item in items:
             bemusterung = frappe.get_doc("Bemusterung", item['bemusterung'])
-            bemusterung.gewicht = item['gewicht']
+            bemusterung.gewicht = item['gewicht'] / 1000        # item weight is in g/m, bemusterung is in kg/m
             try:
                 bemusterung.save()
             except Exception as err:
