@@ -177,3 +177,30 @@ def update_pinv_to_price_list(pinv):
             })
             item_price.insert()
     return
+
+"""
+Write changed weight values (default current day) to bmeusterung
+"""
+def update_bemusterung_weight_from_item(date=None, debug=False):
+    if not date:
+        date = datetime.now().strftime("%Y-%m-%d")
+    sql_query = """SELECT `name`, `bemusterung`, `gewicht` 
+                   FROM `tabItem`
+                   WHERE DATE(`modified`) >= "{date}"
+                     AND `bemusterung` IS NOT NULL
+                     AND `gewicht` IS NOT NULL
+                     AND `gewicht` > 0
+                     AND `disabled` = 0;""".format(date=date)
+    items = frappe.db.sql(sql_query, as_dict=True)
+    if items and len(items) > 0:
+        for item in items:
+            bemusterung = frappe.get_doc("Bemusterung", item['bemusterung'])
+            bemusterung.gewicht = item['gewicht']
+            try:
+                bemusterung.save()
+            except Exception as err:
+                frappe.log_error("{0}: {1}".format(item['name'], err), "Update weights from items (cron)")
+            if debug:
+                print("Updated {0}".format(item['name']))
+    frappe.db.commit()
+    return
