@@ -10,7 +10,7 @@ frappe.ui.form.on('Stock Control', {
     before_save: function(frm) {
         // make sure all qty diffs are calculated
         frm.doc.items.forEach(function (item) {
-            update_qty(frm, item.doctype, item.name);
+            update_diff(frm, item.doctype, item.name);
         });
     }
 });
