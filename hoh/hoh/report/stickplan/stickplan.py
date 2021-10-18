@@ -170,6 +170,7 @@ def plan_machine(machine, debug=False):
                 wo.planned_start_date = earliest_start
         #last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         last_start = compute_end_datetime(start=wo.planned_start_date, duration_h=data[i]['h_total'])  # earliest start of next work order during working hours
+        wo.planned_end_date = last_start
         if debug:
             print("{wo}: planned start at {start} (last_start: {last})".format(
                 wo=wo.name, start=wo.planned_start_date, last=last_start))
@@ -226,6 +227,8 @@ def replan(work_order, target_date, maschine):
     wo = frappe.get_doc("Work Order", work_order)
     wo.planned_start_date = target_date
     wo.stickmaschine = maschine
+    duration_h = wo.kartenmeter / frappe.get_value("Stickmaschine", maschine, 'ktm_per_h')
+    wo.planned_end_date = compute_end_datetime(target_date, duration_h)
     wo.save()
     return
 
