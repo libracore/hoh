@@ -1,9 +1,11 @@
-# Copyright (c) 2020, libracore and contributors
+# Copyright (c) 2020-2021, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
 import frappe
 from frappe import _
+from datetime import datetime
+import json
 
 def execute(filters=None):
     columns = get_columns()
@@ -23,10 +25,16 @@ def get_columns():
     ]
 
 def get_data(filters):
-    if not filters.stickmaschine:
-        filters.stickmaschine = "%"
+    if type(filters) == str:
+        filters = json.loads(filters)
+    elif type(filters) == dict:
+        filters = filters
     else:
-        filters.stickmaschine = "%{0}%".format(filters.stickmaschine)
+        filters = filters.as_dict()
+    if not filters['stickmaschine']:
+        filters['stickmaschine'] = "%"
+    else:
+        filters['stickmaschine'] = "%{0}%".format(filters['stickmaschine'])
         
     sql_query = """
        SELECT 
@@ -68,8 +76,15 @@ def get_data(filters):
         WHERE `tabStickmaschine`.`name` LIKE "{stickmaschine}"
         ) AS `raw`
         ORDER BY `raw`.`stickmaschine` ASC;
-      """.format(stickmaschine=filters.stickmaschine)
+      """.format(stickmaschine=filters['stickmaschine'])
 
     data = frappe.db.sql(sql_query, as_dict=1)
 
     return data
+
+def get_planned_until(maschine):
+    data = get_data({'stickmaschine': maschine}))
+    if len(data) > 0:
+        return data[0]['end_date']
+    else:
+        return datetime.now()

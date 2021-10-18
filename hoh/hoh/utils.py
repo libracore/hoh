@@ -4,6 +4,8 @@
 import frappe
 from frappe import _, get_print
 from datetime import datetime
+from hoh.hoh.report.auslastung_stickmaschine.auslastung_stickmaschine import get_planned_until
+from hoh.hoh.report.stickpla.stickplan import compute_end_datetime
 
 @frappe.whitelist()
 def get_batch_info(item_code):
@@ -107,13 +109,21 @@ def complete_work_order_details(work_order):
     wo = frappe.get_doc("Work Order", work_order)
     if wo.production_item:
         details = compile_details(wo.production_item)
+        wo.stickmaschine = details['stickmaschine'] if 'stickmaschine' in details else None
+        wo.kartenmeter = details['kartenmeter']
+        # if this has not sequin details, it is fresh from a Sales Order
+        if not wo.stoff and not wo.garn:
+            # set start date as last date of the machine
+            if wo.stickmaschine:
+                start_date = get_planned_until(wo.stickmaschine)
+                #duration_h = wo.kartenmeter / frappe.get_value("Stickmaschine", wo.stickmaschine, 'ktm_per_h')
+                #end_date = compute_end_datetime(start_date, duration_h)
+                wo.planned_start_date = start_date
         wo.garn = details['garne']
         wo.stoff = details['stoffe']
         wo.pailletten = details['pailletten']
         wo.monofil = details['monofil']
         wo.bobinen = details['bobinen']
-        wo.kartenmeter = details['kartenmeter']
-        wo.stickmaschine = details['stickmaschine'] if 'stickmaschine' in details else None
         wo.finish_steps = []
         for fs in details['finish_steps']:
             row = wo.append('finish_steps', {
