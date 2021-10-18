@@ -371,6 +371,12 @@ def get_data():
                        "name": "Lieferart",
                        "label": _("Lieferart"),
                        "description": _("Lieferart")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Regal",
+                       "label": _("Regal"),
+                       "description": _("Regal")
                    }
             ]
         },

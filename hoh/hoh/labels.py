@@ -189,9 +189,11 @@ def get_work_order_label_data(selected_items):
                         WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
                           AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty`,
                         `tabItem`.`fertigbreite_von` AS `fertigbreite_von`,
-                        `tabItem`.`fertigbreite_bis` AS `fertigbreite_bis`
+                        `tabItem`.`fertigbreite_bis` AS `fertigbreite_bis`,
+                        `tabSales Order`.`customer_name` AS `customer_name`
                     FROM `tabWork Order`
                     LEFT JOIN `tabItem` ON `tabItem`.`name` = `tabWork Order`.`production_item`
+                    LEFT JOIN `tabSales Order` ON `tabSales Order`.`name` = `tabWork Order`.`sales_order`
                     WHERE `tabWork Order`.`name` IN ({selected_items});""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
@@ -355,9 +357,9 @@ def get_delivery_note_label(selected_delivery_notes):
 def get_sales_order_label(sales_order):
     # get label printer
     settings = frappe.get_doc("HOH Settings", "HOH Settings")
-    if not settings.delviery_note_label_printer:
+    if not settings.delivery_note_label_printer:
         frappe.throw( _("Please define a delivery note label printer under HOH Settings.") )
-    label_printer = settings.delviery_note_label_printer
+    label_printer = settings.delivery_note_label_printer
     # get raw data
     so = frappe.get_doc("Sales Order", sales_order)
     # prepare content

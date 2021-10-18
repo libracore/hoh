@@ -1,0 +1,18 @@
+/* Custom CSS for HOH */
+
+/* disable grey and replace with black for increased contrast */
+.control-label {
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+.uppercase {
+    color: black;
+}
+
+.grid-heading-row {
+    color: black;
+}
