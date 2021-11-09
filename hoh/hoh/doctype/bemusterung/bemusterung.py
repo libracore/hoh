@@ -19,6 +19,16 @@ class Bemusterung(Document):
         #        same_color_dessins[0]['name'])) )
         return
     
+    def update_item(self):
+        if self.item:
+            item_doc = frappe.get_doc("Item", self.item)
+            item_doc.fertigbreite_von = self.fertigbreite_von
+            item_doc.fertigbreite_bis = self.fertigbreite_bis
+            item_doc.stoffbreite_bis = self.stoffbreite_bis
+            item_doc.stoffbreite_von = self.stoffbreite_von
+            item_doc.save()
+        return
+        
     def before_save(self):
         # update specification lines
         stoffe = []
@@ -54,6 +64,9 @@ class Bemusterung(Document):
         self.d_pailletten = " + ".join(pailletten)
         self.d_applikationen = " + ".join(applikationen)
         self.d_prints = " + ".join(prints)
+        # update linked item
+        if self.item:
+            self.update_item()
         return
         
     def create_item(self):
