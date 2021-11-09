@@ -97,7 +97,16 @@ def get_data(filters):
          (`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter` AS `ktm_total`,
          (((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
          ((((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
-         IF (`tabWork Order`.`status` = 'In Process', '-', 
+         IF (`tabWork Order`.`status` = 'In Process', 
+		   /* material prepared, show ready date */
+		  (SELECT CONCAT(SUBSTRING(`tabStock Entry`.`modified`, 9, 2), ".", SUBSTRING(`tabStock Entry`.`modified`, 6, 2), ".")
+		   FROM `tabStock Entry` 
+		   WHERE `tabStock Entry`.`stock_entry_type` = "Material Transfer for Manufacture" 
+		     AND `tabStock Entry`.`docstatus` = 1
+			 AND `tabStock Entry`.`work_order = `tabWork Order`.`name`
+		   LIMIT 1
+		  ), 
+		  /* material not prepared, show availability */
           (SELECT 
            IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
            FROM `tabWork Order Item` AS `tWOI`
