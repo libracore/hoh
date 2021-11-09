@@ -47,6 +47,7 @@ def get_data(filters):
         WHERE 
             `tabItem`.`item_group` LIKE "{item_group}"
             AND `tabBin`.`warehouse` LIKE "{warehouse}"
+			AND `tabBin`.`actual_qty` > 0
         ORDER BY `tabItem`.`regal` ASC, `tabItem`.`item_code` ASC;""".format(item_group=filters['item_group'], warehouse=filters['warehouse'])
     data = frappe.db.sql(sql_query, as_dict=True)
     return data
