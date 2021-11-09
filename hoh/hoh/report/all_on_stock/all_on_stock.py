@@ -34,7 +34,7 @@ def get_data(filters):
         
     # fetch data
     sql_query = """SELECT
-            `tabItem`:`item_code` AS `item_code`,
+            `tabItem`.`item_code` AS `item_code`,
             `tabItem`.`item_name` AS `item_name`,
             `tabItem`.`item_group` As `item_group`,
             `tabBin`.`warehouse` AS `warehouse`,
