@@ -110,7 +110,7 @@ function show_planning_dialog(wo) {
                  var before_earlier = new Date(earlier - 60000);
                  d.set_value('start_date',  before_earlier)  ;
               }  },
-            {'fieldname': 'all_sales_order', 'fieldtype': 'Check', 'label': __('Apply to complete sales order') },
+            {'fieldname': 'all_sales_order', 'fieldtype': 'Check', 'label': __('Apply to complete sales order'), 'default': 1 },
         ],
         primary_action: function(){
             d.hide();
