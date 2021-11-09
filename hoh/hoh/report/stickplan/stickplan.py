@@ -103,7 +103,7 @@ def get_data(filters):
 		   FROM `tabStock Entry` 
 		   WHERE `tabStock Entry`.`stock_entry_type` = "Material Transfer for Manufacture" 
 		     AND `tabStock Entry`.`docstatus` = 1
-			 AND `tabStock Entry`.`work_order = `tabWork Order`.`name`
+			 AND `tabStock Entry`.`work_order` = `tabWork Order`.`name`
 		   LIMIT 1
 		  ), 
 		  /* material not prepared, show availability */
