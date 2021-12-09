@@ -485,6 +485,14 @@ def get_data():
                        "label": _("Artikelhistorie"),
                        "description": _("Artikelhistorie"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Bin",
+                       "name": "All on Stock",
+                       "label": _("All on Stock"),
+                       "description": _("All on Stock"),
+                       "is_query_report": True
                    }
             ]
         }

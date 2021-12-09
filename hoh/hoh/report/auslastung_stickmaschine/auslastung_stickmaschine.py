@@ -10,6 +10,16 @@ import json
 def execute(filters=None):
     columns = get_columns()
     data = get_data(filters)
+    # strip datetime into date
+    for d in data:
+        try:
+            d['start_date'] = d['start_date'].date()
+        except:
+            d['start_date'] = None
+        try:
+            d['end_date'] = d['end_date'].date()
+        except:
+            d['end_date'] = None
     return columns, data
 
 def get_columns():
@@ -27,11 +37,7 @@ def get_columns():
 def get_data(filters):
     if type(filters) == str:
         filters = json.loads(filters)
-    elif type(filters) == dict:
-        filters = filters
-    else:
-        filters = filters.as_dict()
-    if not filters['stickmaschine']:
+    if not "stickmaschine" in filters:
         filters['stickmaschine'] = "%"
     else:
         filters['stickmaschine'] = "%{0}%".format(filters['stickmaschine'])
@@ -60,13 +66,23 @@ def get_data(filters):
          FROM `tabStickmaschine` 
          JOIN (SELECT
              COUNT(`tabWork Order`.`name`) AS `work_order_count`,
-             MIN(SUBSTRING_INDEX(`tabWork Order`.`planned_start_date`, ' ', 1)) AS `start_date`,
-             MAX(`tabWork Order`.`expected_delivery_date`) AS `end_date`,
+             (SELECT MIN(`tabW1`.`planned_start_date`)
+              FROM `tabWork Order` AS `tabW1`
+              WHERE `tabW1`.`docstatus` < 2
+               AND `tabW1`.`status` != "Completed"
+               AND `tabW1`.`stickmaschine` = `tabWork Order`.`stickmaschine`
+             ) AS `start_date`,
+             (SELECT MAX(`tabW2`.`planned_end_date`)
+              FROM `tabWork Order` AS `tabW2`
+              WHERE `tabW2`.`docstatus` < 2
+               AND `tabW2`.`status` != "Completed"
+               AND `tabW2`.`stickmaschine` = `tabWork Order`.`stickmaschine`
+             ) AS `end_date`,
              SUM(`tabDessin`.`gesamtmeter`) AS `ktm`,
              SUM(`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) AS `ktm_total`,
              `tabDessin`.`stickmaschine` AS `stickmaschine`
            FROM `tabWork Order`
-         LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
+           LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
            LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
            WHERE 
              `tabWork Order`.`docstatus` < 2
@@ -79,11 +95,11 @@ def get_data(filters):
       """.format(stickmaschine=filters['stickmaschine'])
 
     data = frappe.db.sql(sql_query, as_dict=1)
-
+        
     return data
 
 def get_planned_until(maschine):
-    data = get_data({'stickmaschine': maschine}))
+    data = get_data({'stickmaschine': maschine})
     if len(data) > 0:
         return data[0]['end_date']
     else:

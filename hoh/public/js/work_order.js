@@ -89,6 +89,7 @@ function fetch_item_details(frm) {
             cur_frm.set_value("kartenmeter", details.kartenmeter);
             if (details.stickmaschine) {
                 cur_frm.set_value("stickmaschine", details.stickmaschine);
+                cur_frm.set_value("planned_start_date", details.start_date);
             }
             // remove all rows
             var tbl = frm.doc.finish_steps || [];

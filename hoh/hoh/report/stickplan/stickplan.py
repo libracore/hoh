@@ -97,7 +97,16 @@ def get_data(filters):
          (`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter` AS `ktm_total`,
          (((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
          ((((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
-         IF (`tabWork Order`.`status` = 'In Process', '-', 
+         IF (`tabWork Order`.`status` = 'In Process', 
+		   /* material prepared, show ready date */
+		  (SELECT CONCAT(SUBSTRING(`tabStock Entry`.`modified`, 9, 2), ".", SUBSTRING(`tabStock Entry`.`modified`, 6, 2), ".")
+		   FROM `tabStock Entry` 
+		   WHERE `tabStock Entry`.`stock_entry_type` = "Material Transfer for Manufacture" 
+		     AND `tabStock Entry`.`docstatus` = 1
+			 AND `tabStock Entry`.`work_order` = `tabWork Order`.`name`
+		   LIMIT 1
+		  ), 
+		  /* material not prepared, show availability */
           (SELECT 
            IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
            FROM `tabWork Order Item` AS `tWOI`
@@ -170,6 +179,7 @@ def plan_machine(machine, debug=False):
                 wo.planned_start_date = earliest_start
         #last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         last_start = compute_end_datetime(start=wo.planned_start_date, duration_h=data[i]['h_total'])  # earliest start of next work order during working hours
+        wo.planned_end_date = last_start
         if debug:
             print("{wo}: planned start at {start} (last_start: {last})".format(
                 wo=wo.name, start=wo.planned_start_date, last=last_start))
@@ -226,6 +236,8 @@ def replan(work_order, target_date, maschine):
     wo = frappe.get_doc("Work Order", work_order)
     wo.planned_start_date = target_date
     wo.stickmaschine = maschine
+    duration_h = wo.kartenmeter / frappe.get_value("Stickmaschine", maschine, 'ktm_per_h')
+    wo.planned_end_date = compute_end_datetime(target_date, duration_h)
     wo.save()
     return
 
