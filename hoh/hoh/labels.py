@@ -34,7 +34,7 @@ def get_price_label_data(bemusterung):
                        ) AS `material`,
                        (SELECT GROUP_CONCAT(`item_name`)
                         FROM `tabBemusterung Artikel`
-                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
+                        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` IN ("Stoffe", "Eigenware Stoffe")
                        ) AS `stoffe`,
                        (SELECT GROUP_CONCAT(`item_name`)
                         FROM `tabBemusterung Artikel`
@@ -74,7 +74,7 @@ UNION SELECT
                    IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
                 FROM `tabItem`
                 LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
-               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` = "Stoffe";""".format(bemusterung=bemusterung)
+               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe");""".format(bemusterung=bemusterung)
     
     return frappe.db.sql(sql_query, as_dict=True)
 
@@ -109,7 +109,7 @@ def get_bemusterung_label_data(selected_items):
        ) AS `material`,
        (SELECT GROUP_CONCAT(`item_name`)
         FROM `tabBemusterung Artikel`
-        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` = "Stoffe"
+        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` IN ("Stoffe", "Eigenware Stoffe)
        ) AS `stoffe`,
        (SELECT GROUP_CONCAT(`item_name`)
         FROM `tabBemusterung Artikel`
@@ -154,7 +154,7 @@ UNION SELECT
 		   IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
 		FROM `tabItem`
 		LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
-	   WHERE `tabItem`.`name` IN ({selected_items}) AND `tabItem`.`item_group` = "Stoffe";""".format(selected_items=selected_items)
+	   WHERE `tabItem`.`name` IN ({selected_items}) AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe");""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
     

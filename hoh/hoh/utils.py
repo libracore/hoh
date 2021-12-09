@@ -76,7 +76,7 @@ def compile_details(bemusterung):
     for item in bemusterung.items:
         if item.item_group == "Garne" or item.item_group == "Kordel":
             garne.append(item.item_name)
-        elif item.item_group == "Stoffe" or item.item_group == "Hilfsstoffe":
+        elif item.item_group == "Stoffe" or item.item_group == "Eigenware Stoffe" or item.item_group == "Hilfsstoffe":
             stoffe.append(item.item_name)
         elif item.item_group == "Pailletten":
             pailletten.append(item.item_name)

@@ -74,7 +74,7 @@ frappe.ui.form.on('Bemusterung', {
 frappe.ui.form.on('Bemusterung Artikel', {
     item_group: function(frm, cdt, cdn) {
         // if the item is a fabric, fetch width
-        if (frappe.model.get_value(cdt, cdn, 'item_group') === "Stoffe") {
+        if (frappe.model.get_value(cdt, cdn, 'item_group').includes("Stoffe")) {
             frappe.call({
                 'method': 'frappe.client.get',
                 'args': {

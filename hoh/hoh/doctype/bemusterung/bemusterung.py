@@ -26,7 +26,7 @@ class Bemusterung(Document):
         applikationen = []
         prints = []
         for m in self.items:
-            if m.item_group in ['Stoffe', 'Hilfsstoffe']:
+            if m.item_group in ['Stoffe', 'Hilfsstoffe', 'Eigenware Stoffe']:
                 if self.panneau:
                     # in case of panneau, add fabric fractions
                     fraction = "1/1"

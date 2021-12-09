@@ -51,7 +51,7 @@ def get_data(filters):
                 WHERE 
                   `tabWork Order`.`status` IN ("Not Started", "Draft")
                   AND `tabWork Order`.`planned_start_date` <= "{to_date}"
-                  AND `tabItem`.`item_group` = "Stoffe"
+                  AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe")
                 ORDER BY `tabWork Order Item`.`item_code` ASC, `tabWork Order`.`planned_start_date` ASC;;""".format(
                 to_date=filters.to_date, warehouse=primary_warehouse)
     
