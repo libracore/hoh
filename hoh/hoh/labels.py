@@ -109,7 +109,7 @@ def get_bemusterung_label_data(selected_items):
        ) AS `material`,
        (SELECT GROUP_CONCAT(`item_name`)
         FROM `tabBemusterung Artikel`
-        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` IN ("Stoffe", "Eigenware Stoffe)
+        WHERE `tabBemusterung`.`name` = `tabBemusterung Artikel`.`parent` AND `tabBemusterung Artikel`.`item_group` IN ("Stoffe", "Eigenware Stoffe")
        ) AS `stoffe`,
        (SELECT GROUP_CONCAT(`item_name`)
         FROM `tabBemusterung Artikel`
