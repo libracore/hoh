@@ -108,6 +108,14 @@ def get_data():
                        "name": "Sales Invoice",
                        "label": _("Sales Invoice"),
                        "description": _("Sales Invoice")
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Bemusterung",
+                       "name": "Preisliste",
+                       "label": _("Preisliste"),
+                       "description": _("Preisliste"),
+                       "is_query_report": True
                    }
             ]
         },
