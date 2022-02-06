@@ -116,6 +116,14 @@ def get_data():
                        "label": _("Preisliste"),
                        "description": _("Preisliste"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Bemusterung",
+                       "name": "Preisliste Stoffe",
+                       "label": _("Preisliste Stoffe"),
+                       "description": _("Preisliste Stoffe"),
+                       "is_query_report": True
                    }
             ]
         },
