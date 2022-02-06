@@ -40,7 +40,7 @@ def get_data(filters):
                 SUBSTRING_INDEX(`tabItem`.`item_name`, " ", 1) As `item`,
                 `tabItem Price`.`price_list_rate` AS `rate`,
                 1.2 * `tabItem Price`.`price_list_rate` AS `margin_rate`,
-                CONCAT(ROUND(`fertigbreite_von`), "-", ROUND(`fertigbreite_bis`), "cm") AS `width`,
+                CONCAT(ROUND(`stoffbreite_von`), "-", ROUND(`stoffbreite_bis`), "cm") AS `width`,
                 /* (SELECT REPLACE(GROUP_CONCAT(CONCAT("<img src='",
                     (SELECT `value` FROM `tabSingles` WHERE `doctype` = "HOH Settings" AND `field` = "label_image_host"), 
                      `tabPflegesymbol`.`image`, "' style='width: 20px;' >")
