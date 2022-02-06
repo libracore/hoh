@@ -53,7 +53,7 @@ def get_data(filters):
                 FROM `tabItem Komposition`
                 WHERE `tabBemusterung`.`name` = `tabItem Komposition`.`parent` AND `tabItem Komposition`.`parenttype` = "Bemusterung"
                ) AS `composition`,
-               CONCAT(ROUND(`gewicht`),  " g/lfm") AS `weight`
+               CONCAT(ROUND(1000 * `gewicht`),  " g/lfm") AS `weight`
             FROM `tabBemusterung`
             WHERE `rate` > 0
               AND `name` LIKE "{name}"
