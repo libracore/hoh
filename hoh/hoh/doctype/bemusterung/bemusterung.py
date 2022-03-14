@@ -198,9 +198,9 @@ class Bemusterung(Document):
         self.gewicht = ((total_multiplier or 0) / 1000)
         # normalise contents
         if debug:
-            print("Raw composition")
+            print("Raw composition (total_parts: {0})".format(total_parts))
         for key, value in composition.items():
-            composition[key] = round(value / total_parts)
+            composition[key] = round(100 * value / total_parts)
             # minimum fraction is 1%
             if composition[key] < 1:
                 composition[key] = 1
