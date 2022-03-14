@@ -166,6 +166,7 @@ class Bemusterung(Document):
     def calculate_composition(self, debug=False):
         composition = {}
         total_multiplier = 0
+        total_parts = 0
         if debug:
             print("Compontent parts:")
         # fetch all items
@@ -178,6 +179,7 @@ class Bemusterung(Document):
                 # aggregate contents
                 for c in item.komposition:
                     new_part = i.remaining_material * c.anteil * multiplier
+                    total_parts += new_part
                     if c.material in composition:
                         composition[c.material] = composition[c.material] + new_part
                     else:
@@ -198,7 +200,7 @@ class Bemusterung(Document):
         if debug:
             print("Raw composition")
         for key, value in composition.items():
-            composition[key] = round(value / total_multiplier)
+            composition[key] = round(value / total_parts)
             # minimum fraction is 1%
             if composition[key] < 1:
                 composition[key] = 1
@@ -213,7 +215,7 @@ class Bemusterung(Document):
         # update composition
         self.komposition = []
         if debug:
-            print("Normalised composition")
+            print("Flattened composition")
         for key, value in sorted(composition.items(), key=lambda kv: kv[1], reverse=True):
             row = self.append('komposition', {
                 'anteil': value,
