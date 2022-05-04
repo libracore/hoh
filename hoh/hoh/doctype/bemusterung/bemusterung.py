@@ -26,6 +26,18 @@ class Bemusterung(Document):
             item_doc.fertigbreite_bis = self.fertigbreite_bis
             item_doc.stoffbreite_bis = self.stoffbreite_bis
             item_doc.stoffbreite_von = self.stoffbreite_von
+            item_doc.gewicht = self.gewicht * 1000
+            item_doc.weight_per_unit = self.gewicht * 1000
+            item_doc.komposition = []
+            for k in self.komposition:
+                row = item_doc.append('komposition', {
+                    'anteil': k.anteil,
+                    'material': k.material
+                })
+            item_doc.d_stoffe = self.d_stoffe,
+            item_doc.d_pailletten = self.d_pailletten,
+            item_doc.d_applikationen = self.d_applikationen,
+            item_doc.d_prints = self.d_prints
             item_doc.save()
         return
         
