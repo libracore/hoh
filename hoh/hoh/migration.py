@@ -132,3 +132,21 @@ def update_machines():
     frappe.db.commit()
     print("done")
     return
+
+# this function will remove breaks from machine times
+def remove_breaks():
+    wos = frappe.get_all("Work Order", filters={'docstatus': 1}, fields=['name'])
+    count = 0
+    for wo in wos:
+        count += 1
+        print("Processing {0}... {1}%".format(wo['name'], count * 100 / len(wos)))
+        work_order = frappe.get_doc("Work Order", wo['name'])
+        total_hours = 0
+        if work_order.nutzungen:
+            for n in work_order.nutzungen:
+                if n.activity_type != "Pause" and n.maschinenstunden > 0:
+                    total_hours += n.maschinenstunden
+        work_order.summe_maschinenstunden = total_hours
+        work_order.save()
+    frappe.db.commit()
+    print("done")
