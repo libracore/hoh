@@ -26,6 +26,18 @@ class Bemusterung(Document):
             item_doc.fertigbreite_bis = self.fertigbreite_bis
             item_doc.stoffbreite_bis = self.stoffbreite_bis
             item_doc.stoffbreite_von = self.stoffbreite_von
+            item_doc.gewicht = self.gewicht * 1000
+            item_doc.weight_per_unit = self.gewicht * 1000
+            item_doc.komposition = []
+            for k in self.komposition:
+                row = item_doc.append('komposition', {
+                    'anteil': k.anteil,
+                    'material': k.material
+                })
+            item_doc.d_stoffe = self.d_stoffe,
+            item_doc.d_pailletten = self.d_pailletten,
+            item_doc.d_applikationen = self.d_applikationen,
+            item_doc.d_prints = self.d_prints
             item_doc.save()
         return
         
@@ -166,6 +178,7 @@ class Bemusterung(Document):
     def calculate_composition(self, debug=False):
         composition = {}
         total_multiplier = 0
+        total_parts = 0
         if debug:
             print("Compontent parts:")
         # fetch all items
@@ -178,6 +191,7 @@ class Bemusterung(Document):
                 # aggregate contents
                 for c in item.komposition:
                     new_part = i.remaining_material * c.anteil * multiplier
+                    total_parts += new_part
                     if c.material in composition:
                         composition[c.material] = composition[c.material] + new_part
                     else:
@@ -196,9 +210,9 @@ class Bemusterung(Document):
         self.gewicht = ((total_multiplier or 0) / 1000)
         # normalise contents
         if debug:
-            print("Raw composition")
+            print("Raw composition (total_parts: {0})".format(total_parts))
         for key, value in composition.items():
-            composition[key] = round(value / total_multiplier)
+            composition[key] = round(100 * value / total_parts)
             # minimum fraction is 1%
             if composition[key] < 1:
                 composition[key] = 1
@@ -212,11 +226,15 @@ class Bemusterung(Document):
         composition[max(composition, key=lambda key: composition[key])] = composition[max(composition, key=lambda key: composition[key])] - (sum_p - 100)
         # update composition
         self.komposition = []
+        if debug:
+            print("Flattened composition")
         for key, value in sorted(composition.items(), key=lambda kv: kv[1], reverse=True):
             row = self.append('komposition', {
                 'anteil': value,
                 'material': key
             })
+            if debug:
+                print("{0}: {1} %".format(key, value))
         return
 
 """
