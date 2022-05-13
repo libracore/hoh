@@ -147,6 +147,9 @@ def remove_breaks():
                 if n.activity_type != "Pause" and n.maschinenstunden > 0:
                     total_hours += n.maschinenstunden
         work_order.summe_maschinenstunden = total_hours
-        work_order.save()
+        try:
+            work_order.save()
+        except Exception as err:
+            print("Error: {0}".format(err))
     frappe.db.commit()
     print("done")
