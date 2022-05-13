@@ -39,6 +39,15 @@ class Bemusterung(Document):
             item_doc.d_applikationen = self.d_applikationen,
             item_doc.d_prints = self.d_prints
             item_doc.save()
+            # check and update price
+            prices = frappe.get_all("Item Price", 
+                filters={'selling': 1, 'item_code': self.item, 'currency': 'EUR'}, 
+                fields=['name'])
+            if prices:
+                for p in prices:
+                    p_doc = frappe.get_doc("Item Price",  p['name'])
+                    p_doc.price_list_rate = self.rate
+                    p_doc.save()
         return
         
     def before_save(self):
