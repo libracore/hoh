@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2021, libracore and contributors
+// Copyright (c) 2020-2022, libracore and contributors
 // For license information, please see license.txt
 /* eslint-disable */
 
@@ -43,6 +43,9 @@ frappe.query_reports["Stickplan"] = {
         });
         report.page.add_inner_button(__('Automatically plan'), function () {
            auto_plan();
+        });
+        report.page.add_inner_button(__('Automatically plan all'), function () {
+           auto_plan_all();
         });
         report.page.add_inner_button(__('Update Material'), function () {
             frappe.call({
@@ -133,6 +136,22 @@ function auto_plan() {
     );
 }
 
+function auto_plan_all() {
+    frappe.call({
+        'method': 'frappe.client.get_list',
+        'args': {
+            'doctype': 'Stickmaschine',
+            'fields': ['name'],
+        },
+        'callback': function(response) {
+            var machines = response.message
+            for (var i = 0; i < machines.length; i++) {
+                plan_machine(machines[i]['name']);
+            }
+        }
+    });
+}
+
 function plan_machine(machine) {
     frappe.call({
         "method": "hoh.hoh.report.stickplan.stickplan.plan_machine",
@@ -140,7 +159,7 @@ function plan_machine(machine) {
             "machine": machine
         },
         "callback": function(response) {
-            frappe.show_alert( __("Updated") );
+            frappe.show_alert( __("Updated") + " " + machine);
             frappe.query_report.refresh();
         }
     });

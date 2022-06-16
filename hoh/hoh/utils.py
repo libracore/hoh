@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2021, libracore and contributors
+# Copyright (c) 2019-2022, libracore and contributors
 # For license information, please see license.txt
 
 import frappe
