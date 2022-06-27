@@ -85,6 +85,9 @@ class Bemusterung(Document):
         self.d_pailletten = " + ".join(pailletten)
         self.d_applikationen = " + ".join(applikationen)
         self.d_prints = " + ".join(prints)
+        # make sure composition is present
+        if self.items and len(self.items) > 0 and (not self.komposition or len(self.komposition) == 0):
+            self.calculate_composition()
         # update linked item
         if self.item:
             self.update_item()
