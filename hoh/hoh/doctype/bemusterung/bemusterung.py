@@ -105,8 +105,6 @@ class Bemusterung(Document):
             'dessin': self.dessin,
             'bemusterung': self.name,
             'farbe': self.farbe,
-            'komposition': self.komposition,
-            'pflegesymbole': self.pflegesymbole,
             'stoffbreite_von': self.stoffbreite_von,
             'stoffbreite_bis': self.stoffbreite_bis,
             'fertigbreite_von': self.fertigbreite_von,
