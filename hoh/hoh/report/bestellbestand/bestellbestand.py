@@ -63,7 +63,7 @@ def get_data(filters):
                 LEFT JOIN `tabItem Default` ON `tabItem`.`name` = `tabItem Default`.`parent`
             WHERE 
               `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
-              AND `tabBin`.`projected_qty` < (`tabItem`.`safety_stock` + 0.1)
+              AND `tabBin`.`projected_qty` < (`tabItem`.`safety_stock` - 0.1)
               {item_code_filter}
             GROUP BY `tabBin`.`item_code`;""".format(
               item_code_filter=item_code_filter)
