@@ -253,7 +253,7 @@ def compute_end_datetime(start, duration_h, debug=False):
     
     holidays = get_holidays(config.holiday_list)
 
-    remaining_h = duration_h
+    remaining_h = duration_h or 0
     current_day = start
     end = start
     while (remaining_h > 0):
