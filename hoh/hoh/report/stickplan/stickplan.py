@@ -161,6 +161,13 @@ def update_material_status():
     return
 
 @frappe.whitelist()
+def enqueue_update_material_status():
+    """Add method `execute` with given args to the queue."""
+    frappe.enqueue(method=update_material_status, queue='long', timeout=90, is_async=True)
+    return
+
+
+@frappe.whitelist()
 def plan_machine(machine, debug=False):
     data = get_data(filters={'stickmaschine': machine, 'from_date': None, 'to_date': None})
     if debug:

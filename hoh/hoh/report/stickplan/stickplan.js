@@ -49,9 +49,9 @@ frappe.query_reports["Stickplan"] = {
         });
         report.page.add_inner_button(__('Update Material'), function () {
             frappe.call({
-                "method": "hoh.hoh.report.stickplan.stickplan.update_material_status",
+                "method": "hoh.hoh.report.stickplan.stickplan.enqueue_update_material_status",
                 "callback": function(response) {
-                    frappe.show_alert( __("Updated") );
+                    frappe.show_alert( __("Update started...") );
                     frappe.query_report.refresh();
                 }
             });
