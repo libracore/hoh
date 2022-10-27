@@ -171,9 +171,8 @@ def plan_machine(machine, debug=False):
     for i in range(len(data)):
         wo = frappe.get_doc("Work Order", data[i]['work_order'])
         if i == 0 and wo.status in ('Draft', 'Not Started'):
-            # first planning row: if not started and in the past, move to now
-            if wo.planned_start_date < now:
-                wo.planned_start_date = now
+            # first planning row: if not started, move to now
+            wo.planned_start_date = now
         else:
             # other rows: at least (duration + break)
             earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 0))
