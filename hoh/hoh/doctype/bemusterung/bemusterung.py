@@ -26,7 +26,28 @@ class Bemusterung(Document):
             item_doc.fertigbreite_bis = self.fertigbreite_bis
             item_doc.stoffbreite_bis = self.stoffbreite_bis
             item_doc.stoffbreite_von = self.stoffbreite_von
+            item_doc.gewicht = self.gewicht * 1000
+            item_doc.weight_per_unit = self.gewicht * 1000
+            item_doc.komposition = []
+            for k in self.komposition:
+                row = item_doc.append('komposition', {
+                    'anteil': k.anteil,
+                    'material': k.material
+                })
+            item_doc.d_stoffe = self.d_stoffe,
+            item_doc.d_pailletten = self.d_pailletten,
+            item_doc.d_applikationen = self.d_applikationen,
+            item_doc.d_prints = self.d_prints
             item_doc.save()
+            # check and update price
+            prices = frappe.get_all("Item Price", 
+                filters={'selling': 1, 'item_code': self.item, 'currency': 'EUR'}, 
+                fields=['name'])
+            if prices:
+                for p in prices:
+                    p_doc = frappe.get_doc("Item Price",  p['name'])
+                    p_doc.price_list_rate = self.rate
+                    p_doc.save()
         return
         
     def before_save(self):
@@ -64,6 +85,9 @@ class Bemusterung(Document):
         self.d_pailletten = " + ".join(pailletten)
         self.d_applikationen = " + ".join(applikationen)
         self.d_prints = " + ".join(prints)
+        # make sure composition is present
+        if self.items and len(self.items) > 0 and (not self.komposition or len(self.komposition) == 0):
+            self.calculate_composition()
         # update linked item
         if self.item:
             self.update_item()
@@ -81,8 +105,6 @@ class Bemusterung(Document):
             'dessin': self.dessin,
             'bemusterung': self.name,
             'farbe': self.farbe,
-            'komposition': self.komposition,
-            'pflegesymbole': self.pflegesymbole,
             'stoffbreite_von': self.stoffbreite_von,
             'stoffbreite_bis': self.stoffbreite_bis,
             'fertigbreite_von': self.fertigbreite_von,

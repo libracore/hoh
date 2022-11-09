@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2020, libracore and contributors
+# Copyright (c) 2020-2022, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -63,7 +63,8 @@ def get_data(filters):
                 LEFT JOIN `tabItem Default` ON `tabItem`.`name` = `tabItem Default`.`parent`
             WHERE 
               `tabItem`.`item_group` NOT IN ('Stickereien', 'Pailletten')
-              AND `tabBin`.`projected_qty` < `tabItem`.`safety_stock` {item_code_filter}
+              AND `tabBin`.`projected_qty` < (`tabItem`.`safety_stock` - 0.1)
+              {item_code_filter}
             GROUP BY `tabBin`.`item_code`;""".format(
               item_code_filter=item_code_filter)
     

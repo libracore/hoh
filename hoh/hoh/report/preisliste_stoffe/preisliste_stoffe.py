@@ -22,7 +22,7 @@ def get_columns(filters):
         {"label": _("Composition"), "fieldname": "composition", "fieldtype": "Data", "width": 200},
         {"label": _("Weight"), "fieldname": "weight", "fieldtype": "Data", "width": 100},
         {"label": _("ERP Verkaufspreis"), "fieldname": "rate", "fieldtype": "Currency", "width": 150},
-        {"label": _("Verkaufspreis +20%"), "fieldname": "margin_rate", "fieldtype": "Currency", "width": 150},
+        # {"label": _("Verkaufspreis +20%"), "fieldname": "margin_rate", "fieldtype": "Currency", "width": 150},
         {"label": _(""), "fieldname": "blank", "fieldtype": "Data", "width": 20}
     ]
     return columns

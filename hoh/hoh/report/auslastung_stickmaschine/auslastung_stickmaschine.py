@@ -80,14 +80,14 @@ def get_data(filters):
              ) AS `end_date`,
              SUM(`tabDessin`.`gesamtmeter`) AS `ktm`,
              SUM(`tabWork Order`.`qty` * `tabDessin`.`gesamtmeter`) AS `ktm_total`,
-             `tabDessin`.`stickmaschine` AS `stickmaschine`
+             `tabWork Order`.`stickmaschine` AS `stickmaschine`
            FROM `tabWork Order`
            LEFT JOIN `tabItem` ON `tabItem`.`item_code` = `tabWork Order`.`production_item`
            LEFT JOIN `tabDessin` ON `tabDessin`.`name` = `tabItem`.`dessin`
            WHERE 
              `tabWork Order`.`docstatus` < 2
              AND `tabWork Order`.`status` != "Completed"
-           GROUP BY `tabDessin`.`stickmaschine`
+           GROUP BY `tabWork Order`.`stickmaschine`
           ) AS `details` ON (`tabStickmaschine`.`name` = `details`.`stickmaschine`)
         WHERE `tabStickmaschine`.`name` LIKE "{stickmaschine}"
         ) AS `raw`

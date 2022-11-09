@@ -117,7 +117,7 @@ function update_title(frm) {
 function nadelrechner(frm, input, output, target=null, g_per_m=1, g_per_uom=1, uom="kg") {
     var d = new frappe.ui.Dialog({
         'fields': [
-            {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Select', 'options': '4/4\n8/4\n12/4\n16/4\n20/4\n24/4\n28/4\n32/4\n36/4\n40/4\n44/4\n48/4\n52/4\n56/4\n64/4\n68/4\n72/4\n76/4\n80/4\n84/4\n88/4\n92/4\n96/4\n104/4', 'default': frm.doc.stickrapport},
+            {'fieldname': 'stickrapport', 'label': 'Stickrapport', 'fieldtype': 'Select', 'options': '4/4\n8/4\n12/4\n16/4\n20/4\n24/4\n28/4\n32/4\n36/4\n40/4\n44/4\n48/4\n52/4\n56/4\n60/4\n64/4\n68/4\n72/4\n76/4\n80/4\n84/4\n88/4\n92/4\n96/4\n104/4', 'default': frm.doc.stickrapport},
             {'fieldname': 'g_per_m', 'label': 'g pro m', 'fieldtype': 'Float', 'default': g_per_m, 'precision': 3},
             {'fieldname': 'g_per_uom', 'label': 'g pro ' + uom, 'fieldtype': 'Float', 'default': g_per_uom, 'precision': 3},
             {'fieldname': 'nadel', 'fieldtype': 'Float', 'label': 'x pro Nadel', 'default': input, 'precision': 3},
@@ -126,11 +126,11 @@ function nadelrechner(frm, input, output, target=null, g_per_m=1, g_per_uom=1, u
         primary_action: function(){
             d.hide();
             // calculate
-			var values = d.get_values();
+            var values = d.get_values();
             var input = values.nadel;
             var g_per_m = values.g_per_m;
             var g_per_uom = values.g_per_uom;
-			var stickrapport = values.stickrapport;
+            var stickrapport = values.stickrapport;
             var needle_per_m = 114 / 9.1;
             if (stickrapport === "4/4") {
                 needle_per_m = 342 / 9.1;
