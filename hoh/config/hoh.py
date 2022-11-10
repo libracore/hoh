@@ -509,6 +509,14 @@ def get_data():
                        "label": _("All on Stock"),
                        "description": _("All on Stock"),
                        "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "GL Entry",
+                       "name": "Erfolgsrechnung mit Vorjahr",
+                       "label": _("Erfolgsrechnung mit Vorjahr"),
+                       "description": _("Erfolgsrechnung mit Vorjahr"),
+                       "is_query_report": True
                    }
             ]
         }
