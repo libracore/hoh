@@ -41,6 +41,20 @@ def get_columns(year, month):
     
     
 def get_data(filters):
+    # prepare data
+    date_parts = str(filters.date).split("-")
+    year = date_parts[0]
+    py = int(year) - 1
+    month_day = "-{0}-{1}".format(date_parts[1], date_parts[2])
+    py_start = "{0}-01-01".format(py)
+    py_end = "{0}{1}".format(py, month_day)
+    ytd_start = "{0}-01-01".format(year)
+    ytd_end = "{0}{1}".format(year, month_day)
+    
+    py = get_turnover(py_start, py_end, filters.company)
+    ytd = get_turnover(ytd_start, ytd_end, filters.company)
+    
+    
     data = []
     data.append({
         'account': "<b>Umsatzerlöse</b>"
@@ -50,7 +64,7 @@ def get_data(filters):
     revenue_ytd = 0
     revenue_accounts = ["4000", "4010", "4020", "4022", "4120", "4200", "4210", "4220", "4400", "4405", "4410"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         revenue_py += _data['py']
         revenue_ytd += _data['ytd']
@@ -71,7 +85,7 @@ def get_data(filters):
     expense_1_ytd = 0
     revenue_accounts = ["5050", "5099", "5100", "5110", "5130", "5140", "5199", "5200"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         expense_1_py += _data['py']
         expense_1_ytd += _data['ytd']
@@ -89,7 +103,7 @@ def get_data(filters):
     expense_2_ytd = 0
     revenue_accounts = ["5800", "5805", "5812", "5300", "5310", "5320", "5340", "5360", "5380", "5390", "5399", "5400", "5440", "5450", "5470", "5621"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         expense_2_py += _data['py']
         expense_2_ytd += _data['ytd']
@@ -120,7 +134,7 @@ def get_data(filters):
     salary_ytd = 0
     revenue_accounts = ["6000", "6008", "6010", "6020", "6040", "6200", "6210", "6220", "6230", "6240", "6400", "6402", "6600", "6607", "6620", "6630", "6640", "6790"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         salary_py += _data['py']
         salary_ytd += _data['ytd']
@@ -151,7 +165,7 @@ def get_data(filters):
     other_revenue_ytd = 0
     revenue_accounts = ["4809", "4831"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         other_revenue_py += _data['py']
         other_revenue_ytd += _data['ytd']
@@ -169,7 +183,7 @@ def get_data(filters):
     other_expense_ytd = 0
     revenue_accounts = ["7180", "7201", "7203", "7206", "7210", "7240", "7300", "7321", "7323", "7340", "7360", "7370", "7380", "7381", "7382", "7390", "7400", "7402", "7540", "7600", "7605", "7630", "7650", "7652", "7660", "7662", "7690", "7696", "7700", "7750", "7770", "7782", "7785", "7790", "7800", "4860", "5860"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         other_expense_py += _data['py']
         other_expense_ytd += _data['ytd']
@@ -193,7 +207,7 @@ def get_data(filters):
     interest_ytd = 0
     revenue_accounts = ["8100", "8280"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         interest_py += _data['py']
         interest_ytd += _data['ytd']
@@ -229,7 +243,7 @@ def get_data(filters):
     depreciation_ytd = 0
     revenue_accounts = ["7020", "7050"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         depreciation_py += _data['py']
         depreciation_ytd += _data['ytd']
@@ -257,7 +271,7 @@ def get_data(filters):
     tax_ytd = 0
     revenue_accounts = ["8500"]
     for a in revenue_accounts:
-        _data = get_row(a, filters.date, filters.company)
+        _data = get_row(a, py, ytd)
         data.append(_data)
         tax_py += _data['py']
         tax_ytd += _data['ytd']
@@ -270,60 +284,30 @@ def get_data(filters):
     
     return data
     
-def get_row(account_code, date, company):
-    date_parts = str(date).split("-")
-    year = date_parts[0]
-    py = int(year) - 1
-    month_day = "-{0}-{1}".format(date_parts[1], date_parts[2])
-    py_start = "{0}-01-01".format(py)
-    py_end = "{0}{1}".format(py, month_day)
-    ytd_start = "{0}-01-01".format(year)
-    ytd_end = "{0}{1}".format(year, month_day)
-    
-    py = get_turnover(py_start, py_end, company, account_code)
-    ytd = get_turnover(ytd_start, ytd_end, company, account_code)
-    try:
-        account_name = frappe.get_all("Account", filters={'account_number': account_code}, fields=['name'])[0]['name']
-    except:
+def get_row(account_code, py, ytd):
+    if account_code not in py:
         return {
             'account': "Account {0} not found".format(account_code),
             'py': 0,
             'ytd': 0,
             'diff': 0
         }
+    _py = py[account_code]['balance'] if account_code in py else 0
+    _ytd = ytd[account_code]['balance'] if account_code in ytd else 0
     return {
-        'account': account_name,
-        'py': py[0]['balance'] if len(py) > 0 else 0,
-        'ytd': ytd[0]['balance'] if len(ytd) > 0 else 0,
-        'diff': ytd[0]['balance'] - py[0]['balance'] if len(py) > 0 and len(ytd) > 0 else 0
+        'account': py[account_code]['account_name'],
+        'py': _py,
+        'ytd': _ytd,
+        'diff': _ytd - _py
     }
     
-def get_turnover_budget_ytd(year, month, accounts, company):
-    try:
-        amount = frappe.db.sql("""SELECT 
-                IFNULL(SUM(`tabMonthly Distribution Percentage`.`percentage_allocation` * `tabBudget Account`.`budget_amount` / 100), 0)
-            FROM `tabBudget` 
-            LEFT JOIN `tabMonthly Distribution Percentage` ON `tabMonthly Distribution Percentage`.`parent` = `tabBudget`.`monthly_distribution`
-            LEFT JOIN `tabBudget Account` ON `tabBudget Account`.`parent` = `tabBudget`.`name`
-            LEFT JOIN `tabAccount` ON `tabAccount`.`name` = `tabBudget Account`.`account`
-            WHERE 
-              `tabBudget`.`fiscal_year` = "{year}"
-              AND `tabBudget`.`docstatus` < 2
-              AND `tabBudget`.`company` = "{company}"
-              AND `tabMonthly Distribution Percentage`.`idx` <= {month}
-              AND `tabAccount`.`account_number` IN ({accounts});
-                """.format(month=month, year=year, accounts=", ".join(accounts), 
-                    last_day=last_day_of_month(year, month), company=company))[0][0]
-    except:
-        return 0
-    return amount
-
-def get_turnover(from_date, to_date, company, account_code):
+def get_turnover(from_date, to_date, company):
     sql_query = """
        SELECT *, (`raw`.`credit` - `raw`.`debit`) AS `balance` 
        FROM
        (SELECT 
           `tabAccount`.`name` AS `account`, 
+          `tabAccount`.`account_number` AS `account_code`,
           IFNULL((SELECT 
              ROUND((SUM(`t3`.`debit`)), 2)
            FROM `tabGL Entry` AS `t3`
@@ -343,14 +327,22 @@ def get_turnover(from_date, to_date, company, account_code):
        FROM `tabAccount`
        WHERE 
          `tabAccount`.`is_group` = 0
-         AND `tabAccount`.`account_number` = "{account_code}"
          AND `tabAccount`.`company` = "{company}"
+       GROUP BY `tabAccount`.`name`
        ) AS `raw`
-       WHERE (`raw`.`debit` - `raw`.`credit`) != 0;""".format(from_date=from_date, to_date=to_date, company=company, account_code=account_code)
+       WHERE (`raw`.`debit` - `raw`.`credit`) != 0;""".format(from_date=from_date, to_date=to_date, company=company)
  
     # run query
     data = frappe.db.sql(sql_query, as_dict = True)
-    return data
+    
+    # reformat
+    output = {}
+    for d in data:
+        output[d['account_code']] = {
+            'account_name': d['account'],
+            'balance': d['balance']
+        }
+    return output
 
 def get_budget_fy(year, company):
     data = frappe.db.sql("""SELECT 
