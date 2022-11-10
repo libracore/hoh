@@ -183,8 +183,8 @@ def plan_machine(machine, debug=False):
         else:
             # other rows: at least (duration + break)
             earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 0))
-            if wo.planned_start_date < (earliest_start):
-                wo.planned_start_date = earliest_start
+            # if wo.planned_start_date < (earliest_start):          # 2022-11-09 do not allow gaps, always fill up
+            wo.planned_start_date = earliest_start
         #last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         last_start = compute_end_datetime(start=wo.planned_start_date, duration_h=data[i]['h_total'])  # earliest start of next work order during working hours
         wo.planned_end_date = last_start
