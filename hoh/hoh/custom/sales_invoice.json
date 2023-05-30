@@ -1027,7 +1027,7 @@
    "doctype_or_field": "DocType",
    "field_name": null,
    "idx": 0,
-   "modified": "2020-12-08 17:50:54.233801",
+   "modified": "2023-05-30 11:04:54.233801",
    "modified_by": "Administrator",
    "name": "Sales Invoice-default_print_format",
    "owner": "Administrator",
@@ -1036,7 +1036,7 @@
    "parenttype": null,
    "property": "default_print_format",
    "property_type": "Data",
-   "value": "Sales Invoice"
+   "value": "HOH Sales Invoice"
   },
   {
    "_assign": null,
