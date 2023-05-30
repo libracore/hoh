@@ -187,7 +187,8 @@ def get_work_order_label_data(selected_items):
                        (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`
                         WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
-                          AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty`,
+                          AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`
+                        LIMIT 1) AS `qty`,
                         `tabItem`.`fertigbreite_von` AS `fertigbreite_von`,
                         `tabItem`.`fertigbreite_bis` AS `fertigbreite_bis`,
                         `tabSales Order`.`customer_name` AS `customer_name`
