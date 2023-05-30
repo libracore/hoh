@@ -217,7 +217,7 @@ class Bemusterung(Document):
                     else:
                         print("Item {0} ({1}) is auxiliary (Folie/Hilfsstoffe)".format(i.item_code, item.item_group))
         # store total weight
-        self.gewicht = ((total_multiplier or 0) / 1000)
+        self.gewicht = ((total_parts or 0) / 1000)
         # normalise contents
         if debug:
             print("Raw composition (total_parts: {0})".format(total_parts))
