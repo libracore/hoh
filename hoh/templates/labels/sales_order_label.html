@@ -1,11 +1,37 @@
+<!--
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  
+<style>
+	  
+.font_type {
+	font-family: 'Roboto Mono', monospace;
+}
+    
+</style>
+</head>
+-->
+
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+  
+<style>
+	  
+.font_type {
+	font-family: 'Roboto Slab', serif;
+}
+    
+</style>
+</head>
+
 {% for i in range(0, items|len) %}
-<table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; ">
+<table style="width: 100mm; height: 40mm; {% if i < (items|len - 1) %}page-break-after: always;{% endif %} font-size: 12px; margin-left: 12px;">
     <tr>
         <td style="margin-top: 0px; "></td>
-        <td style="margin-top: 0px; "><b>{{ customer_name }}</b><br>
+        <td class="test font_type" style="margin-top: 0px; font-size: 14px;"><b>{{ customer_name }}</b><br>
         {{ _("Sales Order") }}: {{ name }}
         {%- if po_no %}, {{ po_no }}{% endif %}<br>
-        <p style="font-size: 10px; ">
+        <p class="font_type" style="font-size: 12px;">
             <b>{{ items[i].item_code }}: {{ items[i].item_name }}</b><br>
             {{ items[i].d_stoffe }}<br>
             {{ items[i].d_pailletten }}<br>
