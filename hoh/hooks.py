@@ -28,7 +28,8 @@ app_include_css = "/assets/hoh/css/hoh.css"
 # include js in doctype views
 doctype_js = {
     "Work Order" : "public/js/work_order.js",
-    "Sales Order" : "public/js/sales_order.js"
+    "Sales Order" : "public/js/sales_order.js",
+    "Delivery Note" : "public/js/delivery_note.js"
 }
 doctype_list_js = {
     "Item" : "public/js/item_list.js",
