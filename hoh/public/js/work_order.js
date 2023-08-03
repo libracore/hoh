@@ -40,6 +40,10 @@ frappe.ui.form.on('Work Order', {
         frm.add_custom_button(__("Etikette erstellen"), function() {
             create_label(frm);
         }).addClass("btn-primary");
+        // add refresh embroideries button
+        frm.add_custom_button(__("Stickereien neu laden"), function() {
+			refresh_embroideries(frm);
+        }).addClass("btn-primary");
     },
     production_item: function(frm) {
         // change on production item --> fetch related data fields
@@ -136,4 +140,25 @@ function create_label(frm) {
         if (!w) {
             frappe.msgprint(__("Please enable pop-ups")); return;
         }
+}
+
+function refresh_embroideries(frm) {
+// Check for unsafed Datas
+	if (frm.doc.__unsaved) {
+		console.log("unsaved");
+		frappe.msgprint("Bitte zuerst die Änderungen speichern.");
+	} else {
+// Call Server to reload datas
+		console.log("saved");
+		frappe.call({
+		'async': false,
+		"method": "hoh.hoh.utils.complete_work_order_details",
+		"args": {
+			"work_order": frm.doc.name
+		},
+		"callback": function(response) {
+			cur_frm.reload_doc();
+			}
+		})
+	}
 }
