@@ -145,11 +145,9 @@ function create_label(frm) {
 function refresh_embroideries(frm) {
 // Check for unsafed Datas
 	if (frm.doc.__unsaved) {
-		console.log("unsaved");
 		frappe.msgprint("Bitte zuerst die Änderungen speichern.");
 	} else {
 // Call Server to reload datas
-		console.log("saved");
 		frappe.call({
 		'async': false,
 		"method": "hoh.hoh.utils.complete_work_order_details",
