@@ -393,6 +393,12 @@ def get_data():
                        "name": "Regal",
                        "label": _("Regal"),
                        "description": _("Regal")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Color Translation",
+                       "label": _("Color Translation"),
+                       "description": _("Color Translation")
                    }
             ]
         },

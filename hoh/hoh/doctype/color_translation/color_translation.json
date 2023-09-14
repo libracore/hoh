@@ -1,0 +1,72 @@
+{
+ "creation": "2023-09-14 08:41:11.750138",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "language",
+  "sec_translation",
+  "original",
+  "col_main",
+  "translated"
+ ],
+ "fields": [
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Language",
+   "options": "Language",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sec_translation",
+   "fieldtype": "Section Break",
+   "label": "Translation"
+  },
+  {
+   "fieldname": "original",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Original",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "translated",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Translated",
+   "reqd": 1
+  }
+ ],
+ "modified": "2023-09-14 09:47:53.828307",
+ "modified_by": "Administrator",
+ "module": "hoh",
+ "name": "Color Translation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "title_field": "original",
+ "track_changes": 1
+}

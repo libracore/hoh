@@ -39,6 +39,12 @@ doctype_list_js = {
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
+jenv = {
+    "methods": [
+        "part_translation:hoh.hoh.translation.part_translation"
+        ]
+}
+
 # Home Pages
 # ----------
 
