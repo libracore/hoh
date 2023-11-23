@@ -440,6 +440,14 @@ def get_data():
                    },
                    {
                        "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Production Output",
+                       "label": _("Production Output"),
+                       "description": _("Production Output"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
                        "doctype": "GL Entry",
                        "name": "Kennzahlen",
                        "label": _("Kennzahlen"),
