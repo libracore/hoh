@@ -448,6 +448,14 @@ def get_data():
                    },
                    {
                        "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Revenue by Machine",
+                       "label": _("Revenue by Machine"),
+                       "description": _("Revenue by Machine"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
                        "doctype": "GL Entry",
                        "name": "Kennzahlen",
                        "label": _("Kennzahlen"),
