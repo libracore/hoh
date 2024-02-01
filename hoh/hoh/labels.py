@@ -74,7 +74,7 @@ UNION SELECT
                    IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
                 FROM `tabItem`
                 LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
-               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe");""".format(bemusterung=bemusterung)
+               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe", "Applikationen");""".format(bemusterung=bemusterung)
     
     return frappe.db.sql(sql_query, as_dict=True)
 
