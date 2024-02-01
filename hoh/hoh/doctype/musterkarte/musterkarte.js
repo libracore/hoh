@@ -15,7 +15,7 @@ frappe.ui.form.on('Musterkarte', {
             function() {
                 return {
                     filters: {
-                        "item_group": 'Stoffe'
+                        "item_group": ["IN", ["Stoffe", "Applikationen"]]
                     }
                 }
             };
