@@ -12,6 +12,7 @@ def get_price_label_data(bemusterung):
     sql_query = """SELECT
                        `tabBemusterung`.`item` AS `item`,
                        `tabBemusterung`.`name` AS `name`,
+                       `tabItem`.`item_group` AS `item_group`,
                        `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
                        `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
                        `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
@@ -49,6 +50,7 @@ def get_price_label_data(bemusterung):
 UNION SELECT
                    `tabItem`.`name` AS `item`,
                    `tabItem`.`item_name` AS `name`,
+                   `tabItem`.`item_group` AS `item_group`,
                    `tabItem`.`stoffbreite_von` AS `stoffbreite_von`,
                    `tabItem`.`stoffbreite_bis` AS `stoffbreite_bis`,
                    0 AS `fertigbreite_von`,
