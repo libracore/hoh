@@ -16,7 +16,7 @@
                     <td style="text-align: left; margin: 0px !important; width: 50%; font-size: 11px;"></td>
                     <td style="text-align: right; margin: 0px; padding-right: 10px; width: 50%; ">
                         {% for p in rates %}
-                            {{ p.option }}: {{ p.rate }} {{ currency }}{% if items[i].item_group != "Applikationen" %}/lfm{% endif %}<br>
+                            {{ p.option }}: {{ "{:,.2f}".format(p.rate).replace(",", "'") }} {{ currency }}{% if items[i].item_group != "Applikationen" %}/lfm{% endif %}<br>
                         {% endfor %}
                     </td>
                 </tr>
