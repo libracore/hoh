@@ -144,7 +144,7 @@ function auto_plan_all() {
             'fields': ['name'],
         },
         'callback': function(response) {
-            var machines = response.message
+            var machines = response.message;
             for (var i = 0; i < machines.length; i++) {
                 plan_machine(machines[i]['name']);
             }
