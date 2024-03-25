@@ -1,4 +1,4 @@
-# Copyright (c) 2019-2022, libracore and contributors
+# Copyright (c) 2019-2024, libracore and contributors
 # For license information, please see license.txt
 
 import frappe
@@ -214,4 +214,33 @@ def update_bemusterung_weight_from_item(date=None, debug=False):
             if debug:
                 print("Updated {0}".format(item['name']))
     frappe.db.commit()
+    return
+
+"""
+Update bemusterung weight values based on delivery note
+"""
+@frappe.whitelist()
+def update_bemusterung_weight_from_delivery_note(delivery_note):
+    if type(delivery_note) == str:
+        delivery_note = frappe.get_doc("Delivery Note", delivery_note)
+        
+    for item in delivery_note.items:
+        bemusterung_name = frappe.get_all("Bemusterung", 
+            filters={'item': item.item_code},
+            fields=['name']
+        )
+        if len(bemusterung_name) > 0:
+            bemusterung = frappe.get_doc("Bemusterung", bemusterung_name[0]['name'])
+            new_weight = bemusterung.gewicht
+            if item.weight_uom == "g":
+                new_weight = item.weight_per_unit / 1000       # this is in kg!!!
+            elif item.weight_uom == "kg":
+                new_weight.gewicht = item.weight_per_unit
+                
+            if new_weight != bemusterung.gewicht:
+                bemusterung.gewicht = new_weight
+                bemusterung.save()
+            
+    frappe.db.commit()
+    
     return
