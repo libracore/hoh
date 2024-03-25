@@ -101,6 +101,6 @@ def get_data(filters):
 def get_planned_until(maschine):
     data = get_data({'stickmaschine': maschine})
     if len(data) > 0:
-        return data[0]['end_date']
+        return data[0]['end_date'] or datetime.now()
     else:
         return datetime.now()

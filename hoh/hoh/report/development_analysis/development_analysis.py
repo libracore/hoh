@@ -22,6 +22,7 @@ def get_columns():
         {"label": _("DWG"), "fieldname": "dwg", "fieldtype": "Data", "width": 100},
         {"label": _("Anzahl Dessins"), "fieldname": "dessin_count", "fieldtype": "Int", "width": 50},
         {"label": _("Entwicklungskosten"), "fieldname": "develpment_cost", "fieldtype": "Currency", "width": 100},
+        {"label": _("KTM"), "fieldname": "ktm", "fieldtype": "Float", "width": 100},
         {"label": _(""), "fieldname": "blank", "fieldtype": "Data", "width": 20}
     ]
 
@@ -58,7 +59,8 @@ def get_data(filters):
                     `customer_group`,
                     `kollektion`,
                     COUNT(`dessin_count`) AS `dessin_count`,
-                    SUM(`develpment_cost`) AS `develpment_cost`
+                    SUM(`develpment_cost`) AS `develpment_cost`,
+                    SUM(`ktm`) AS `ktm`
                 FROM
                 (SELECT 
                     `tabDessin`.`name` AS `dessin`,
@@ -72,7 +74,8 @@ def get_data(filters):
                      WHERE `tabBemusterung`.`dessin` = `tabDessin`.`name` 
                      LIMIT 1), "-") AS `kollektion`,
                     `tabDessin`.`name` AS `dessin_count`,
-                    `tabDessin`.`entwicklungskosten` AS `develpment_cost`
+                    `tabDessin`.`entwicklungskosten` AS `develpment_cost`,
+                    IFNULL(`tabDessin`.`gesamtmeter`, 0) AS `ktm`
                 FROM `tabDessin`
                 LEFT JOIN `tabCustomer` ON `tabDessin`.`customer` = `tabCustomer`.`name`
                 WHERE {filter_str}) AS`raw`

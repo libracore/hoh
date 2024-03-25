@@ -12,6 +12,7 @@ def get_price_label_data(bemusterung):
     sql_query = """SELECT
                        `tabBemusterung`.`item` AS `item`,
                        `tabBemusterung`.`name` AS `name`,
+                       `tabItem`.`item_group` AS `item_group`,
                        `tabBemusterung`.`stoffbreite_von` AS `stoffbreite_von`,
                        `tabBemusterung`.`stoffbreite_bis` AS `stoffbreite_bis`,
                        `tabBemusterung`.`fertigbreite_von` AS `fertigbreite_von`,
@@ -49,6 +50,7 @@ def get_price_label_data(bemusterung):
 UNION SELECT
                    `tabItem`.`name` AS `item`,
                    `tabItem`.`item_name` AS `name`,
+                   `tabItem`.`item_group` AS `item_group`,
                    `tabItem`.`stoffbreite_von` AS `stoffbreite_von`,
                    `tabItem`.`stoffbreite_bis` AS `stoffbreite_bis`,
                    0 AS `fertigbreite_von`,
@@ -74,7 +76,7 @@ UNION SELECT
                    IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
                 FROM `tabItem`
                 LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
-               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe");""".format(bemusterung=bemusterung)
+               WHERE `tabItem`.`name` = '{bemusterung}' AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe", "Applikationen");""".format(bemusterung=bemusterung)
     
     return frappe.db.sql(sql_query, as_dict=True)
 
@@ -154,7 +156,7 @@ UNION SELECT
 		   IFNULL(`tabItem Price`.`price_list_rate`, 0) AS `standard_selling_rate`
 		FROM `tabItem`
 		LEFT JOIN `tabItem Price` ON (`tabItem Price`.`item_code` = `tabItem`.`name` AND `tabItem Price`.`selling` = 1)
-	   WHERE `tabItem`.`name` IN ({selected_items}) AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe");""".format(selected_items=selected_items)
+	   WHERE `tabItem`.`name` IN ({selected_items}) AND `tabItem`.`item_group` IN ("Stoffe", "Eigenware Stoffe", "Applikationen");""".format(selected_items=selected_items)
 
     return frappe.db.sql(sql_query, as_dict=True)
     
@@ -187,7 +189,8 @@ def get_work_order_label_data(selected_items):
                        (SELECT CONCAT(ROUND(`tabSales Order Item`.`anzahl`, 0), " x ", ROUND(`tabSales Order Item`.`verkaufseinheit`, 1), " ", `tabSales Order Item`.`uom`) 
                         FROM `tabSales Order Item`
                         WHERE `tabSales Order Item`.`item_code` = `tabItem`.`item_code`
-                          AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`) AS `qty`,
+                          AND `tabSales Order Item`.`parent` = `tabWork Order`.`sales_order`
+                        LIMIT 1) AS `qty`,
                         `tabItem`.`fertigbreite_von` AS `fertigbreite_von`,
                         `tabItem`.`fertigbreite_bis` AS `fertigbreite_bis`,
                         `tabSales Order`.`customer_name` AS `customer_name`

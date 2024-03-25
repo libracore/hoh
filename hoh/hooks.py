@@ -28,7 +28,8 @@ app_include_css = "/assets/hoh/css/hoh.css"
 # include js in doctype views
 doctype_js = {
     "Work Order" : "public/js/work_order.js",
-    "Sales Order" : "public/js/sales_order.js"
+    "Sales Order" : "public/js/sales_order.js",
+    "Delivery Note" : "public/js/delivery_note.js"
 }
 doctype_list_js = {
     "Item" : "public/js/item_list.js",
@@ -37,6 +38,12 @@ doctype_list_js = {
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
+
+jenv = {
+    "methods": [
+        "part_translation:hoh.hoh.translation.part_translation"
+        ]
+}
 
 # Home Pages
 # ----------

@@ -98,15 +98,15 @@ def get_data(filters):
          (((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) AS `h_total`,
          ((((`tabWork Order`.`qty` / `tabStickmaschine`.`m_per_cp`) * `tabDessin`.`gesamtmeter`) / IFNULL(`tabStickmaschine`.`ktm_per_h`, 1)) / {hours_per_shift}) AS `schicht`,
          IF (`tabWork Order`.`status` = 'In Process', 
-		   /* material prepared, show ready date */
-		  (SELECT CONCAT(SUBSTRING(`tabStock Entry`.`modified`, 9, 2), ".", SUBSTRING(`tabStock Entry`.`modified`, 6, 2), ".")
-		   FROM `tabStock Entry` 
-		   WHERE `tabStock Entry`.`stock_entry_type` = "Material Transfer for Manufacture" 
-		     AND `tabStock Entry`.`docstatus` = 1
-			 AND `tabStock Entry`.`work_order` = `tabWork Order`.`name`
-		   LIMIT 1
-		  ), 
-		  /* material not prepared, show availability */
+           /* material prepared, show ready date */
+          (SELECT CONCAT(SUBSTRING(`tabStock Entry`.`modified`, 9, 2), ".", SUBSTRING(`tabStock Entry`.`modified`, 6, 2), ".")
+           FROM `tabStock Entry` 
+           WHERE `tabStock Entry`.`stock_entry_type` = "Material Transfer for Manufacture" 
+             AND `tabStock Entry`.`docstatus` = 1
+             AND `tabStock Entry`.`work_order` = `tabWork Order`.`name`
+           LIMIT 1
+          ), 
+          /* material not prepared, show availability */
           (SELECT 
            IF(SUM(IF(`tWOI`.`required_qty` <= (`tWOI`.`available_qty_at_source_warehouse` + `tWOI`.`available_qty_at_wip_warehouse`), 1, 0)) / COUNT(`tWOI`.`item_code`) = 1, "<span style='color:green;'>&cir; OK</span>", "<span style='color: red;'>&squf; NOK</span>")
            FROM `tabWork Order Item` AS `tWOI`
@@ -156,7 +156,16 @@ def update_material_status():
         # complete details if missing
         if not wo.stoff:
             complete_work_order_details(wo.name)
+        # flush cache
+        frappe.db.commit()
     return
+
+@frappe.whitelist()
+def enqueue_update_material_status():
+    """Add method `execute` with given args to the queue."""
+    frappe.enqueue(method=update_material_status, queue='long', timeout=90, is_async=True)
+    return
+
 
 @frappe.whitelist()
 def plan_machine(machine, debug=False):
@@ -169,14 +178,13 @@ def plan_machine(machine, debug=False):
     for i in range(len(data)):
         wo = frappe.get_doc("Work Order", data[i]['work_order'])
         if i == 0 and wo.status in ('Draft', 'Not Started'):
-            # first planning row: if not started and in the past, move to now
-            if wo.planned_start_date < now:
-                wo.planned_start_date = now
+            # first planning row: if not started, move to now
+            wo.planned_start_date = now
         else:
             # other rows: at least (duration + break)
             earliest_start = last_start + timedelta(hours=(settings.work_order_spacing or 0))
-            if wo.planned_start_date < (earliest_start):
-                wo.planned_start_date = earliest_start
+            # if wo.planned_start_date < (earliest_start):          # 2022-11-09 do not allow gaps, always fill up
+            wo.planned_start_date = earliest_start
         #last_start = wo.planned_start_date + timedelta(hours=data[i]['h_total']) # add duration so that earliest next start is at end
         last_start = compute_end_datetime(start=wo.planned_start_date, duration_h=data[i]['h_total'])  # earliest start of next work order during working hours
         wo.planned_end_date = last_start

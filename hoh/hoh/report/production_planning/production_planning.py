@@ -1,4 +1,4 @@
-# Copyright (c) 2021, libracore and contributors
+# Copyright (c) 2021-2022, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -22,7 +22,7 @@ def get_data():
         SELECT
           `tabWork Order`.`stickmaschine` AS `stickmaschine`,
           COUNT(name) AS `sum_work_order`,
-          MAX(`tabWork Order`.`expected_delivery_date`) AS `end_date`
+          MAX(`tabWork Order`.`planned_end_date`) AS `end_date`
         FROM `tabWork Order`
         WHERE 
           `tabWork Order`.`docstatus` < 2 AND `tabWork Order`.`status` NOT IN ("Completed", "Stopped", "Closed")

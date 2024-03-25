@@ -108,6 +108,7 @@ def compile_details(bemusterung):
 def get_start_date(stickmaschine):
     return get_planned_until(stickmaschine)
     
+@frappe.whitelist()
 def complete_work_order_details(work_order):
     wo = frappe.get_doc("Work Order", work_order)
     if wo.production_item:

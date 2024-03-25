@@ -393,6 +393,12 @@ def get_data():
                        "name": "Regal",
                        "label": _("Regal"),
                        "description": _("Regal")
+                   },
+                   {
+                       "type": "doctype",
+                       "name": "Color Translation",
+                       "label": _("Color Translation"),
+                       "description": _("Color Translation")
                    }
             ]
         },
@@ -430,6 +436,22 @@ def get_data():
                        "name": "Production Throughput",
                        "label": _("Production Throughput"),
                        "description": _("Production Throughput"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Production Output",
+                       "label": _("Production Output"),
+                       "description": _("Production Output"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "Work Order",
+                       "name": "Revenue by Machine",
+                       "label": _("Revenue by Machine"),
+                       "description": _("Revenue by Machine"),
                        "is_query_report": True
                    },
                    {
@@ -508,6 +530,14 @@ def get_data():
                        "name": "All on Stock",
                        "label": _("All on Stock"),
                        "description": _("All on Stock"),
+                       "is_query_report": True
+                   },
+                   {
+                       "type": "report",
+                       "doctype": "GL Entry",
+                       "name": "Erfolgsrechnung mit Vorjahr",
+                       "label": _("Erfolgsrechnung mit Vorjahr"),
+                       "description": _("Erfolgsrechnung mit Vorjahr"),
                        "is_query_report": True
                    }
             ]
