@@ -78,7 +78,10 @@ class Bemusterung(Document):
             elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
                 pailletten.append(m.item_name)
             elif m.item_group in ['Steine', 'Applikationen']:
-                applikationen.append(m.item_name)
+                if m.item_name == "Motiv":
+                    applikationen.append("{0} {1}".format(m.item_name, m.item_code))
+                else:
+                    applikationen.append(m.item_name)
             elif m.item_group in ['Print']:
                 prints.append(m.item_name)
             elif m.item_group in ['Stickereien']:
