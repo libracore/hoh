@@ -77,10 +77,12 @@ class Bemusterung(Document):
                     stoffe.append(m.item_name)
             elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
                 pailletten.append(m.item_name)
-            elif m.item_group in ['Steine', 'Applikationen', 'Stickereien']:
+            elif m.item_group in ['Steine', 'Applikationen']:
                 applikationen.append(m.item_name)
             elif m.item_group in ['Print']:
                 prints.append(m.item_name)
+            elif m.item_group in ['Stickereien']:
+                applikationen.append("{0} {1}".format(m.item_name, m.item_code))
         self.d_stoffe = " + ".join(stoffe)
         self.d_pailletten = " + ".join(pailletten)
         self.d_applikationen = " + ".join(applikationen)
