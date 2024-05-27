@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2020, libracore and contributors
+# Copyright (c) 2020-2024, libracore and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -77,7 +77,7 @@ class Bemusterung(Document):
                     stoffe.append(m.item_name)
             elif m.item_group in ['Kordel', 'Pailletten', 'Garne']:
                 pailletten.append(m.item_name)
-            elif m.item_group in ['Steine', 'Applikationen']:
+            elif m.item_group in ['Steine', 'Applikationen', 'Stickereien']:
                 applikationen.append(m.item_name)
             elif m.item_group in ['Print']:
                 prints.append(m.item_name)
